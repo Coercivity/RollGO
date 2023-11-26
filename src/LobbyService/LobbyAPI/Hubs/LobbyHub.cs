@@ -4,5 +4,6 @@ namespace LobbyAPI.Hubs
 {
     public class LobbyHub : Hub
     {
+
     }
 }
