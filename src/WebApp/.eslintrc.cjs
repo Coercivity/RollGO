@@ -8,7 +8,7 @@ module.exports = {
         'plugin:react/recommended',
         'airbnb',
     ],
-    ignorePatterns: ['dist', '.eslintrc.cjs'],
+    ignorePatterns: ['dist', '.eslintrc.cjs', '*.config.*'],
     parser: '@typescript-eslint/parser',
     plugins: ['react-refresh'],
     rules: {
