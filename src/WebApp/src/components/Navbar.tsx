@@ -1,9 +1,10 @@
 import React, { ReactElement } from 'react';
-import { AppBar, Avatar, Box, IconButton, Toolbar, Tooltip, Typography } from '@mui/material';
+import { AppBar, Avatar, IconButton, Toolbar, Tooltip, Typography } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
-export default function Navbar(): ReactElement {
+const Navbar = (): ReactElement => {
+  const { t } = useTranslation('navbar');
   return (
-    <Box sx={{ flexGrow: 1 }}>
       <AppBar>
         <Toolbar>
           <IconButton
@@ -17,13 +18,14 @@ export default function Navbar(): ReactElement {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             RollGO
           </Typography>
-          <Tooltip title="Open settings">
+          <Tooltip title={t('openProfile')}>
             <IconButton sx={{ p: 0 }}>
               <Avatar/>
             </IconButton>
           </Tooltip>
         </Toolbar>
       </AppBar>
-    </Box>
   );
-}
+};
+
+export default Navbar;

@@ -21,5 +21,6 @@ module.exports = {
         "import/no-extraneous-dependencies": 'off',
         semi: 'error',
         'react/button-has-type': 'off',
+        'eol-last': 'error',
     },
 }
