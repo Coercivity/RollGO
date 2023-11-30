@@ -1,5 +1,5 @@
-import React, { FC } from "react";
-import UserView from "./UserView/UserView";
+import React, { FC } from 'react';
+import UserView from './UserView';
 import {
   AppBar,
   Box,
@@ -7,15 +7,13 @@ import {
   Toolbar,
   Tooltip,
   Typography,
-} from "@mui/material";
+} from '@mui/material';
 
-interface NavbarProps {
-  nickname: string;
-}
-
-export const temp = () => {};
-
-const Navbar: FC<NavbarProps> = ({ nickname }) => {
+const Navbar: FC = () => {
+  const nickname = 'Slavoyar';
+  const onUserViewClick = () => {
+    console.log('go to user settings');
+  };
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar>
@@ -31,7 +29,7 @@ const Navbar: FC<NavbarProps> = ({ nickname }) => {
             RollGO
           </Typography>
           <Tooltip title="Open settings">
-            <UserView nickname={nickname} temp={temp} />
+            <UserView nickname={nickname} onClick={onUserViewClick} />
           </Tooltip>
         </Toolbar>
       </AppBar>
