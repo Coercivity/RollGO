@@ -15,17 +15,17 @@ namespace Infrastructure.Mapping
                 .IsRequired()
                 .HasColumnType("varchar");
 
-            builder.HasOne(x => x.Admin)
-                .WithMany(nameof(User))
-                .HasForeignKey("AdminId");
+            //builder.HasOne(x => x.Admin)
+            //    .WithMany(nameof(User))
+            //    .HasForeignKey("AdminId");
 
-            builder.HasMany(x => x.UserWeights)
-                .WithOne(nameof(UserWeight))
-                .HasForeignKey("LobbyId");
+            //builder.HasMany(x => x.UserWeights)
+            //    .WithOne(nameof(UserWeight))
+            //    .HasForeignKey("LobbyId");
 
-            builder.HasMany(x => x.Meetings)
-                .WithOne(nameof(Meeting))
-                .HasForeignKey("MeetingId");
+            //builder.HasMany(x => x.Meetings)
+            //    .WithOne(nameof(Meeting))
+            //    .HasForeignKey("MeetingId");
         }
     }
 }

@@ -9,7 +9,9 @@ namespace Infrastructure
     {
         public static IServiceCollection AddDatabaseRepositories(this IServiceCollection services, string connectionString)
         {
-            services.AddDbContext<LobbyDbContext>(options => options.UseNpgsql(connectionString));
+            services.AddDbContext<LobbyDbContext>(options => options
+                .UseNpgsql(connectionString));
+
             services.AddTransient<ILobbyRepository, LobbyRepository>();
             return services;
         }
