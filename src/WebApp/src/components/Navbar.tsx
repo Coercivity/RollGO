@@ -1,7 +1,7 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
+import { AppBar, Box, IconButton, Toolbar, Tooltip, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import UserView from './UserView';
-import { AppBar, Box, IconButton, Toolbar, Tooltip, Typography } from '@mui/material';
 import { LocalizationNamespace } from '../enums/LocalizationNamespace';
 
 const Navbar: FC = () => {

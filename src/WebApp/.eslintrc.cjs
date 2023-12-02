@@ -29,5 +29,6 @@ module.exports = {
         semi: 'error',
         'react/button-has-type': 'off',
         'eol-last': 'error',
+        'react/react-in-jsx-scope': 'off',
     },
 }

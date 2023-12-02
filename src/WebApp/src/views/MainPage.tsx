@@ -1,5 +1,5 @@
 import { Button, Box } from '@mui/material';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import LobbyCreationModal from '../components/LobbyCreationModal';
 import LobbyList from '../components/LobbyList';
 

@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 
 const LobbyPage = (): ReactElement => {
   return <div>LobbyPage</div>;

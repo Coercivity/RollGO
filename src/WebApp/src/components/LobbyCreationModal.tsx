@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import { FC, useState } from 'react';
 import { Button, Box, Modal, Typography, Input } from '@mui/material';
 
 interface LobbyCreationModalProps {
