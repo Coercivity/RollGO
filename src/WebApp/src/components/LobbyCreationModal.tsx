@@ -7,20 +7,13 @@ interface LobbyCreationModalProps {
   open: boolean;
 }
 
-const LobbyCreationModal: FC<LobbyCreationModalProps> = ({
-  setOpen,
-  addNewLobby,
-  open,
-
-}) => {
-
+const LobbyCreationModal: FC<LobbyCreationModalProps> = ({ setOpen, addNewLobby, open }) => {
   const [lobby, setLobby] = useState<string>('');
 
   const onCreate = () => {
     addNewLobby(lobby);
     setLobby('');
     setOpen(false);
-    
   };
 
   const style = {
@@ -47,16 +40,9 @@ const LobbyCreationModal: FC<LobbyCreationModalProps> = ({
         <Typography id="modal-modal-title" variant="h6" component="h2">
           Имя лобби
         </Typography>
-        <Input
-          value={lobby}
-          onChange={(e) => setLobby(e.target.value )}
-        />
+        <Input value={lobby} onChange={(e) => setLobby(e.target.value)} />
         <Box sx={{ justifyContent: 'center', flexWrap: 'wrap' }}>
-          <Button
-            variant="outlined"
-            color="error"
-            onClick={() => setOpen(false)}
-          >
+          <Button variant="outlined" color="error" onClick={() => setOpen(false)}>
             Отмена
           </Button>
           <Button variant="outlined" onClick={onCreate}>

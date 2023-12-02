@@ -10,11 +10,11 @@ import './i18n/config';
 const router = createBrowserRouter([
   {
     path: Route.ROOT,
-    element: <MainPage/>,
+    element: <MainPage />,
   },
   {
     path: Route.LOBBY,
-    element: <LobbyPage/>,
+    element: <LobbyPage />,
   },
 ]);
 
@@ -22,5 +22,5 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <Navbar />
     <RouterProvider router={router} />
-  </React.StrictMode>,
+  </React.StrictMode>
 );
