@@ -30,5 +30,7 @@ module.exports = {
         'react/button-has-type': 'off',
         'eol-last': 'error',
         'react/react-in-jsx-scope': 'off',
+        'react/display-name': 'off',
+        '@typescript-eslint/no-unused-vars': ["error", { "argsIgnorePattern": "^_" }]
     },
 }
