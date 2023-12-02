@@ -3,7 +3,7 @@ import { LinkProps } from '@mui/material/Link';
 import { createTheme } from '@mui/material';
 import React from 'react';
 
-// eslint-disable-next-line react/display-name, react-refresh/only-export-components
+// eslint-disable-next-line react-refresh/only-export-components
 const LinkBehavior = React.forwardRef<
   HTMLAnchorElement,
   Omit<RouterLinkProps, 'to'> & { href: RouterLinkProps['to'] }
