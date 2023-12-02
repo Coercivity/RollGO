@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authentication.Cookies;
 using LobbyAPI.Hubs;
+using Infrastructure;
+using Infrastructure.Repository;
+using Infrastructure.Repository.Implementation;
 
 namespace LobbyAPI
 {
@@ -9,6 +12,8 @@ namespace LobbyAPI
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddTransient<ILobbyRepository, LobbyRepository>();
+            services.AddDatabaseRepositories("test");
             services.AddSignalR();
             services.AddControllers();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).
