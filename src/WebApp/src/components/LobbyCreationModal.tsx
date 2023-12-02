@@ -1,5 +1,15 @@
 import { FC, useState } from 'react';
-import { Button, Box, Modal, Typography, Input } from '@mui/material';
+import {
+  Button,
+  Dialog,
+  DialogTitle,
+  DialogActions,
+  DialogContent,
+  TextField,
+  IconButton,
+} from '@mui/material';
+import { Close } from '@mui/icons-material';
+import { useTranslation } from 'react-i18next';
 
 interface LobbyCreationModalProps {
   setOpen: (value: boolean) => void;
@@ -8,6 +18,7 @@ interface LobbyCreationModalProps {
 }
 
 const LobbyCreationModal: FC<LobbyCreationModalProps> = ({ setOpen, addNewLobby, open }) => {
+  const { t } = useTranslation();
   const [lobby, setLobby] = useState<string>('');
 
   const onCreate = () => {
@@ -16,41 +27,41 @@ const LobbyCreationModal: FC<LobbyCreationModalProps> = ({ setOpen, addNewLobby,
     setOpen(false);
   };
 
-  const style = {
-    position: 'absolute' as const,
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 400,
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
-    boxShadow: 24,
-    justifyContent: 'center',
-    p: 4,
-  };
-
   return (
-    <Modal
-      open={open}
-      onClose={() => setOpen(false)}
-      aria-labelledby="modal-modal-title"
-      aria-describedby="modal-modal-description"
-    >
-      <Box sx={style}>
-        <Typography id="modal-modal-title" variant="h6" component="h2">
-          Имя лобби
-        </Typography>
-        <Input value={lobby} onChange={(e) => setLobby(e.target.value)} />
-        <Box sx={{ justifyContent: 'center', flexWrap: 'wrap' }}>
-          <Button variant="outlined" color="error" onClick={() => setOpen(false)}>
-            Отмена
-          </Button>
-          <Button variant="outlined" onClick={onCreate}>
-            Создать
-          </Button>
-        </Box>
-      </Box>
-    </Modal>
+    <Dialog open={open} onClose={() => setOpen(false)} maxWidth="sm" fullWidth={true}>
+      <DialogTitle>{t('createLobby')}</DialogTitle>
+      <DialogContent>
+        <TextField
+          autoFocus
+          margin="dense"
+          id="name"
+          label={t('lobbyName')}
+          fullWidth
+          variant="standard"
+          onChange={(e) => setLobby(e.target.value)}
+        />
+      </DialogContent>
+      <IconButton
+        aria-label="close"
+        onClick={() => setOpen(false)}
+        sx={{
+          position: 'absolute',
+          right: 8,
+          top: 8,
+          color: (theme) => theme.palette.grey[500],
+        }}
+      >
+        <Close />
+      </IconButton>
+      <DialogActions>
+        <Button variant="text" onClick={() => setOpen(false)}>
+          {t('cancel')}
+        </Button>
+        <Button variant="outlined" onClick={onCreate}>
+          {t('save')}
+        </Button>
+      </DialogActions>
+    </Dialog>
   );
 };
 

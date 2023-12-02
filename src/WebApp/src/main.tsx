@@ -6,6 +6,11 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import MainPage from './views/MainPage';
 import LobbyPage from './views/LobbyPage';
 import './i18n/config';
+import './index.css';
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
 
 const router = createBrowserRouter([
   {
