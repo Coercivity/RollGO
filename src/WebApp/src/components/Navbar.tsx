@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { AppBar, IconButton, Link, Toolbar, Tooltip, Typography } from '@mui/material';
+import { AppBar, Link, Toolbar, Tooltip, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import UserView from './UserView';
 import { LocalizationNamespace } from '../enums/LocalizationNamespace';
