@@ -1,6 +1,6 @@
 ﻿namespace Domain.Entities
 {
-    public record User : Entity
+    public record User : EntityBase
     {
     }
 }
