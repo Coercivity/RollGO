@@ -26,6 +26,9 @@ const Navbar: FC = () => {
           <Link href={Route.ROOT} sx={{ color: 'white', fontWeight: 700, textDecoration: 'none' }}>
             RollGO
           </Link>
+          <Link href={Route.LOGIN} sx={{ color: 'red', fontWeight: 700, textDecoration: 'none' }}>
+            Авторизация
+          </Link>
         </Typography>
         <Tooltip title={t('openProfile')}>
           <UserView nickname={nickname} onClick={onUserViewClick} />

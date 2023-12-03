@@ -3,6 +3,7 @@ import { Outlet, createBrowserRouter } from 'react-router-dom';
 import MainPage from './views/MainPage';
 import LobbyPage from './views/LobbyPage';
 import Navbar from './components/Navbar';
+import AuthPage from './views/AuthPage';
 
 // eslint-disable-next-line react-refresh/only-export-components
 const NavbarWrapper = () => {
@@ -26,6 +27,14 @@ export const router = createBrowserRouter([
       {
         path: `${Route.LOBBY}/:lobbyId`,
         element: <LobbyPage />,
+      },
+      {
+        path: Route.LOGIN,
+        element: <AuthPage />,
+      },
+      {
+        path: Route.REGISTRATION,
+        element: <AuthPage />,
       },
     ],
   },
