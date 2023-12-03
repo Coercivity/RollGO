@@ -45,7 +45,7 @@ jobs:
         uses: actions/checkout@v4
       - name: Pass or fail
         run: |
-          if [[ ${{ needs.webapp.result }} == "failure" || ${{ needs.webapp.result }} == "cancelled"]]; then
+          if [ ${{ needs.webapp.result }} == "failure"] || [${{ needs.webapp.result }} == "cancelled"]; then
             exit 1
           else
             exit 0
