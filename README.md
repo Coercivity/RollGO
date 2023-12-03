@@ -1,5 +1,5 @@
 # RollGO
-[![WebApp CI/CD](https://github.com/Coercivity/RollGO/actions/workflows/webapp-ci.yml/badge.svg?branch=main)](https://github.com/Coercivity/RollGO/actions/workflows/webapp-ci.yml)
+[![CI pipeline](https://github.com/Coercivity/RollGO/actions/workflows/ci-pipeline.yml/badge.svg)](https://github.com/Coercivity/RollGO/actions/workflows/ci-pipeline.yml)
 
 ## Project Description
 Welcome to RollGO, a fun and interactive movie selection platform where users can create lobbies, invite friends, chat, and collectively roll the dice to decide which movie to watch. With RollGO, the movie night decision-making process becomes a game, adding an element of excitement and randomness to your entertainment choices.
