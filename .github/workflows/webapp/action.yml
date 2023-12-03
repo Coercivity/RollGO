@@ -1,4 +1,4 @@
-name: WebApp CI/CD
+name: WebApp CI
 
 on:
   workflow_dispatch:

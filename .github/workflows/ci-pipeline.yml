@@ -12,4 +12,4 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
       - name: Webapp CI
-        uses: ./.github/workflows/webapp-ci
+        uses: ./.github/workflows/webapp
