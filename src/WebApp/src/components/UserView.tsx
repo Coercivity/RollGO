@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import { forwardRef } from 'react';
 import { Avatar, IconButton } from '@mui/material';
 
 interface UserViewProps {
@@ -6,13 +6,13 @@ interface UserViewProps {
   onClick: () => void;
 }
 
-const UserView: FC<UserViewProps> = ({ nickname, onClick }) => {
+const UserView = forwardRef<HTMLElement, UserViewProps>(({ nickname, onClick }, _) => {
   return (
-    <IconButton sx={{ p: 1, borderRadius: 2, m: 1 }} onClick={() => onClick()}>
+    <IconButton sx={{ p: 1, borderRadius: 2, m: 1, color: 'white' }} onClick={() => onClick()}>
       <Avatar sx={{ margin: 1 }} />
       {nickname}
     </IconButton>
   );
-};
+});
 
 export default UserView;
