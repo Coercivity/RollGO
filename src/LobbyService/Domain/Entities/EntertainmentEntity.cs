@@ -1,6 +1,6 @@
 ﻿namespace Domain.Entities
 {
-    public abstract record EntertainmentEntity : Entity
+    public abstract record EntertainmentEntity : EntityBase
     {
         public int KinopoiskId { get; set; }
         public int ImdbId { get; set; }
