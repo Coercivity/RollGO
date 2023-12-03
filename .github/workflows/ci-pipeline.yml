@@ -9,4 +9,7 @@ jobs:
   pipeline:
     runs-on: ubuntu-latest
     steps:
-      - uses: ./.github/workflows/webapp-ci
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Webapp CI
+        uses: ./.github/workflows/webapp-ci
