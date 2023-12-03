@@ -1,4 +1,3 @@
-import React from 'react';
 import LogIn from '../components/LogIn';
 import Registration from '../components/Registration';
 import { Box } from '@mui/material';
