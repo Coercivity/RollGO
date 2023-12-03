@@ -40,7 +40,7 @@ namespace Infrastructure.Repository.Implementation
 
         public IQueryable<Lobby> SearchByName(string searchName)
         {
-            return _context.Lobbies.Where(x => x.Name.Contains(searchName)).AsQueryable();
+            return _context.Lobbies.Where(x => x.Name.ToLower().Contains(searchName.ToLower())).AsQueryable();
         }
 
         public async Task<Lobby> UpdateAsync(Lobby entity)

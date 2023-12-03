@@ -1,5 +1,6 @@
 ﻿using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using NameGenerator.Generators;
 
 namespace Infrastructure
 {
@@ -8,9 +9,10 @@ namespace Infrastructure
         public static void Seed(ModelBuilder modelBuilder)
         {
             List<Lobby> lobbies = [];
+            RealNameGenerator Generator = new();
 
-            for(int i = 0; i < 2000; i++) 
-                lobbies.Add(new Lobby { Id = Guid.NewGuid(), Name = $"Lobby {Guid.NewGuid()}", CreatedDateTime = DateTime.UtcNow});
+            for (int i = 0; i < 100; i++) 
+                lobbies.Add(new Lobby { Id = Guid.NewGuid(), Name = Generator.Generate(), CreatedDateTime = DateTime.UtcNow});
             modelBuilder.Entity<Lobby>().HasData(lobbies);
         }
     }
