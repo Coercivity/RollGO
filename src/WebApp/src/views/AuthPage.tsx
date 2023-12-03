@@ -5,7 +5,7 @@ import { useLocation } from 'react-router-dom';
 import { Route } from '../enums/Route';
 
 const Auth = () => {
-  const location = useLocation();
+  const location = useLocatison();
   const isLogin = location.pathname === Route.LOGIN;
 
   return <Box>{isLogin ? <LogIn /> : <Registration />}</Box>;
