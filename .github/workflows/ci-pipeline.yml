@@ -42,5 +42,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Webapp error
-        if:  ${{ needs.webapp.result }} == failure || ${{ needs.webapp.result }} == cancelled
-        run: exit 1
+        run: |
+          if [ "${{ needs.webapp.result }}" == "failure" ] || [ "${{ needs.webapp.result }}" == "cancelled" ]; then
+            echo "Webapp error"
+            exit 1
+          else
+            echo "Webapp pipeline passed"
+          fi
