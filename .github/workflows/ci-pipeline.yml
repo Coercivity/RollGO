@@ -43,4 +43,4 @@ jobs:
     steps:
       - name: Webapp error
         if:  ${{ needs.webapp.result }} == failure || ${{ needs.webapp.result }} == cancelled
-        run: echo "::error::Webapp error"
+        run: exit 1
