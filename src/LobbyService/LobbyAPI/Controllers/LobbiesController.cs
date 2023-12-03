@@ -1,4 +1,6 @@
-﻿using Infrastructure.Repository;
+﻿using Domain.Entities;
+using Infrastructure.Repository;
+using LobbyAPI.Controllers.Dtos;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LobbyAPI.Controllers
@@ -10,11 +12,11 @@ namespace LobbyAPI.Controllers
         private readonly ILobbyRepository _lobbyRepository = lobbyRepository;
 
         [HttpGet]
-        public Task<List<int>> GetAllLobbies()
+        public async Task<List<LobbyDto>> GetAllLobbies()
         {
             var lobbies = _lobbyRepository.GetAll();
-            lobbies.Select(x => new LobbyDto(x)).ToList();
-            return (Task<List<int>>)lobbies;
+            List<LobbyDto> lobbyDtos = lobbies.Select(x => new LobbyDto(x)).ToList();
+            return lobbyDtos;
         }
 
         [HttpGet("{id}")]
@@ -24,7 +26,37 @@ namespace LobbyAPI.Controllers
             return new LobbyDto(lobby!);
         }
 
+        [HttpPost]
+        public async Task<LobbyDto> Create([FromBody] SaveLobbyDto saveLobbyDto)
+        {
+            var lobby = await _lobbyRepository.CreateAsync(new Lobby() { Name = saveLobbyDto.Name });
+            LobbyDto lobbyDto = new(lobby);
+            return lobbyDto;
+        }
+
+        [HttpPut("{id}")]
+        public async Task<LobbyDto> Update([FromBody] SaveLobbyDto saveLobbyDto, Guid id)
+        {
+            var lobby = await _lobbyRepository.GetByIdAsync(id);
+            lobby!.Name = saveLobbyDto.Name;
+            await _lobbyRepository.UpdateAsync(lobby);
+            LobbyDto lobbyDto = new(lobby);
+            return lobbyDto;
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<Guid> Delete(Guid id)
+        {
+            await _lobbyRepository.DeleteAsync(id);
+            return id;
+        }
+
+        [HttpGet("search")]
+        public async Task<List<LobbyDto>> SearchLobby([FromQuery] string lobbyName)
+        {
+            IQueryable<Lobby> lobbies = _lobbyRepository.SearchByName(lobbyName);
+            List<LobbyDto> lobbyDtos = lobbies.Select(x => new LobbyDto(x)).ToList();
+            return lobbyDtos;
+        }
     }
-
-
 }

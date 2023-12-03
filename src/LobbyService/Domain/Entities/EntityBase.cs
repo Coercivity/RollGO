@@ -2,8 +2,7 @@
 {
     public abstract record EntityBase
     {
-        public required Guid Id { get; set; }
-
-        public required DateTime CreatedDateTime { get; set; }
+        public Guid Id { get; set; } = Guid.NewGuid();
+        public DateTime CreatedDateTime { get; set; } = DateTime.UtcNow;
     }
 }

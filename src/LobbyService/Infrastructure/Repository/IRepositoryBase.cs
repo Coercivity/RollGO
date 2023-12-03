@@ -7,6 +7,7 @@ namespace Infrastructure.Repository
         public Task<TEntity> CreateAsync(TEntity entity);
         public Task<TEntity> UpdateAsync(TEntity entity);
         public Task DeleteAsync(TEntity entity);
+        public Task DeleteAsync(Guid id);
         public Task<TEntity?> GetByIdAsync(Guid id);
         public IQueryable<TEntity> GetAll();
     }
