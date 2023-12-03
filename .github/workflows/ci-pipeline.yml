@@ -37,6 +37,7 @@ jobs:
       - name: Build
         run: cd ./src/WebApp && npm run build
   pipeline:
+    if: always()
     needs: [changes, webapp]
     runs-on: ubuntu-latest
     steps:
