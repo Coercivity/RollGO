@@ -16,7 +16,7 @@ jobs:
         with:
           filters: |
             webapp:
-              - '/src/WebApp/**'
+              - 'src/WebApp/**'
   webapp:
     if: needs.changes.outputs.webapp == 'true'
     needs: changes
@@ -24,11 +24,28 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      - name: Webapp CI
-        uses: ./.github/workflows/actions/webapp
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+  
+      - name: Install dependencies
+        run: cd ./src/WebApp && npm install
+  
+      - name: Lint
+        run: cd ./src/WebApp && npm run lint
+  
+      - name: Build
+        run: cd ./src/WebApp && npm run build
   pipeline:
+    if: always()
     needs: [changes, webapp]
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - name: Webapp error
+        run: |
+          if [ "${{ needs.webapp.result }}" == "failure" ] || [ "${{ needs.webapp.result }}" == "cancelled" ]; then
+            echo "Webapp error"
+            exit 1
+          else
+            echo "Webapp pipeline passed"
+          fi

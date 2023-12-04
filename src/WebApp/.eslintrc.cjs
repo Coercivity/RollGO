@@ -31,6 +31,7 @@ module.exports = {
         'eol-last': 'error',
         'react/react-in-jsx-scope': 'off',
         'react/display-name': 'off',
+        'linebreak-style': ["error", "unix"],
         '@typescript-eslint/no-unused-vars': ["error", { "argsIgnorePattern": "^_" }]
     },
 }

@@ -1,0 +1,10 @@
+{
+    "git.pruneOnFetch": true,
+    "editor.codeActionsOnSave": {
+        "source.fixAll": true
+      },
+    "npm.autoDetect": "on",
+    "eslint.workingDirectories": [
+      "./src/WebApp"
+    ],
+}
