@@ -1,6 +1,6 @@
 ﻿namespace Domain.Entities
 {
-    public record Meeting : Entity
+    public record Meeting : EntityBase
     {
     }
 }
