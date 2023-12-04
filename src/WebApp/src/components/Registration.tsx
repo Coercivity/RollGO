@@ -7,8 +7,9 @@ import {
   FormGroup,
   Checkbox,
   FormControlLabel,
+  Link,
+  TextField,
 } from '@mui/material';
-import { NavLink } from 'react-router-dom';
 import { Route } from '../enums/Route';
 
 import { LocalizationNamespace } from '../enums/LocalizationNamespace';
@@ -29,18 +30,22 @@ const Registration = () => {
         }}
       >
         <Typography variant="h6">{t('registration')}</Typography>
-        <Input placeholder="Введите ваш e-mail" />
-        <Input placeholder="Введите имя пользователя" />
-        <Input placeholder="Введите пароль" type="password" />
-        <Input placeholder="Подтвердите пароль" type="password" />
+        <TextField margin="dense" label={t('enterEmail')} variant="standard" />
+        <TextField margin="dense" label={t('enterLogin')} variant="standard" />
+        <TextField margin="dense" label={t('enterPassword')} variant="standard" />
+        <TextField margin="dense" label={t('confirmPassword')} variant="standard" />
         <Typography>
-          <FormGroup>
+          <FormGroup sx={{ mt: 1 }}>
             <FormControlLabel
               control={<Checkbox />}
               required
               label={
                 <Typography>
-                  Я согласен(на) с <NavLink to={Route.RULES}> правилами</NavLink> RollGo.
+                  {t('iAcceptThe')}{' '}
+                  <Link underline="none" to={Route.RULES}>
+                    {t('rules')}
+                  </Link>{' '}
+                  RollGO
                 </Typography>
               }
             />
@@ -49,10 +54,13 @@ const Registration = () => {
 
         <Box sx={{ mt: 1, display: 'flex', justifyContent: 'space-between' }}>
           <Typography>
-            Есть аккаунт?
-            <NavLink to={Route.LOGIN}> Войдите! </NavLink>
+            {t('haveAccount')}
+            <Link underline="none" to={Route.LOGIN}>
+              {' '}
+              {t('logIn!')}{' '}
+            </Link>
           </Typography>
-          <Button variant="outlined">Регистрация</Button>
+          <Button variant="outlined">{t('registration')}</Button>
         </Box>
       </Card>
     </Box>

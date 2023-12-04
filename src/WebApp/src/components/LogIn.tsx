@@ -1,4 +1,4 @@
-import { Input, Box, Typography, Button, Card } from '@mui/material';
+import { TextField, Box, Typography, Button, Card, Link } from '@mui/material';
 import { NavLink } from 'react-router-dom';
 import { Route } from '../enums/Route';
 
@@ -20,14 +20,17 @@ const LogIn = () => {
         }}
       >
         <Typography variant="h6">{t('authorisation')}</Typography>
-        <Input placeholder="Введите ваш e-mail" />
-        <Input placeholder="Введите пароль" type="password" />
-        <Box sx={{ mt: 1, display: 'flex', justifyContent: 'space-between' }}>
+        <TextField margin="dense" label={t('enterEmail')} variant="standard" />
+        <TextField margin="dense" type="password" label={t('enterPassword')} variant="standard" />
+        <Box sx={{ mt: 2, display: 'flex', justifyContent: 'space-between' }}>
           <Typography>
-            Нет аккаунта?
-            <NavLink to={Route.REGISTRATION}> Зарегистрируйся! </NavLink>
+            {t('dontHaveAccount')}
+            <Link underline="none" to={Route.REGISTRATION}>
+              {' '}
+              {t('registrate')}{' '}
+            </Link>
           </Typography>
-          <Button variant="outlined">Войти</Button>
+          <Button variant="outlined">{t('logIn')}</Button>
         </Box>
       </Card>
     </Box>

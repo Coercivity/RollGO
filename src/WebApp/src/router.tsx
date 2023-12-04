@@ -3,7 +3,9 @@ import { Outlet, createBrowserRouter } from 'react-router-dom';
 import MainPage from './views/MainPage';
 import LobbyPage from './views/LobbyPage';
 import Navbar from './components/Navbar';
-import AuthPage from './views/AuthPage';
+
+import LogIn from './components/LogIn';
+import Registration from './components/Registration';
 
 // eslint-disable-next-line react-refresh/only-export-components
 const NavbarWrapper = () => {
@@ -30,11 +32,11 @@ export const router = createBrowserRouter([
       },
       {
         path: Route.LOGIN,
-        element: <AuthPage />,
+        element: <LogIn />,
       },
       {
         path: Route.REGISTRATION,
-        element: <AuthPage />,
+        element: <Registration />,
       },
     ],
   },
