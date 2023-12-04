@@ -29,7 +29,9 @@ dist/
 
 # Visual Studio 2015 cache/options directory
 .vs/
-.vscode/
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
 
 # .js files created on build:
 src/Web/WebMVC/wwwroot/js/site*
