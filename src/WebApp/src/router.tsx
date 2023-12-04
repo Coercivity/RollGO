@@ -6,8 +6,8 @@ import LobbyPage from './views/LobbyPage';
 import Navbar from './components/Navbar';
 import TermsOfUse from './components/TermsOfUse';
 
-import LogIn from './components/LogIn';
-import Registration from './components/Registration';
+import LogIn from './views/LogIn';
+import Registration from './views/Registration';
 
 // eslint-disable-next-line react-refresh/only-export-components
 const SuspenseWrapper = () => {

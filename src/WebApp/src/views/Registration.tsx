@@ -33,24 +33,21 @@ const Registration = () => {
         <TextField margin="dense" label={t('enterLogin')} variant="standard" />
         <TextField margin="dense" label={t('enterPassword')} variant="standard" />
         <TextField margin="dense" label={t('confirmPassword')} variant="standard" />
-        <Typography>
-          <FormGroup sx={{ mt: 1 }}>
-            <FormControlLabel
-              control={<Checkbox />}
-              required
-              label={
-                <Typography>
-                  {t('iAcceptThe')}{' '}
-                  <Link underline="none" href={Route.RULES}>
-                    {t('rules')}
-                  </Link>{' '}
-                  RollGO
-                </Typography>
-              }
-            />
-          </FormGroup>
-        </Typography>
-
+        <FormGroup sx={{ mt: 1 }}>
+          <FormControlLabel
+            control={<Checkbox />}
+            required
+            label={
+              <Typography>
+                {t('iAcceptThe')}{' '}
+                <Link underline="none" href={Route.RULES}>
+                  {t('rules')}
+                </Link>{' '}
+                RollGO
+              </Typography>
+            }
+          />
+        </FormGroup>
         <Box sx={{ mt: 1, display: 'flex', justifyContent: 'space-between' }}>
           <Typography>
             {t('haveAccount')}
