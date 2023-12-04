@@ -1,12 +1,9 @@
 import { Box, Card } from '@mui/material';
-import { FC } from 'react';
 import UserView from './UserView';
 
-interface UsersListProps {
-  nickname: string;
-}
+const nickname = 'Yaroslav';
 
-const UsersList: FC<LobbyListProps> = ({ nickname }) => {
+const UsersList = () => {
   return (
     <Card
       sx={{

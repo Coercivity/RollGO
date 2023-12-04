@@ -1,4 +1,4 @@
-import { Container, Typography, Card } from '@mui/material';
+import { Container, Typography } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import UsersList from '../components/UsersList';
 
