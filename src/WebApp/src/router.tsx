@@ -4,6 +4,7 @@ import { Outlet, createBrowserRouter } from 'react-router-dom';
 import MainPage from './views/MainPage';
 import LobbyPage from './views/LobbyPage';
 import Navbar from './components/Navbar';
+import TermsOfUse from './components/TermsOfUse';
 
 import LogIn from './components/LogIn';
 import Registration from './components/Registration';
@@ -53,6 +54,10 @@ export const router = createBrowserRouter([
       {
         path: Route.REGISTRATION,
         element: <Registration />,
+      },
+      {
+        path: Route.RULES,
+        element: <TermsOfUse />,
       },
     ],
   },

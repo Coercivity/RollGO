@@ -24,7 +24,7 @@ const LogIn = () => {
         <Box sx={{ mt: 2, display: 'flex', justifyContent: 'space-between' }}>
           <Typography>
             {t('dontHaveAccount')}
-            <Link underline="none" to={Route.REGISTRATION}>
+            <Link underline="none" href={Route.REGISTRATION}>
               {' '}
               {t('registrate')}{' '}
             </Link>

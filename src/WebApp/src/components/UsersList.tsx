@@ -2,6 +2,7 @@ import { Box, Card } from '@mui/material';
 import UserView from './UserView';
 
 const nickname = 'Yaroslav';
+const onClick = () => {};
 
 const UsersList = () => {
   return (
@@ -25,7 +26,7 @@ const UsersList = () => {
         <Box>
           Игроков в лобби {}/{}{' '}
         </Box>
-        <UserView nickname={nickname} />
+        <UserView nickname={nickname} onClick={onClick} />
       </Box>
     </Card>
   );

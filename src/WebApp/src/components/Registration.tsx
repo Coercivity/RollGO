@@ -41,7 +41,7 @@ const Registration = () => {
               label={
                 <Typography>
                   {t('iAcceptThe')}{' '}
-                  <Link underline="none" to={Route.RULES}>
+                  <Link underline="none" href={Route.RULES}>
                     {t('rules')}
                   </Link>{' '}
                   RollGO
@@ -54,7 +54,7 @@ const Registration = () => {
         <Box sx={{ mt: 1, display: 'flex', justifyContent: 'space-between' }}>
           <Typography>
             {t('haveAccount')}
-            <Link underline="none" to={Route.LOGIN}>
+            <Link underline="none" href={Route.LOGIN}>
               {' '}
               {t('logIn!')}{' '}
             </Link>
