@@ -1,10 +1,11 @@
-import { Button, Box, Container } from '@mui/material';
 import { useState } from 'react';
-import LobbyCreationModal from '../components/LobbyCreationModal';
-import LobbyList from '../components/LobbyList';
 import { useTranslation } from 'react-i18next';
-import { Route } from '../enums/Route';
 import { useNavigate } from 'react-router-dom';
+import { Box, Button, Container } from '@mui/material';
+
+import LobbyCreationModal from '@components/LobbyCreationModal';
+import LobbyList from '@components/LobbyList';
+import { Route } from '@enums/Route';
 
 const MainPage = () => {
   const { t } = useTranslation();
