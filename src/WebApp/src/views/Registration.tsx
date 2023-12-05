@@ -1,18 +1,18 @@
+import { useTranslation } from 'react-i18next';
 import {
   Box,
-  Typography,
   Button,
   Card,
-  FormGroup,
   Checkbox,
   FormControlLabel,
+  FormGroup,
   Link,
   TextField,
+  Typography,
 } from '@mui/material';
-import { Route } from '../enums/Route';
 
-import { LocalizationNamespace } from '../enums/LocalizationNamespace';
-import { useTranslation } from 'react-i18next';
+import { LocalizationNamespace } from '@enums/LocalizationNamespace';
+import { Route } from '@enums/Route';
 
 const Registration = () => {
   const { t } = useTranslation(LocalizationNamespace.AUTH);

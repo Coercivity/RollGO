@@ -1,4 +1,5 @@
 import { Box, Card } from '@mui/material';
+
 import UserView from './UserView';
 
 const nickname = 'Yaroslav';

@@ -1,15 +1,15 @@
 import { FC, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Close } from '@mui/icons-material';
 import {
   Button,
   Dialog,
-  DialogTitle,
   DialogActions,
   DialogContent,
-  TextField,
+  DialogTitle,
   IconButton,
+  TextField,
 } from '@mui/material';
-import { Close } from '@mui/icons-material';
-import { useTranslation } from 'react-i18next';
 
 interface LobbyCreationModalProps {
   setOpen: (value: boolean) => void;
