@@ -1,6 +1,6 @@
-import { Container, Typography } from '@mui/material';
+import { Container, Typography, Box } from '@mui/material';
 import { useParams } from 'react-router-dom';
-import UsersList from '../components/UsersList';
+import UsersList from '../components/UsersList/UsersList';
 
 type LobbyParams = {
   lobbyId: string;
@@ -11,8 +11,9 @@ const LobbyPage = () => {
   return (
     <Container maxWidth="lg" sx={{ textAlign: 'center', mt: 2 }}>
       <Typography variant="h3">Комната {lobbyId}.</Typography>
-
-      <UsersList />
+      <Box sx={{ mt: 2, display: 'flex', justifyContent: 'flex-end' }}>
+        <UsersList />
+      </Box>
     </Container>
   );
 };
