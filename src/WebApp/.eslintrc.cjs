@@ -9,12 +9,12 @@ module.exports = {
         "plugin:prettier/recommended",
         'plugin:promise/recommended'
     ],
-    "settings": {
+    settings: {
         "import/resolver": {
-          "typescript": {},
-          "alias": {
-            "extensions": [".ts", ".tsx"],
-            "map": [
+          typescript: {},
+          alias: {
+            extensions: [".ts", ".tsx"],
+            map: [
               ["@", "."]
             ]
           }
@@ -31,7 +31,7 @@ module.exports = {
     },
     ignorePatterns: ['node_modules/', 'dist', '.eslintrc.cjs', '*.config.*'],
     parser: '@typescript-eslint/parser',
-    plugins: ['react-refresh', 'simple-import-sort', 'promise', 'import',  '@typescript-eslint'],
+    plugins: ['react-refresh', 'simple-import-sort', 'promise', 'import',  '@typescript-eslint', 'prettier'],
     rules: {
         'react-refresh/only-export-components': [
             'warn',
@@ -44,12 +44,11 @@ module.exports = {
         'eol-last': 'error',
         'react/react-in-jsx-scope': 'off',
         'react/display-name': 'off',
-        'linebreak-style': ["error", "windows"],
         '@typescript-eslint/no-unused-vars': ["error", { "argsIgnorePattern": "^_" }],
         "simple-import-sort/imports": [
           "error",
           {
-            "groups": [
+            groups: [
               ["^react", "^@?\\w"],
               ["^(@components|@enums|@models|@views|)(/.*|$)"],
               ["^\\u0000"],
@@ -61,6 +60,22 @@ module.exports = {
         ],
         "import/first": "error",
         "import/newline-after-import": "error",
-        "import/no-duplicates": "error"
+        "import/no-duplicates": "error",
+        'linebreak-style': ["error", "windows"],
+        'prettier/prettier': [
+          'error',
+          {
+            endOfLine: 'crlf',
+            jsxSingleQuote: false,
+            printWidth: 100,
+            proseWrap: 'never',
+            quoteProps: 'as-needed',
+            semi: true,
+            singleQuote: true,
+            tabWidth: 2,
+            trailingComma: 'es5',
+            useTabs: false,
+          },
+        ],
     },
 }
