@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
 import { Box, Container, Typography } from '@mui/material';
 
-import UsersList from '../components/UsersList/UsersList';
+import UsersList from '@components/UsersList/UsersList';
 
 type LobbyParams = {
   lobbyId: string;
