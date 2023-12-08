@@ -9,7 +9,7 @@ interface UserViewProps {
   isOnline: boolean;
 }
 
-const StyledBadge = styled(Badge)(({ theme }) => ({
+const StyledBadgeOnline = styled(Badge)(({ theme }) => ({
   '& .MuiBadge-badge': {
     backgroundColor: '#44b700',
     color: '#44b700',
@@ -38,7 +38,7 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
   },
 }));
 
-const StyledBadge2 = styled(Badge)(({ theme }) => ({
+const StyledBadgeOffline = styled(Badge)(({ theme }) => ({
   '& .MuiBadge-badge': {
     backgroundColor: 'grey',
     color: 'grey',
@@ -46,27 +46,33 @@ const StyledBadge2 = styled(Badge)(({ theme }) => ({
   },
 }));
 
-const UserView = forwardRef<HTMLElement, UserViewProps>(({ nickname, isOnline, onClick }, _) => {
+const UserView = forwardRef<HTMLElement, UserViewProps>(({ nickname, isOnline }, _) => {
   return isOnline ? (
-    <IconButton sx={{ p: 1, borderRadius: 2, m: 1, color: 'white' }} onClick={() => onClick()}>
-      <StyledBadge
+    <IconButton
+      sx={{ p: 1, borderRadius: 2, m: 1, color: 'white' }}
+      onClick={() => console.log(isOnline)}
+    >
+      <StyledBadgeOnline
         overlap="circular"
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
         variant="dot"
       >
-        <Avatar sx={{}} />
-      </StyledBadge>
+        <Avatar />
+      </StyledBadgeOnline>
       <Typography sx={{ m: 0.5 }}>{nickname}</Typography>
     </IconButton>
   ) : (
-    <IconButton sx={{ p: 1, borderRadius: 2, m: 1, color: 'white' }} onClick={() => onClick()}>
-      <StyledBadge2
+    <IconButton
+      sx={{ p: 1, borderRadius: 2, m: 1, color: 'white' }}
+      onClick={() => console.log(isOnline)}
+    >
+      <StyledBadgeOffline
         overlap="circular"
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
         variant="dot"
       >
-        <Avatar sx={{}} />
-      </StyledBadge2>
+        <Avatar />
+      </StyledBadgeOffline>
       <Typography sx={{ m: 0.5 }}>{nickname}</Typography>
     </IconButton>
   );

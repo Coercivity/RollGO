@@ -2,12 +2,19 @@ import { Box, Card, Typography } from '@mui/material';
 import UserView from '../UserView';
 import { useState } from 'react';
 import UsersFilter from './UsersFilter';
-
-const someBackEnd = [{ nickname: 'Yaroslav', isOnline: 'true' }];
-const onClick = () => {};
+import { LocalizationNamespace } from '../../enums/LocalizationNamespace';
+import { useTranslation } from 'react-i18next';
+import { User } from '../../models/User';
 
 const UsersList = () => {
-  const [filter, setFilter] = useState({ sort: '', query: '' });
+  const { t } = useTranslation(LocalizationNamespace.LOBBY);
+
+  const [users, setUsers] = useState<User[]>([
+    { nickname: 'Yaroslav', isOnline: true },
+    { nickname: 'Evgeniy', isOnline: false },
+    { nickname: 'Alexander', isOnline: true },
+  ]);
+  const [filter, setFilter] = useState('');
 
   return (
     <Card
@@ -30,12 +37,17 @@ const UsersList = () => {
         }}
       >
         <Typography variant="h6" color="white">
-          Игроков в лобби {}/{}{' '}
+          {t('playersInTheLobby')} {users.filter((x) => x.isOnline === true).length}/{users.length}{' '}
         </Typography>
-        <UsersFilter filter={filter} setFilter={setFilter} />
+        <UsersFilter filter={filter} setFilter={setFilter} users={users} setUsers={setUsers} />
         <Box>
-          {someBackEnd.map((nickname, isOnline) => (
-            <UserView nickname={nickname} onClick={onClick} isOnline={isOnline} />
+          {users.map(({ nickname, isOnline }) => (
+            <UserView
+              key={nickname}
+              nickname={nickname}
+              onClick={() => console.log('user view clicked')}
+              isOnline={isOnline}
+            />
           ))}
         </Box>
       </Box>

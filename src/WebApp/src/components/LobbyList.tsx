@@ -1,6 +1,8 @@
 import { Box, Typography } from '@mui/material';
 import { FC } from 'react';
 import LobbyView from './LobbyView';
+import { LocalizationNamespace } from '../enums/LocalizationNamespace';
+import { useTranslation } from 'react-i18next';
 
 interface LobbyListProps {
   lobbies: string[];
@@ -8,11 +10,12 @@ interface LobbyListProps {
 }
 
 const LobbyList: FC<LobbyListProps> = ({ lobbies, remove }) => {
+  const { t } = useTranslation(LocalizationNamespace.LOBBY);
   if (!lobbies.length) {
     return (
       <Box sx={{ border: 0.5, borderRadius: 3, p: 2, borderColor: 'grey.500' }}>
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-          Пока не созданно ни одного лобби
+          {t('noLobbiesYet')}
         </Typography>
       </Box>
     );
