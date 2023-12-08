@@ -6,7 +6,7 @@ import { styled } from '@mui/material/styles';
 interface UserViewProps {
   nickname: string;
   onClick: () => void;
-  isOnline: boolean;
+  isOnline?: boolean;
 }
 
 const StyledBadgeOnline = styled(Badge)(({ theme }) => ({
