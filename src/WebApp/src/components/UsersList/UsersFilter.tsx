@@ -1,10 +1,13 @@
 import { FC } from 'react';
-import { Box, FormControl, InputLabel } from '@mui/material';
-import FilterSelector from './FilterSelector';
-import { LocalizationNamespace } from '../../enums/LocalizationNamespace';
 import { useTranslation } from 'react-i18next';
+import { Box, FormControl, InputLabel } from '@mui/material';
+
+import { LocalizationNamespace } from '@enums/LocalizationNamespace';
+import { User } from '@models/User';
+
 import { generalSort } from '../../utils/utils';
-import { User } from '../../models/User';
+
+import FilterSelector from './FilterSelector';
 
 interface UsersFilterProps {
   filter: string;

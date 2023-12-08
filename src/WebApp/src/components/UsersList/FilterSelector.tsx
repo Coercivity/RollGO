@@ -1,6 +1,7 @@
 import { FC } from 'react';
-import { Select, MenuItem, SelectChangeEvent } from '@mui/material';
-import { User } from '../../models/User';
+import { MenuItem, Select, SelectChangeEvent } from '@mui/material';
+
+import { User } from '@models/User';
 
 interface SelectorOptions {
   value: string;

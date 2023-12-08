@@ -1,7 +1,7 @@
 import { forwardRef } from 'react';
 import { Avatar, IconButton, Typography } from '@mui/material';
-import { styled } from '@mui/material/styles';
 import Badge from '@mui/material/Badge';
+import { styled } from '@mui/material/styles';
 
 interface UserViewProps {
   nickname: string;
@@ -46,7 +46,7 @@ const StyledBadgeOffline = styled(Badge)(({ theme }) => ({
   },
 }));
 
-const UserView = forwardRef<HTMLElement, UserViewProps>(({ nickname, isOnline }, _) => {
+const UserView = forwardRef<HTMLElement, UserViewProps>(({ nickname, isOnline = true }, _) => {
   return isOnline ? (
     <IconButton
       sx={{ p: 1, borderRadius: 2, m: 1, color: 'white' }}

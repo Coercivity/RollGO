@@ -2,8 +2,8 @@ import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AppBar, Link, Toolbar, Tooltip, Typography } from '@mui/material';
 
-import { LocalizationNamespace } from '../enums/LocalizationNamespace';
-import { Route } from '../enums/Route';
+import { LocalizationNamespace } from '@enums/LocalizationNamespace';
+import { Route } from '@enums/Route';
 
 import UserView from './UserView';
 

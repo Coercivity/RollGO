@@ -1,10 +1,13 @@
-import { Box, Card, Typography } from '@mui/material';
-import UserView from '../UserView';
 import { useState } from 'react';
-import UsersFilter from './UsersFilter';
-import { LocalizationNamespace } from '../../enums/LocalizationNamespace';
 import { useTranslation } from 'react-i18next';
-import { User } from '../../models/User';
+import { Box, Card, Typography } from '@mui/material';
+
+import { LocalizationNamespace } from '@enums/LocalizationNamespace';
+import { User } from '@models/User';
+
+import UserView from '../UserView';
+
+import UsersFilter from './UsersFilter';
 
 const UsersList = () => {
   const { t } = useTranslation(LocalizationNamespace.LOBBY);

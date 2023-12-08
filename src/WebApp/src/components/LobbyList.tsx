@@ -1,9 +1,10 @@
 import { FC } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Box, Typography } from '@mui/material';
 
+import { LocalizationNamespace } from '@enums/LocalizationNamespace';
+
 import LobbyView from './LobbyView';
-import { LocalizationNamespace } from '../enums/LocalizationNamespace';
-import { useTranslation } from 'react-i18next';
 
 interface LobbyListProps {
   lobbies: string[];
