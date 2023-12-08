@@ -5,5 +5,5 @@
   "singleQuote": true,
   "jsxBracketSameLine": false,
   "printWidth": 100,
-  "endOfLine": "lf"
+  "endOfLine": "crlf"
 }

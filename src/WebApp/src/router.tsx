@@ -1,14 +1,13 @@
 import { Suspense } from 'react';
-import { Route } from './enums/Route';
-import { Outlet, createBrowserRouter } from 'react-router-dom';
-import MainPage from './views/MainPage';
-import LobbyPage from './views/LobbyPage';
-import Navbar from './components/Navbar';
-import TermsOfUse from './components/TermsOfUse';
+import { createBrowserRouter, Outlet } from 'react-router-dom';
 
-import LogIn from './views/LogIn';
-import Registration from './views/Registration';
-
+import Navbar from '@components/Navbar';
+import TermsOfUse from '@components/TermsOfUse';
+import { Route } from '@enums/Route';
+import LobbyPage from '@views/LobbyPage';
+import LogIn from '@views/LogIn';
+import MainPage from '@views/MainPage';
+import Registration from '@views/Registration';
 // eslint-disable-next-line react-refresh/only-export-components
 const SuspenseWrapper = () => {
   return (

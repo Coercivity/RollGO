@@ -1,5 +1,6 @@
-import { Box, Typography } from '@mui/material';
 import { FC } from 'react';
+import { Box, Typography } from '@mui/material';
+
 import LobbyView from './LobbyView';
 import { LocalizationNamespace } from '../enums/LocalizationNamespace';
 import { useTranslation } from 'react-i18next';

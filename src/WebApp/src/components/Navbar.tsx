@@ -1,9 +1,11 @@
 import { FC } from 'react';
-import { AppBar, Link, Toolbar, Tooltip, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import UserView from './UserView';
+import { AppBar, Link, Toolbar, Tooltip, Typography } from '@mui/material';
+
 import { LocalizationNamespace } from '../enums/LocalizationNamespace';
 import { Route } from '../enums/Route';
+
+import UserView from './UserView';
 
 const Navbar: FC = () => {
   const { t } = useTranslation(LocalizationNamespace.NAVBAR);
