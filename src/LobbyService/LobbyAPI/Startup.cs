@@ -3,6 +3,7 @@ using LobbyAPI.Hubs;
 using Infrastructure;
 using Infrastructure.Repository;
 using Infrastructure.Repository.Implementation;
+using Microsoft.EntityFrameworkCore;
 
 namespace LobbyAPI
 {
@@ -13,13 +14,14 @@ namespace LobbyAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddTransient<ILobbyRepository, LobbyRepository>();
-
             services.AddDatabaseRepositories(Configuration.GetConnectionString("DefaultConnectionString")!);
             services.AddSignalR();
             services.AddControllers();
             services.AddSwaggerGen();
+            services.AddHealthChecks();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).
-                AddCookie(op => {
+                AddCookie(op =>
+                {
                     op.LoginPath = "/login";
                     op.AccessDeniedPath = "/denied";
                 });
@@ -27,20 +29,29 @@ namespace LobbyAPI
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
+            }
+
+            using (var scope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            {
+                var dbContext = scope.ServiceProvider.GetRequiredService<LobbyDbContext>();
+                dbContext.Database.Migrate();
             }
 
             app.UseHttpsRedirection();
 
             app.UseSwagger();
-            app.UseSwaggerUI();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Lobby service API V1");
+            });
 
             app.UseRouting();
             app.UseCookiePolicy();
@@ -50,9 +61,8 @@ namespace LobbyAPI
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapHealthChecks("health");
+                endpoints.MapControllers();
                 endpoints.MapHub<LobbyHub>("/lobby");
             });
         }
