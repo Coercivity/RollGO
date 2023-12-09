@@ -3,6 +3,7 @@ using LobbyAPI.Hubs;
 using Infrastructure;
 using Infrastructure.Repository;
 using Infrastructure.Repository.Implementation;
+using Microsoft.EntityFrameworkCore;
 
 namespace LobbyAPI
 {
@@ -35,6 +36,12 @@ namespace LobbyAPI
             {
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
+            }
+
+            using (var scope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            {
+                var dbContext = scope.ServiceProvider.GetRequiredService<LobbyDbContext>();
+                dbContext.Database.Migrate();
             }
 
             app.UseHttpsRedirection();
