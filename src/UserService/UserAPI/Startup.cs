@@ -1,3 +1,5 @@
+using Infrastructure;
+using Microsoft.EntityFrameworkCore;
 
 namespace UserAPI
 {
@@ -7,7 +9,7 @@ namespace UserAPI
 
         public void ConfigureServices(IServiceCollection services)
         {
-
+            services.AddDatabaseRepositories(Configuration.GetConnectionString("DefaultConnectionString")!);
             services.AddControllers();
             services.AddSwaggerGen();
         }
@@ -17,6 +19,12 @@ namespace UserAPI
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                
+                using (var scope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+                {
+                    var dbContext = scope.ServiceProvider.GetRequiredService<UserDbContext>();
+                    dbContext.Database.Migrate();
+                }
             }
 
             app.UseSwagger();
