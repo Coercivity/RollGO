@@ -12,7 +12,7 @@ public interface IUserService
 
     public Task<Guid> DeleteUser(Guid id);
 
-    public Task<UserDto> CheckPassword(LoginDto dto);
+    public Task<UserDto?> CheckPassword(LoginDto dto);
 
     public Task<UserDto> GetUser(Guid id);
 }

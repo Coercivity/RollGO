@@ -10,9 +10,9 @@ public class UserService(IUserRepository userRepository, IMapper mapper) : IUser
     private readonly IUserRepository _userRepository = userRepository;
     private readonly IMapper _mapper = mapper;
 
-    public async Task<UserDto> CheckPassword(LoginDto dto)
+    public async Task<UserDto?> CheckPassword(LoginDto dto)
     {
-        User user = null;
+        User? user = null;
         if (dto.Username != null) {
             user = await _userRepository.GetByUsernameAsync(dto.Username);
         }
@@ -56,7 +56,7 @@ public class UserService(IUserRepository userRepository, IMapper mapper) : IUser
     public Task<bool> UserExists(RegisterDto dto)
     {
         var emailUser = _userRepository.GetByEmailAsync(dto.Email);
-        var nameUser = _userRepository.GetByEmailAsync(dto.Username);
+        var nameUser = _userRepository.GetByUsernameAsync(dto.Username);
         Task.WaitAll([emailUser, nameUser]);
 
         return Task.FromResult(emailUser != null || nameUser != null);
