@@ -29,6 +29,9 @@ const Navbar: FC = () => {
           <Link href={Route.LOGIN} sx={{ color: 'red', fontWeight: 700, textDecoration: 'none' }}>
             Авторизация
           </Link>
+          <Link href={Route.MOVIE} sx={{ color: 'white', fontWeight: 700, textDecoration: 'none' }}>
+            MovieView
+          </Link>
         </Typography>
         <Tooltip title={t('openProfile')}>
           <UserView nickname={nickname} onClick={onUserViewClick} />

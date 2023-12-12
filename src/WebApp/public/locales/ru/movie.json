@@ -1,0 +1,18 @@
+{
+  "movieGenre": "Жанр:",
+  "country": "Страна:",
+  "triller": "триллер",
+  "drama": "драма",
+  "detective": "детектив",
+  "criminal": "криминал",
+  "action": "боевик",
+  "comedy": "комедия",
+  "ratingMpaa": "Возрастной рейтинг",
+  "year": "Год производства",
+  "ratingKinopoisk": "Рейтинг Кинопоиска",
+  "ratingIMDb": "Рейтинг IMDb",
+  "filmLength": "Продолжительность:",
+  "director": "Режиссер:",
+  "mainActors": "В главных ролях:",
+  "minute": "мин"
+}
