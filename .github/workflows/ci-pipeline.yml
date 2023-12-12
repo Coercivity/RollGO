@@ -53,7 +53,7 @@ jobs:
       - name: Setup dotnet
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: 8.0
+          dotnet-version: 8.x
       - name: Build lobby
         run: cd ./src/LobbyService && dotnet build
 
@@ -67,7 +67,7 @@ jobs:
       - name: Setup dotnet
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: 8.0
+          dotnet-version: 8.x
       - name: Build user
         run: cd ./src/UserService && dotnet build
 
@@ -85,8 +85,8 @@ jobs:
             echo "Lobby service error"
             exit 1
           elif [ "${{ needs.user.result }}" == "failure" ] || [ "${{ needs.user.result }}" == "cancelled" ]; then
-            echo "Lobby service error"
+            echo "User service error"
             exit 1
           else
-            echo "Webapp pipeline passed"
+            echo "Pipeline passed"
           fi
