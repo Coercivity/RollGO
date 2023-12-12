@@ -1,5 +1,6 @@
 using Infrastructure;
 using Microsoft.EntityFrameworkCore;
+using UserAPI.Services;
 
 namespace UserAPI
 {
@@ -10,6 +11,8 @@ namespace UserAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDatabaseRepositories(Configuration.GetConnectionString("DefaultConnectionString")!);
+            services.AddTransient<ITokenService, TokenService>();
+            services.AddTransient<IUserService, UserService>();
             services.AddControllers();
             services.AddSwaggerGen();
         }
