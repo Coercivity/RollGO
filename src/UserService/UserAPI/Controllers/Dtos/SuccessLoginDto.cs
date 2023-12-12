@@ -3,18 +3,11 @@ using Domain.Entities;
 namespace UserAPI.Controllers.Dtos;
 
 [Serializable]
-public record SuccessLoginDto
-{
-    SuccessLoginDto(User user, string accessToken, string refreshToken)
-    {
-        User = user;
-        AccessToken = accessToken;
-        RefreshToken = refreshToken;
-    }
-    
-    public required User User { get; set; }
+public record SuccessLoginDto(User User, TokenPair TokenPair)
+{    
+    public User User { get; init; } = User;
 
-    public required string AccessToken {get; set;}
+    public string AccessToken { get; init; } = TokenPair.AccessToken;
 
-    public required string RefreshToken{get;set;}
+    public string RefreshToken { get; init; } = TokenPair.RefreshToken;
 }

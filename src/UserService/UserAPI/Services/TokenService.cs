@@ -9,7 +9,7 @@ public class TokenService : ITokenService
         throw new NotImplementedException();
     }
 
-    public TokenPair GetTokenPair()
+    public Task<TokenPair> GetTokenPair(User user)
     {
         throw new NotImplementedException();
     }

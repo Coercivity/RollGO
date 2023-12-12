@@ -6,5 +6,5 @@ public interface ITokenService
 {
     public Task<bool> ValidateTokenPair(TokenPair tokenPair);
 
-    public TokenPair GetTokenPair();
+    public Task<TokenPair> GetTokenPair(User user);
 }
