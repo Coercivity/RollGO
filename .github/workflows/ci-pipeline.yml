@@ -10,6 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       webapp:  ${{ steps.changes.outputs.webapp }}
+      lobby:  ${{ steps.changes.outputs.lobby }}
+      user:  ${{ steps.changes.outputs.user }}
     steps:
       - uses: dorny/paths-filter@v2
         id: changes
@@ -17,6 +19,10 @@ jobs:
           filters: |
             webapp:
               - 'src/WebApp/**'
+            lobby:
+              - 'src/LobbyService/**'
+            user:
+              - 'src/UserService/**'
   webapp:
     if: needs.changes.outputs.webapp == 'true'
     needs: changes
@@ -36,15 +42,50 @@ jobs:
   
       - name: Build
         run: cd ./src/WebApp && npm run build
+
+  lobby:
+    if: needs.changes.outputs.lobby == 'true'
+    needs: changes
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 8.0
+      - name: Build lobby
+        run: cd ./src/LobbyService && dotnet build
+
+  user:
+    if: needs.changes.outputs.user == 'true'
+    needs: changes
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 8.0
+      - name: Build user
+        run: cd ./src/UserService && dotnet build
+
   pipeline:
     if: always()
-    needs: [changes, webapp]
+    needs: [changes, webapp, lobby, user]
     runs-on: ubuntu-latest
     steps:
       - name: Webapp error
         run: |
           if [ "${{ needs.webapp.result }}" == "failure" ] || [ "${{ needs.webapp.result }}" == "cancelled" ]; then
             echo "Webapp error"
+            exit 1
+          elif [ "${{ needs.lobby.result }}" == "failure" ] || [ "${{ needs.lobby.result }}" == "cancelled" ]; then
+            echo "Lobby service error"
+            exit 1
+          elif [ "${{ needs.user.result }}" == "failure" ] || [ "${{ needs.user.result }}" == "cancelled" ]; then
+            echo "Lobby service error"
             exit 1
           else
             echo "Webapp pipeline passed"
