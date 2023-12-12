@@ -5,7 +5,12 @@ namespace UserAPI.Services;
 
 public class UserService : IUserService
 {
-    public Task<User> CreateUser(RegisterDto dto)
+    public Task<UserDto> CheckPassword(LoginDto dto)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<UserDto> CreateUser(RegisterDto dto)
     {
         throw new NotImplementedException();
     }
@@ -15,12 +20,22 @@ public class UserService : IUserService
         throw new NotImplementedException();
     }
 
-    public Task<User> UpdateUser(UserDto dto)
+    public Task<UserDto> GetUser(Guid id)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<UserDto> UpdateUser(UserDto dto)
     {
         throw new NotImplementedException();
     }
 
     public Task<bool> UserExists(RegisterDto dto)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<bool> UserExists(LoginDto dto)
     {
         throw new NotImplementedException();
     }

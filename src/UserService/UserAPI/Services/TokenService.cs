@@ -1,4 +1,5 @@
 using Domain.Entities;
+using UserAPI.Controllers.Dtos;
 
 namespace UserAPI.Services;
 
@@ -9,7 +10,12 @@ public class TokenService : ITokenService
         throw new NotImplementedException();
     }
 
-    public Task<TokenPair> GetTokenPair(User user)
+    public Task<TokenPair> GetTokenPair(UserDto user)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Guid GetUserId(string accessToken)
     {
         throw new NotImplementedException();
     }

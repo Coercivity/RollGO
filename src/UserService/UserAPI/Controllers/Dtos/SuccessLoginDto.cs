@@ -3,9 +3,9 @@ using Domain.Entities;
 namespace UserAPI.Controllers.Dtos;
 
 [Serializable]
-public record SuccessLoginDto(User User, TokenPair TokenPair)
+public record SuccessLoginDto(UserDto User, TokenPair TokenPair)
 {    
-    public User User { get; init; } = User;
+    public UserDto User { get; init; } = User;
 
     public string AccessToken { get; init; } = TokenPair.AccessToken;
 

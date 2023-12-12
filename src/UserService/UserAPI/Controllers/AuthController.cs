@@ -28,14 +28,34 @@ public class AuthController(ITokenService tokenService, IUserService userService
     }
 
     [HttpPost]
-    public async Task<SuccessLoginDto> Login([FromBody] LoginDto dto)
+    public async Task<ActionResult<SuccessLoginDto>> Login([FromBody] LoginDto dto)
     {
-        throw new NotImplementedException();
+        var isUserExist = await _userService.UserExists(dto);
+        if (!isUserExist) {
+            return NotFound();
+        }
+
+        var user = await _userService.CheckPassword(dto);
+        if (user == null) {
+            return Unauthorized();
+        }
+
+        var tokenPair = await _tokenService.GetTokenPair(user);
+
+        return new SuccessLoginDto(user, tokenPair);
     }
 
     [HttpPost]
-    public async Task<TokenPair> RefreshToken([FromBody] TokenPair tokenPair)
+    public async Task<ActionResult<TokenPair>> RefreshToken([FromBody] TokenPair tokenPair)
     {
-        throw new NotImplementedException();
+        var isValidTokenPair = await _tokenService.ValidateTokenPair(tokenPair);
+        if (!isValidTokenPair) {
+            return Forbid();
+        }
+        
+        var userId = _tokenService.GetUserId(tokenPair.AccessToken);
+        var user = await _userService.GetUser(userId);
+        
+        return await _tokenService.GetTokenPair(user);
     }
 }
