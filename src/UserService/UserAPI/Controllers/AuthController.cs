@@ -1,4 +1,3 @@
-using System.Net;
 using Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using UserAPI.Controllers.Dtos;
@@ -10,8 +9,8 @@ namespace UserAPI.Controllers;
 [Route("api/[controller]")]
 public class AuthController(ITokenService tokenService, IUserService userService) : ControllerBase
 {
-    private ITokenService _tokenService = tokenService;
-    private IUserService _userService = userService;
+    private readonly ITokenService _tokenService = tokenService;
+    private readonly IUserService _userService = userService;
 
     [HttpPost]
     public async Task<ActionResult<SuccessLoginDto>> Register([FromBody] RegisterDto dto)
@@ -24,17 +23,12 @@ public class AuthController(ITokenService tokenService, IUserService userService
         var user = await _userService.CreateUser(dto);
         var tokenPair = await _tokenService.GetTokenPair(user);
 
-        return new SuccessLoginDto(user, tokenPair);
+        return Ok(new SuccessLoginDto(user, tokenPair));
     }
 
     [HttpPost]
     public async Task<ActionResult<SuccessLoginDto>> Login([FromBody] LoginDto dto)
     {
-        var isUserExist = await _userService.UserExists(dto);
-        if (!isUserExist) {
-            return NotFound();
-        }
-
         var user = await _userService.CheckPassword(dto);
         if (user == null) {
             return Unauthorized();
@@ -42,7 +36,7 @@ public class AuthController(ITokenService tokenService, IUserService userService
 
         var tokenPair = await _tokenService.GetTokenPair(user);
 
-        return new SuccessLoginDto(user, tokenPair);
+        return Ok(new SuccessLoginDto(user, tokenPair));
     }
 
     [HttpPost]
@@ -55,7 +49,7 @@ public class AuthController(ITokenService tokenService, IUserService userService
         
         var userId = _tokenService.GetUserId(tokenPair.AccessToken);
         var user = await _userService.GetUser(userId);
-        
-        return await _tokenService.GetTokenPair(user);
+
+        return Ok(await _tokenService.GetTokenPair(user));
     }
 }

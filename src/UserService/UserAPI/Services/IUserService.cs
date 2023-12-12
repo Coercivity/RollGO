@@ -1,4 +1,3 @@
-using Domain.Entities;
 using UserAPI.Controllers.Dtos;
 
 namespace UserAPI.Services;
@@ -6,8 +5,6 @@ namespace UserAPI.Services;
 public interface IUserService
 {
     public Task<bool> UserExists(RegisterDto dto);
-
-    public Task<bool> UserExists(LoginDto dto);
 
     public Task<UserDto> CreateUser(RegisterDto dto);
 
@@ -18,5 +15,4 @@ public interface IUserService
     public Task<UserDto> CheckPassword(LoginDto dto);
 
     public Task<UserDto> GetUser(Guid id);
-
 }

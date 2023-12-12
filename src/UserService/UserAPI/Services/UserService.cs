@@ -1,18 +1,40 @@
+using AutoMapper;
 using Domain.Entities;
+using Infrastructure.Repository;
 using UserAPI.Controllers.Dtos;
 
 namespace UserAPI.Services;
 
-public class UserService : IUserService
+public class UserService(IUserRepository userRepository, IMapper mapper) : IUserService
 {
-    public Task<UserDto> CheckPassword(LoginDto dto)
+    private readonly IUserRepository _userRepository = userRepository;
+    private readonly IMapper _mapper = mapper;
+
+    public async Task<UserDto> CheckPassword(LoginDto dto)
     {
-        throw new NotImplementedException();
+        User user = null;
+        if (dto.Username != null) {
+            user = await _userRepository.GetByUsernameAsync(dto.Username);
+        }
+        if (dto.Email != null) {
+            user = await _userRepository.GetByEmailAsync(dto.Email);
+        }
+
+        if (user == null || user.Password != dto.Password) {
+            return null;
+        }
+
+        return _mapper.Map<UserDto>(user);
     }
 
-    public Task<UserDto> CreateUser(RegisterDto dto)
+    public async Task<UserDto> CreateUser(RegisterDto dto)
     {
-        throw new NotImplementedException();
+        var user = await _userRepository.CreateAsync(new User(){
+            Username = dto.Username,
+            Email = dto.Email,
+            Password = dto.Password,
+        });
+        return _mapper.Map<UserDto>(user);
     }
 
     public Task<Guid> DeleteUser(Guid id)
@@ -20,9 +42,10 @@ public class UserService : IUserService
         throw new NotImplementedException();
     }
 
-    public Task<UserDto> GetUser(Guid id)
+    public async Task<UserDto> GetUser(Guid id)
     {
-        throw new NotImplementedException();
+        var user = await _userRepository.GetByIdAsync(id);
+        return _mapper.Map<UserDto>(user);
     }
 
     public Task<UserDto> UpdateUser(UserDto dto)
@@ -32,11 +55,10 @@ public class UserService : IUserService
 
     public Task<bool> UserExists(RegisterDto dto)
     {
-        throw new NotImplementedException();
-    }
+        var emailUser = _userRepository.GetByEmailAsync(dto.Email);
+        var nameUser = _userRepository.GetByEmailAsync(dto.Username);
+        Task.WaitAll([emailUser, nameUser]);
 
-    public Task<bool> UserExists(LoginDto dto)
-    {
-        throw new NotImplementedException();
+        return Task.FromResult(emailUser != null || nameUser != null);
     }
 }

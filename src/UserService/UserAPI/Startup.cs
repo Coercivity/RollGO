@@ -1,5 +1,6 @@
 using Infrastructure;
 using Microsoft.EntityFrameworkCore;
+using UserAPI.Mapping;
 using UserAPI.Services;
 
 namespace UserAPI
@@ -10,6 +11,7 @@ namespace UserAPI
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAutoMapper(typeof(MappingProfile));
             services.AddDatabaseRepositories(Configuration.GetConnectionString("DefaultConnectionString")!);
             services.AddTransient<ITokenService, TokenService>();
             services.AddTransient<IUserService, UserService>();

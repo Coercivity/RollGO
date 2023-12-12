@@ -4,5 +4,7 @@ namespace Infrastructure.Repository;
 
 public interface IUserRepository : IRepositoryBase<User>
 {
-    public Task<User> UpdateUserName(Guid id, string userName);
+    public Task<User> GetByUsernameAsync(string username);
+
+    public Task<User> GetByEmailAsync(string email);
 }
