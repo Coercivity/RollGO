@@ -8,18 +8,27 @@ using UserAPI.DTOs;
 
 namespace UserAPI.Services;
 
-public class TokenService(IUserSessionRepository userSessionRepository, IConfiguration configuration) : ITokenService
+public class TokenService(
+    IUserSessionRepository userSessionRepository,
+    IConfiguration configuration
+) : ITokenService
 {
     private readonly IUserSessionRepository _userSessionRepository = userSessionRepository;
     private readonly IConfiguration _config = configuration;
+
     public async Task<bool> ValidateDeleteTokenPair(TokenPair tokenPair)
     {
         var userId = GetTokenClaim(tokenPair.AccessToken, ClaimTypes.NameIdentifier);
-        var sessions = await _userSessionRepository.GetUserSessionsByUserIdAsync(Guid.Parse(userId));
+        var sessions = await _userSessionRepository.GetUserSessionsByUserIdAsync(
+            Guid.Parse(userId)
+        );
         Guid? idToDelete = null;
         foreach (var session in sessions)
         {
-            if (session.AccessToken == tokenPair.AccessToken && session.RefreshToken == tokenPair.RefreshToken)
+            if (
+                session.AccessToken == tokenPair.AccessToken
+                && session.RefreshToken == tokenPair.RefreshToken
+            )
             {
                 idToDelete = session.Id;
             }
@@ -35,19 +44,30 @@ public class TokenService(IUserSessionRepository userSessionRepository, IConfigu
     {
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
         var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-        var claims = new[]
-           {
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-            };
-        var accessToken = new JwtSecurityToken(claims: claims, expires: DateTime.UtcNow.AddMinutes(15), signingCredentials: credentials).ToString();
-        var refreshToken = new JwtSecurityToken(expires: DateTime.UtcNow.AddDays(30), signingCredentials: credentials).ToString();
+        var claims = new[] { new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()), };
+        var accessToken = new JwtSecurityToken(
+            _config["Jwt:Issuer"],
+            _config["Jwt:Issuer"],
+            claims: claims,
+            expires: DateTime.UtcNow.AddMinutes(15),
+            signingCredentials: credentials
+        );
+        var refreshToken = new JwtSecurityToken(
+            _config["Jwt:Issuer"],
+            _config["Jwt:Issuer"],
+            expires: DateTime.UtcNow.AddDays(30),
+            signingCredentials: credentials
+        );
 
-        var session = await _userSessionRepository.CreateAsync(new UserSession()
-        {
-            UserId = user.Id,
-            AccessToken = accessToken,
-            RefreshToken = refreshToken
-        });
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var session = await _userSessionRepository.CreateAsync(
+            new UserSession()
+            {
+                UserId = user.Id,
+                AccessToken = tokenHandler.WriteToken(accessToken),
+                RefreshToken = tokenHandler.WriteToken(refreshToken)
+            }
+        );
 
         return new TokenPair()
         {

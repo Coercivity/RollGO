@@ -51,9 +51,4 @@ public class UserSessionRepository(UserDbContext context) : IUserSessionReposito
     {
         throw new NotImplementedException();
     }
-
-    Task<Guid?> IRepositoryBase<UserSession>.DeleteAsync(Guid id)
-    {
-        throw new NotImplementedException();
-    }
 }

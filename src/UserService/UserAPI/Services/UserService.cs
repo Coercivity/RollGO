@@ -59,6 +59,6 @@ public class UserService(IUserRepository userRepository, IMapper mapper) : IUser
         var nameUser = _userRepository.GetByUsernameAsync(dto.Username);
         Task.WaitAll([emailUser, nameUser]);
 
-        return Task.FromResult(emailUser != null || nameUser != null);
+        return Task.FromResult(emailUser.Result != null || nameUser.Result != null);
     }
 }

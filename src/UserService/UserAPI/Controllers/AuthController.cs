@@ -1,5 +1,5 @@
 using System.Security.Claims;
-using Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using UserAPI.DTOs;
 using UserAPI.Services;
@@ -13,7 +13,7 @@ public class AuthController(ITokenService tokenService, IUserService userService
     private readonly ITokenService _tokenService = tokenService;
     private readonly IUserService _userService = userService;
 
-    [HttpPost]
+    [HttpPost("Register")]
     public async Task<ActionResult<LoginResponseDto>> Register([FromBody] CreateUserRequestDto dto)
     {
         var isUserExist = await _userService.UserExists(dto);
@@ -25,10 +25,10 @@ public class AuthController(ITokenService tokenService, IUserService userService
         var user = await _userService.CreateUser(dto);
         var tokenPair = await _tokenService.GetTokenPair(user);
 
-        return Ok(new LoginResponseDto(user, tokenPair));
+        return Ok(new LoginResponseDto(user, tokenPair.AccessToken, tokenPair.RefreshToken));
     }
 
-    [HttpPost]
+    [HttpPost("Login")]
     public async Task<ActionResult<LoginResponseDto>> Login([FromBody] LoginRequestDto dto)
     {
         var user = await _userService.CheckPassword(dto);
@@ -39,10 +39,11 @@ public class AuthController(ITokenService tokenService, IUserService userService
 
         var tokenPair = await _tokenService.GetTokenPair(user);
 
-        return Ok(new LoginResponseDto(user, tokenPair));
+        return Ok(new LoginResponseDto(user, tokenPair.AccessToken, tokenPair.RefreshToken));
     }
 
-    [HttpPost]
+    [Authorize]
+    [HttpPost("RefreshToken")]
     public async Task<ActionResult<TokenPair>> RefreshToken([FromBody] TokenPair tokenPair)
     {
         var isValidTokenPair = await _tokenService.ValidateDeleteTokenPair(tokenPair);
@@ -52,7 +53,7 @@ public class AuthController(ITokenService tokenService, IUserService userService
         {
             return Forbid();
         }
-
-        return Ok(await _tokenService.GetTokenPair(user));
+        var result = await _tokenService.GetTokenPair(user);
+        return Ok(result);
     }
 }

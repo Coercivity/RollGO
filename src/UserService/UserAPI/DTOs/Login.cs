@@ -15,11 +15,11 @@ public record LoginRequestDto
 
 
 [Serializable]
-public record LoginResponseDto(UserDto User, TokenPair TokenPair)
+public record LoginResponseDto(UserDto User, string AccessToken, string RefreshToken)
 {
     public UserDto User { get; init; } = User;
 
-    public string AccessToken { get; init; } = TokenPair.AccessToken;
+    public string AccessToken { get; init; } = AccessToken;
 
-    public string RefreshToken { get; init; } = TokenPair.RefreshToken;
+    public string RefreshToken { get; init; } = RefreshToken;
 }
