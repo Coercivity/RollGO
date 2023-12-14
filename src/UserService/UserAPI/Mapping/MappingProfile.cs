@@ -1,6 +1,6 @@
 using AutoMapper;
 using Domain.Entities;
-using UserAPI.Controllers.Dtos;
+using UserAPI.DTOs;
 
 namespace UserAPI.Mapping;
 public class MappingProfile : Profile

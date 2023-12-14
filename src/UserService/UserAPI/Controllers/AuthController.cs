@@ -1,6 +1,6 @@
 using Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
-using UserAPI.Controllers.Dtos;
+using UserAPI.DTOs;
 using UserAPI.Services;
 
 namespace UserAPI.Controllers;
@@ -13,7 +13,7 @@ public class AuthController(ITokenService tokenService, IUserService userService
     private readonly IUserService _userService = userService;
 
     [HttpPost]
-    public async Task<ActionResult<SuccessLoginDto>> Register([FromBody] RegisterDto dto)
+    public async Task<ActionResult<LoginResponseDto>> Register([FromBody] CreateUserRequestDto dto)
     {
         var isUserExist = await _userService.UserExists(dto);
         if (isUserExist) {
@@ -23,11 +23,11 @@ public class AuthController(ITokenService tokenService, IUserService userService
         var user = await _userService.CreateUser(dto);
         var tokenPair = await _tokenService.GetTokenPair(user);
 
-        return Ok(new SuccessLoginDto(user, tokenPair));
+        return Ok(new LoginResponseDto(user, tokenPair));
     }
 
     [HttpPost]
-    public async Task<ActionResult<SuccessLoginDto>> Login([FromBody] LoginDto dto)
+    public async Task<ActionResult<LoginResponseDto>> Login([FromBody] LoginRequestDto dto)
     {
         var user = await _userService.CheckPassword(dto);
         if (user == null) {
@@ -36,7 +36,7 @@ public class AuthController(ITokenService tokenService, IUserService userService
 
         var tokenPair = await _tokenService.GetTokenPair(user);
 
-        return Ok(new SuccessLoginDto(user, tokenPair));
+        return Ok(new LoginResponseDto(user, tokenPair));
     }
 
     [HttpPost]

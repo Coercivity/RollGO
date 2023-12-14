@@ -1,5 +1,5 @@
 using Domain.Entities;
-using UserAPI.Controllers.Dtos;
+using UserAPI.DTOs;
 
 namespace UserAPI.Services;
 

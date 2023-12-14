@@ -1,6 +1,6 @@
 using Domain.Entities;
 
-namespace UserAPI.Controllers.Dtos;
+namespace UserAPI.DTOs;
 
 [Serializable]
 public record UserDto

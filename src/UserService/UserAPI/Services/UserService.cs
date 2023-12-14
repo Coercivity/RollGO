@@ -1,7 +1,7 @@
 using AutoMapper;
 using Domain.Entities;
-using Infrastructure.Repository;
-using UserAPI.Controllers.Dtos;
+using Domain.Repositories;
+using UserAPI.DTOs;
 
 namespace UserAPI.Services;
 
@@ -10,7 +10,7 @@ public class UserService(IUserRepository userRepository, IMapper mapper) : IUser
     private readonly IUserRepository _userRepository = userRepository;
     private readonly IMapper _mapper = mapper;
 
-    public async Task<UserDto?> CheckPassword(LoginDto dto)
+    public async Task<UserDto?> CheckPassword(LoginRequestDto dto)
     {
         User? user = null;
         if (dto.Username != null) {
@@ -27,7 +27,7 @@ public class UserService(IUserRepository userRepository, IMapper mapper) : IUser
         return _mapper.Map<UserDto>(user);
     }
 
-    public async Task<UserDto> CreateUser(RegisterDto dto)
+    public async Task<UserDto> CreateUser(CreateUserRequestDto dto)
     {
         var user = await _userRepository.CreateAsync(new User(){
             Username = dto.Username,
@@ -53,7 +53,7 @@ public class UserService(IUserRepository userRepository, IMapper mapper) : IUser
         throw new NotImplementedException();
     }
 
-    public Task<bool> UserExists(RegisterDto dto)
+    public Task<bool> UserExists(CreateUserRequestDto dto)
     {
         var emailUser = _userRepository.GetByEmailAsync(dto.Email);
         var nameUser = _userRepository.GetByUsernameAsync(dto.Username);

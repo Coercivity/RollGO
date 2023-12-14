@@ -1,6 +1,6 @@
 using Domain.Entities;
 
-namespace Infrastructure.Repository;
+namespace Domain.Repositories;
 
 public interface IUserSessionRepository : IRepositoryBase<UserSession>
 {

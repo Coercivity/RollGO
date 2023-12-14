@@ -1,7 +1,7 @@
-namespace UserAPI.Controllers.Dtos;
+namespace UserAPI.DTOs;
 
 [Serializable]
-public record RegisterDto
+public record CreateUserRequestDto
 {
     public required string Username { get; set; }
 

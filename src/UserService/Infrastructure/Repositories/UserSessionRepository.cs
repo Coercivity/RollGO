@@ -1,6 +1,7 @@
 using Domain.Entities;
+using Domain.Repositories;
 
-namespace Infrastructure.Repository.Implementation;
+namespace Infrastructure.Repositories;
 
 public class UserSessionRepository : IUserSessionRepository
 {
