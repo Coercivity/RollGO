@@ -1,18 +1,15 @@
-using Infrastructure.Repository;
 using Microsoft.AspNetCore.Mvc;
-using UserAPI.Controllers.Dtos;
+using UserAPI.DTOs;
 
 namespace UserAPI.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class UserController(IUserRepository userRepository) : ControllerBase
+public class UserController : ControllerBase
 {
-    private readonly IUserRepository _userRepository = userRepository;
-
-    [HttpPut("{id}")]
-    public async Task<UserDto> UpdateUserName([FromBody] string userName, Guid id)
+    [HttpPut]
+    public async Task<UserDto> UpdateUser([FromBody] UserDto dto)
     {
-        return new UserDto(await _userRepository.UpdateUserName(id, userName));
+        throw new NotImplementedException();
     }
 }
