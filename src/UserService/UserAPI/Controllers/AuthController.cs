@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using UserAPI.DTOs;
@@ -16,8 +17,9 @@ public class AuthController(ITokenService tokenService, IUserService userService
     public async Task<ActionResult<LoginResponseDto>> Register([FromBody] CreateUserRequestDto dto)
     {
         var isUserExist = await _userService.UserExists(dto);
-        if (isUserExist) {
-            return Conflict(new {message= "User already exists"});
+        if (isUserExist)
+        {
+            return Conflict(new { message = "User already exists" });
         }
 
         var user = await _userService.CreateUser(dto);
@@ -30,7 +32,8 @@ public class AuthController(ITokenService tokenService, IUserService userService
     public async Task<ActionResult<LoginResponseDto>> Login([FromBody] LoginRequestDto dto)
     {
         var user = await _userService.CheckPassword(dto);
-        if (user == null) {
+        if (user == null)
+        {
             return Unauthorized();
         }
 
@@ -42,13 +45,13 @@ public class AuthController(ITokenService tokenService, IUserService userService
     [HttpPost]
     public async Task<ActionResult<TokenPair>> RefreshToken([FromBody] TokenPair tokenPair)
     {
-        var isValidTokenPair = await _tokenService.ValidateTokenPair(tokenPair);
-        if (!isValidTokenPair) {
+        var isValidTokenPair = await _tokenService.ValidateDeleteTokenPair(tokenPair);
+        var userId = _tokenService.GetTokenClaim(tokenPair.AccessToken, ClaimTypes.NameIdentifier);
+        var user = await _userService.GetUser(Guid.Parse(userId));
+        if (!isValidTokenPair || user == null)
+        {
             return Forbid();
         }
-        
-        var userId = _tokenService.GetUserId(tokenPair.AccessToken);
-        var user = await _userService.GetUser(userId);
 
         return Ok(await _tokenService.GetTokenPair(user));
     }
