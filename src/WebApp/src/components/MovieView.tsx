@@ -1,11 +1,12 @@
-import { Box, Card, Typography, List, Link, Skeleton, Button } from '@mui/material';
-import ImageListItem from '@mui/material/ImageListItem';
-import { LocalizationNamespace } from '../enums/LocalizationNamespace';
-import { useTranslation } from 'react-i18next';
 import { FC, useEffect, useState } from 'react';
-import { Movie } from '../models/Movie';
-import StarBorderIcon from '@mui/icons-material/StarBorder';
+import { useTranslation } from 'react-i18next';
 import ClearIcon from '@mui/icons-material/Clear';
+import StarBorderIcon from '@mui/icons-material/StarBorder';
+import { Box, Button, Card, Link, List, Skeleton, Typography } from '@mui/material';
+import ImageListItem from '@mui/material/ImageListItem';
+
+import { LocalizationNamespace } from '../enums/LocalizationNamespace';
+import { Movie } from '../models/Movie';
 
 interface MovieViewProps {
   remove: (m: Movie) => void;
@@ -87,7 +88,7 @@ const MovieView: FC<MovieViewProps> = ({ remove, number, movie }) => {
                 }}
               />
             </Typography>
-            <Button onClick={remove} color="error">
+            <Button onClick={() => remove(data)} color="error">
               <ClearIcon />
             </Button>
           </Box>

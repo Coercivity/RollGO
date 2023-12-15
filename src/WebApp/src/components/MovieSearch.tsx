@@ -1,8 +1,9 @@
 import React, { FC, useState } from 'react';
-import { styled, alpha } from '@mui/material/styles';
-import { Container, Button } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
+import { Button, Container } from '@mui/material';
 import InputBase from '@mui/material/InputBase';
+import { alpha, styled } from '@mui/material/styles';
+
 import { MovieData } from '../API/MovieData';
 import { Movie } from '../models/Movie';
 
@@ -64,8 +65,9 @@ const SearchAppBar: FC<SearchProps> = ({ movies, setMovies }) => {
       setValue('');
     }
   };
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const onKeyPress = (event: React.KeyboardEvent<HTMLDivElement>): void => {
-    console.log(event.code);
     if (event.code === 'Enter') searchFilm();
   };
 
@@ -90,7 +92,7 @@ const SearchAppBar: FC<SearchProps> = ({ movies, setMovies }) => {
         />
       </Search>
 
-      <Button onClick={onClick} onSubmit={onKeyPress}>
+      <Button onClick={onClick}>
         <SearchIconWrapper>
           <SearchIcon />
         </SearchIconWrapper>

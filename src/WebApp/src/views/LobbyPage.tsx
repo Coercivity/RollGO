@@ -4,7 +4,7 @@ import { Box, Container, Typography } from '@mui/material';
 
 import MovieList from '../components/MovieList';
 import MovieSearch from '../components/MovieSearch';
-import UsersList from '../components/UsersList';
+import UsersList from '../components/UsersList/UsersList';
 import { Movie } from '../models/Movie';
 
 type LobbyParams = {
