@@ -19,7 +19,7 @@ const MovieView: FC<MovieViewProps> = ({ remove, number, movie }) => {
 
   useEffect(() => {
     setData(movie);
-  }, []);
+  }, [movie]);
 
   const { t } = useTranslation(LocalizationNamespace.MOVIE);
   return (
