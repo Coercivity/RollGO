@@ -66,11 +66,6 @@ const SearchAppBar: FC<SearchProps> = ({ movies, setMovies }) => {
     }
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const onKeyPress = (event: React.KeyboardEvent<HTMLDivElement>): void => {
-    if (event.code === 'Enter') searchFilm();
-  };
-
   const onClick = (): void => {
     searchFilm();
   };
