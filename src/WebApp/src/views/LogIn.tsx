@@ -1,8 +1,8 @@
-import { TextField, Box, Typography, Button, Card, Link } from '@mui/material';
-import { Route } from '../enums/Route';
-
-import { LocalizationNamespace } from '../enums/LocalizationNamespace';
 import { useTranslation } from 'react-i18next';
+import { Box, Button, Card, Link, TextField, Typography } from '@mui/material';
+
+import { LocalizationNamespace } from '@enums/LocalizationNamespace';
+import { Route } from '@enums/Route';
 
 const LogIn = () => {
   const { t } = useTranslation(LocalizationNamespace.AUTH);

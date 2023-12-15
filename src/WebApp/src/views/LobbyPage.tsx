@@ -1,10 +1,11 @@
-import { Container, Typography, Box } from '@mui/material';
-import { useParams } from 'react-router-dom';
-import MovieList from '../components/MovieList';
-import { Movie } from '../models/Movie';
-import UsersList from '../components/UsersList';
 import { useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { Box, Container, Typography } from '@mui/material';
+
+import MovieList from '../components/MovieList';
 import MovieSearch from '../components/MovieSearch';
+import UsersList from '../components/UsersList';
+import { Movie } from '../models/Movie';
 
 type LobbyParams = {
   lobbyId: string;

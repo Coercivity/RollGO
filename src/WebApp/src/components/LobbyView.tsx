@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { Button, Box } from '@mui/material';
+import { Box, Button } from '@mui/material';
 
 interface LobbyViewProps {
   remove: (lobby: string) => void;
