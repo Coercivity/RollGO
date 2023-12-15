@@ -5,5 +5,4 @@
   REGISTRATION = '/registration',
   LOGIN = '/login',
   RULES = '/terms-of-use',
-  MOVIE = '/movie',
 }

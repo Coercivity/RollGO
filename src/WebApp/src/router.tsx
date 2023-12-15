@@ -8,7 +8,6 @@ import TermsOfUse from './components/TermsOfUse';
 
 import LogIn from './views/LogIn';
 import Registration from './views/Registration';
-import MoviePage from './views/MoviePage';
 
 // eslint-disable-next-line react-refresh/only-export-components
 const SuspenseWrapper = () => {
@@ -59,10 +58,6 @@ export const router = createBrowserRouter([
       {
         path: Route.RULES,
         element: <TermsOfUse />,
-      },
-      {
-        path: Route.MOVIE,
-        element: <MoviePage />,
       },
     ],
   },
