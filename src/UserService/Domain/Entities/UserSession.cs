@@ -6,9 +6,7 @@ public record UserSession : EntityBase
 
     public virtual User User { get; private set; }
 
-    public required string AccessToken { get; set; }
-
-    public required string RefreshToken { get; set; }
+    public required Guid RefreshTokenId { get; set; }
 
     public string? Platform { get; set; }
 

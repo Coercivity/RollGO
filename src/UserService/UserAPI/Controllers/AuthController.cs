@@ -42,7 +42,6 @@ public class AuthController(ITokenService tokenService, IUserService userService
         return Ok(new LoginResponseDto(user, tokenPair.AccessToken, tokenPair.RefreshToken));
     }
 
-    [Authorize]
     [HttpPost("RefreshToken")]
     public async Task<ActionResult<TokenPair>> RefreshToken([FromBody] TokenPair tokenPair)
     {
