@@ -8,7 +8,9 @@ export default defineConfig({
   plugins: [react(), viteTsconfigPaths()],
   resolve: {
     alias: [
+      { find: '@api', replacement: fileURLToPath(new URL('./src/api', import.meta.url)) },
       { find: '@enums', replacement: fileURLToPath(new URL('./src/enums', import.meta.url)) },
+      { find: '@store', replacement: fileURLToPath(new URL('./src/store', import.meta.url)) },
       {
         find: '@components',
         replacement: fileURLToPath(new URL('./src/components', import.meta.url)),
@@ -17,4 +19,13 @@ export default defineConfig({
       { find: '@views', replacement: fileURLToPath(new URL('./src/views', import.meta.url)) },
     ],
   },
+  server: {
+    proxy: {
+      '^/api/(auth|user)' : {
+        target: 'http://localhost:5282',
+        changeOrigin: true,
+        secure: false,
+      },
+    }
+  }
 });

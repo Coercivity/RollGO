@@ -4,6 +4,7 @@ import { RouterProvider } from 'react-router-dom';
 import { ThemeProvider } from '@mui/material';
 
 import './i18n/config';
+import '@api/middlewares';
 
 import { router } from './router';
 import { theme } from './theme';

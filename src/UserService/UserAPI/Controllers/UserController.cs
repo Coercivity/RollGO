@@ -1,15 +1,22 @@
 using Microsoft.AspNetCore.Mvc;
 using UserAPI.DTOs;
+using UserAPI.Services;
 
 namespace UserAPI.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class UserController : ControllerBase
+public class UserController(IUserService userService) : ControllerBase
 {
-    [HttpPut]
-    public async Task<UserDto> UpdateUser([FromBody] UserDto dto)
+    private IUserService _userService = userService;
+
+    [HttpGet("${id}")]
+    public async Task<ActionResult<UserDto>> GetUser(Guid id)
     {
-        throw new NotImplementedException();
+        var user = await _userService.GetUser(id);
+        if (user == null) {
+            return NotFound();
+        }
+        return Ok(user);
     }
 }

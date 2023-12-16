@@ -1,5 +1,8 @@
 export interface User {
-  nickname: string;
+  id: string;
+  username: string;
+  email?: string;
   isOnline: boolean;
   icon?: string;
+  isAnonymous?: boolean;
 }
