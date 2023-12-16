@@ -10,6 +10,7 @@ export default defineConfig({
     alias: [
       { find: '@api', replacement: fileURLToPath(new URL('./src/api', import.meta.url)) },
       { find: '@enums', replacement: fileURLToPath(new URL('./src/enums', import.meta.url)) },
+      { find: '@store', replacement: fileURLToPath(new URL('./src/store', import.meta.url)) },
       {
         find: '@components',
         replacement: fileURLToPath(new URL('./src/components', import.meta.url)),

@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import { Box, Button, Card, Link, TextField, Typography } from '@mui/material';
 
 import { authService } from '@api/authService';
 import { LocalizationNamespace } from '@enums/LocalizationNamespace';
 import { Route } from '@enums/Route';
+import { useAuthStore } from '@store/authStore';
+import { useUserStore } from '@store/userStore';
 
 const Registration = () => {
   const { t } = useTranslation(LocalizationNamespace.AUTH);
@@ -14,6 +17,10 @@ const Registration = () => {
   const [password, setPassword] = useState<string>('');
   const [confirmPassword, setConfirmPassword] = useState<string>();
   const [passwordError, setPasswordError] = useState(false);
+
+  const setTokenPair = useAuthStore((state) => state.setTokenPair);
+  const setUser = useUserStore((state) => state.setUser);
+  const navigate = useNavigate();
 
   const onEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (emailError && !e.target.validationMessage) {
@@ -49,7 +56,9 @@ const Registration = () => {
       username,
       password,
     });
-    console.log(data);
+    setTokenPair({ accessToken: data.accessToken, refreshToken: data.refreshToken });
+    setUser(data.user);
+    navigate(Route.ROOT);
   };
 
   const isRegisterDisabled = (): boolean => {

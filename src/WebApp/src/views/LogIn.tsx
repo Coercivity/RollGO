@@ -1,22 +1,31 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import { Box, Button, Card, Link, TextField, Typography } from '@mui/material';
 
 import { authService } from '@api/authService';
 import { LocalizationNamespace } from '@enums/LocalizationNamespace';
 import { Route } from '@enums/Route';
+import { useAuthStore } from '@store/authStore';
+import { useUserStore } from '@store/userStore';
 
 const LogIn = () => {
   const { t } = useTranslation(LocalizationNamespace.AUTH);
+  const setTokenPair = useAuthStore((state) => state.setTokenPair);
+  const setUser = useUserStore((state) => state.setUser);
+  const navigate = useNavigate();
 
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
 
-  const onLogin = () => {
-    authService.login({
+  const onLogin = async () => {
+    const data = await authService.login({
       username,
       password,
     });
+    setTokenPair({ accessToken: data.accessToken, refreshToken: data.refreshToken });
+    setUser(data.user);
+    navigate(Route.ROOT);
   };
 
   return (

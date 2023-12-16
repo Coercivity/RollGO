@@ -1,5 +1,6 @@
 export interface User {
-  nickname: string;
+  username: string;
   isOnline: boolean;
   icon?: string;
+  isAnonymous?: boolean;
 }
