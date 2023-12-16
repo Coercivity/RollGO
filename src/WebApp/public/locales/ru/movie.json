@@ -14,5 +14,9 @@
   "filmLength": "Продолжительность:",
   "director": "Режиссер:",
   "mainActors": "В главных ролях:",
-  "minute": "мин"
+  "minute": "мин",
+
+  "moviesAreNotAddedYet": " Пока не добавлено ни одного фильма!",
+
+  "room": "Комната"
 }

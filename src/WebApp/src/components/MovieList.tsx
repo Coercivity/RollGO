@@ -12,12 +12,12 @@ interface MoviesListProps {
 
 const MovieList: FC<MoviesListProps> = ({ setMovies, movies }) => {
   const remove = (m: Movie) => {
-    setMovies(movies.filter((movie: Movie) => movie.kinopoiskId === m.kinopoiskId));
+    setMovies(movies.filter((movie: Movie) => movie.kinopoiskId !== m.kinopoiskId));
   };
 
   if (!movies.length) {
     return (
-      <Box>
+      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
         <Typography
           variant="h6"
           component="div"
