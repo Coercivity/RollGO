@@ -10,8 +10,8 @@ internal class UserSessionMapping() : BaseEntityMapping<UserSession>(nameof(User
     {
         base.Configure(builder);
 
-        builder.Property(x => x.RefreshTokenId)
+        builder.Property(x => x.RefreshTokenHash)
             .IsRequired()
-            .HasColumnType("uuid");
+            .HasColumnType("varchar");
     }
 }

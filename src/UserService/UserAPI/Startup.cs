@@ -75,12 +75,11 @@ namespace UserAPI
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-
-                using (var scope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
-                {
-                    var dbContext = scope.ServiceProvider.GetRequiredService<UserDbContext>();
-                    dbContext.Database.Migrate();
-                }
+            }
+            using (var scope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            {
+                var dbContext = scope.ServiceProvider.GetRequiredService<UserDbContext>();
+                dbContext.Database.Migrate();
             }
 
             app.UseSwagger();

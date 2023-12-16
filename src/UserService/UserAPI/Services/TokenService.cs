@@ -18,18 +18,19 @@ public class TokenService(
 
     public async Task<bool> ValidateDeleteTokenPair(TokenPair tokenPair)
     {
-        if (!ValidateRefreshToken(tokenPair.RefreshToken)){
+        var userId = GetTokenClaim(tokenPair.AccessToken, ClaimTypes.NameIdentifier);
+
+        if (!ValidateRefreshToken(tokenPair.RefreshToken) || !ValidateAccessToken(tokenPair.AccessToken, userId)){
             return false;
         }
 
         Guid? idToDelete = null;
-        var refreshTokenId = Guid.Parse(GetTokenClaim(tokenPair.RefreshToken, ClaimTypes.NameIdentifier));
+        var refreshTokenId = GetTokenClaim(tokenPair.RefreshToken, ClaimTypes.NameIdentifier);
 
-        var userId = Guid.Parse(GetTokenClaim(tokenPair.AccessToken, ClaimTypes.NameIdentifier));
-        var sessions = await _userSessionRepository.GetUserSessionsByUserIdAsync(userId);
+        var sessions = await _userSessionRepository.GetUserSessionsByUserIdAsync(Guid.Parse(userId));
         foreach (var session in sessions)
         {
-            if (session.RefreshTokenId == refreshTokenId)
+            if (BCrypt.Net.BCrypt.Verify(refreshTokenId, session.RefreshTokenHash))
             {
                 idToDelete = session.Id;
             }
@@ -49,7 +50,7 @@ public class TokenService(
             new UserSession()
             {
                 UserId = user.Id,
-                RefreshTokenId = refreshTokenId
+                RefreshTokenHash = BCrypt.Net.BCrypt.HashPassword(refreshTokenId),
             }
         );
 
@@ -70,12 +71,12 @@ public class TokenService(
         return securityToken.Claims.FirstOrDefault(c => c.Type == claimName)?.Value;
     }
 
-    private (string, Guid) GenerateRefreshToken()
+    private (string, string) GenerateRefreshToken()
     {
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
         var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-        var refreshTokenId = Guid.NewGuid();
-        var refreshClaims = new[] { new Claim(ClaimTypes.NameIdentifier, refreshTokenId.ToString()), };
+        var refreshTokenId = Guid.NewGuid().ToString();
+        var refreshClaims = new[] { new Claim(ClaimTypes.NameIdentifier, refreshTokenId), };
         var refreshToken = new JwtSecurityToken(
             _config["Jwt:Issuer"],
             _config["Jwt:Issuer"],
@@ -107,5 +108,11 @@ public class TokenService(
         var tokenHandler = new JwtSecurityTokenHandler();
         var token = tokenHandler.ReadToken(tokenString);
         return token.ValidTo > DateTime.Now;
+    }
+
+    private bool ValidateAccessToken(string token, string userId)
+    {
+        var claimUserId = GetTokenClaim(token, ClaimTypes.NameIdentifier);
+        return claimUserId == userId;
     }
 }
