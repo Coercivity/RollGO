@@ -4,13 +4,13 @@ import { AppBar, Link, Toolbar, Tooltip, Typography } from '@mui/material';
 
 import { LocalizationNamespace } from '@enums/LocalizationNamespace';
 import { Route } from '@enums/Route';
+import { useUserStore } from '@store/userStore';
 
 import UserView from './UserView';
 
 const Navbar: FC = () => {
   const { t } = useTranslation(LocalizationNamespace.NAVBAR);
-  const nickname = 'Slavoyar';
-  const isOnline = true;
+  const username = useUserStore((state) => state.username);
 
   const onUserViewClick = () => {
     console.log('go to user settings');
@@ -34,7 +34,7 @@ const Navbar: FC = () => {
           </Link>
         </Typography>
         <Tooltip title={t('openProfile')}>
-          <UserView nickname={nickname} onClick={onUserViewClick} isOnline={isOnline} />
+          <UserView nickname={username} onClick={onUserViewClick} isOnline={true} />
         </Tooltip>
       </Toolbar>
     </AppBar>

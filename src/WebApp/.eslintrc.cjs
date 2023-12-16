@@ -50,7 +50,7 @@ module.exports = {
           {
             groups: [
               ["^react", "^@?\\w"],
-              ["^(@components|@enums|@models|@views|)(/.*|$)"],
+              ["^(@components|@enums|@models|@views|@api|@store)(/.*|$)"],
               ["^\\u0000"],
               ["^\\.\\.(?!/?$)", "^\\.\\./?$"],
               ["^\\./(?=.*/)(?!/?$)", "^\\.(?!/?$)", "^\\./?$"],
@@ -60,7 +60,7 @@ module.exports = {
         ],
         "import/first": "error",
         "import/newline-after-import": "error",
-        "import/no-duplicates": "error",
+        "import/no-duplicates": "off",
         'linebreak-style': ["error", "windows"],
         'prettier/prettier': [
           'error',

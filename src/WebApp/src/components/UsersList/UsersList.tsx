@@ -13,9 +13,9 @@ const UsersList = () => {
   const { t } = useTranslation(LocalizationNamespace.LOBBY);
 
   const [users, setUsers] = useState<User[]>([
-    { nickname: 'Yaroslav', isOnline: true },
-    { nickname: 'Evgeniy', isOnline: false },
-    { nickname: 'Alexander', isOnline: true },
+    { id: '1', username: 'Yaroslav', isOnline: true },
+    { id: '2', username: 'Evgeniy', isOnline: false },
+    { id: '3', username: 'Alexander', isOnline: true },
   ]);
   const [filter, setFilter] = useState('');
 
@@ -33,10 +33,10 @@ const UsersList = () => {
       </Typography>
       <UsersFilter filter={filter} setFilter={setFilter} users={users} setUsers={setUsers} />
 
-      {users.map(({ nickname, isOnline }) => (
+      {users.map(({ id, username, isOnline }) => (
         <UserView
-          key={nickname}
-          nickname={nickname}
+          key={id}
+          nickname={username}
           onClick={() => console.log('user view clicked')}
           isOnline={isOnline}
         />

@@ -22,7 +22,9 @@
     "allowSyntheticDefaultImports": true,
 
     "paths": {
+      "@api/*": ["./src/api/*"],
       "@enums/*": ["./src/enums/*"],
+      "@store/*": ["./src/store/*"],
       "@components/*": ["./src/components/*"],
       "@models/*": ["./src/models/*"],
       "@views/*": ["./src/views/*"]

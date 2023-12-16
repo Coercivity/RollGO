@@ -13,26 +13,31 @@ public class UserService(IUserRepository userRepository, IMapper mapper) : IUser
     public async Task<UserDto?> CheckPassword(LoginRequestDto dto)
     {
         User? user = null;
-        if (dto.Username != null) {
+        if (dto.Username != null)
+        {
             user = await _userRepository.GetByUsernameAsync(dto.Username);
         }
-        if (dto.Email != null) {
+        if (dto.Email != null)
+        {
             user = await _userRepository.GetByEmailAsync(dto.Email);
         }
-
-        if (user == null || user.Password != dto.Password) {
+        if (user == null)
+        {
             return null;
         }
-
-        return _mapper.Map<UserDto>(user);
+        
+        var result = BCrypt.Net.BCrypt.Verify(dto.Password, user.Password);
+        return result ? _mapper.Map<UserDto>(user) : null;
     }
 
     public async Task<UserDto> CreateUser(CreateUserRequestDto dto)
     {
-        var user = await _userRepository.CreateAsync(new User(){
+        var passwordHash = BCrypt.Net.BCrypt.HashPassword(dto.Password);
+        var user = await _userRepository.CreateAsync(new User()
+        {
             Username = dto.Username,
             Email = dto.Email,
-            Password = dto.Password,
+            Password = passwordHash,
         });
         return _mapper.Map<UserDto>(user);
     }

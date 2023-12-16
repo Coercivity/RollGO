@@ -7,5 +7,7 @@ export const defaultNS = 'common';
 i18next.use(initReactI18next).use(HttpApi).init({
   lng: 'ru', // if you're using a language detector, do not define the lng option
   debug: true,
+  ns: defaultNS,
   defaultNS,
+  fallbackLng: false,
 });
