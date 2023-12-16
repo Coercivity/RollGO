@@ -4,17 +4,17 @@ import { persist } from 'zustand/middleware';
 import { TokenPair } from '@api/authService';
 
 type AuthStoreState = TokenPair & {
-  setTokenPair: (pair: TokenPair) => void;
   isAuthorized: boolean;
+  setTokenPair: (pair: TokenPair) => void;
 };
 
 export const useAuthStore = create(
   persist<AuthStoreState>(
-    (set, get) => ({
+    (set) => ({
       accessToken: '',
       refreshToken: '',
-      setTokenPair: (pair) => set({ ...pair }),
-      isAuthorized: !!get()?.accessToken,
+      isAuthorized: false,
+      setTokenPair: (pair) => set({ ...pair, isAuthorized: pair.accessToken !== '' }),
     }),
     {
       name: 'tokens',

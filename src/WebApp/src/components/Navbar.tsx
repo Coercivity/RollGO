@@ -10,7 +10,7 @@ import UserView from './UserView';
 
 const Navbar: FC = () => {
   const { t } = useTranslation(LocalizationNamespace.NAVBAR);
-  const user = useUserStore((state) => state.user);
+  const username = useUserStore((state) => state.username);
 
   const onUserViewClick = () => {
     console.log('go to user settings');
@@ -34,7 +34,7 @@ const Navbar: FC = () => {
           </Link>
         </Typography>
         <Tooltip title={t('openProfile')}>
-          <UserView nickname={user.nickname} onClick={onUserViewClick} isOnline={user.isOnline} />
+          <UserView nickname={username} onClick={onUserViewClick} isOnline={true} />
         </Tooltip>
       </Toolbar>
     </AppBar>

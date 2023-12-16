@@ -19,7 +19,7 @@ axios.interceptors.request.use(
 
 axios.interceptors.response.use(
   (response) => {
-    return response;
+    return response.data;
   },
   async (error) => {
     if (error.response.status == 401) {
@@ -31,6 +31,8 @@ axios.interceptors.response.use(
         });
         state.setTokenPair(tokenPair);
         axios.defaults.headers.common.Authorization = 'Bearer ' + tokenPair.accessToken;
+        const response = await axios.request(error.request);
+        return response.data;
       } catch (err) {
         if (err && axios.isAxiosError(err) && err.response?.status === 403) {
           useAuthStore.getState().setTokenPair({ accessToken: '', refreshToken: '' });
