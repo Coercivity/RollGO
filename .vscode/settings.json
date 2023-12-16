@@ -7,4 +7,5 @@
     "eslint.workingDirectories": [
       "./src/WebApp"
     ],
+    "files.eol": "\r\n"
 }

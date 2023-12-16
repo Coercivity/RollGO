@@ -11,6 +11,7 @@ namespace UserAPI
 {
     public class Startup(IConfiguration configuration)
     {
+        private readonly string CorsPolicyName = "localhost";
         private IConfiguration Configuration { get; } = configuration;
 
         public void ConfigureServices(IServiceCollection services)
@@ -58,6 +59,15 @@ namespace UserAPI
                     ValidAudience = Configuration["Jwt:Issuer"]
                 };
             });
+            services.AddCors(options =>
+            {
+                options.AddPolicy(CorsPolicyName, policy =>
+                {
+                    policy.WithOrigins("http://localhost:5173")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                });
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -80,6 +90,8 @@ namespace UserAPI
             });
 
             app.UseRouting();
+
+            app.UseCors(CorsPolicyName);
 
             app.UseAuthentication();
             app.UseAuthorization();
