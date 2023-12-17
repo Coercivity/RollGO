@@ -37,16 +37,8 @@ namespace LobbyAPI.Services
             throw new Exception();
         }
 
-        public LobbyUser GetActiveMeetingByConnectionId(string connectionId)
+        public ActiveMeeting GetActiveMeetingByConnectionId(string connectionId)
         {
-            foreach (var activeMeeting in ActiveMeetings)
-            {
-                var user = activeMeeting.Users.FirstOrDefault(u => u.Connections.Any(c => c.ConnectionId == connectionId));
-                if (user != null)
-                {
-                    return user;
-                }
-            }
             throw new Exception();
         }
 
@@ -61,9 +53,10 @@ namespace LobbyAPI.Services
             var user = await _userService.GetUserById(userId);
             activeMeeting.Users.Add(new LobbyUser(user));
         }
-        public async void RemoveUserFromMeeting(LobbyUser user, string connectionId)
+        public void RemoveUserFromMeeting(LobbyUser user, string connectionId)
         {
-            activeMeeting.Users.Remove(new LobbyUser(user));
+            var meeting = GetActiveMeetingByConnectionId(connectionId);
+            meeting.Users.Remove(user);
         }
     }
 }
