@@ -4,6 +4,7 @@ using Infrastructure;
 using Infrastructure.Repository;
 using Infrastructure.Repository.Implementation;
 using Microsoft.EntityFrameworkCore;
+using LobbyAPI.Services;
 
 namespace LobbyAPI
 {
@@ -13,8 +14,11 @@ namespace LobbyAPI
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddTransient<ILobbyRepository, LobbyRepository>();
             services.AddDatabaseRepositories(Configuration.GetConnectionString("DefaultConnectionString")!);
+            services.AddTransient<MeetingService>();
+            services.AddTransient<UserService>();
+            services.AddTransient<KinopoiskDataService>();
+            services.AddSingleton<LobbyManager>();
             services.AddSignalR();
             services.AddControllers();
             services.AddSwaggerGen();

@@ -13,6 +13,7 @@ namespace Infrastructure
                 .UseNpgsql(connectionString));
 
             services.AddTransient<ILobbyRepository, LobbyRepository>();
+            services.AddTransient<IMeetingRepository, MeetingRepository>();
             return services;
         }
     }
