@@ -1,5 +1,6 @@
 ﻿using Infrastructure.Repository;
 using LobbyAPI.Hubs;
+using System.Linq;
 
 namespace LobbyAPI.Services
 {
@@ -36,6 +37,18 @@ namespace LobbyAPI.Services
             throw new Exception();
         }
 
+        public LobbyUser GetActiveMeetingByConnectionId(string connectionId)
+        {
+            foreach (var activeMeeting in ActiveMeetings)
+            {
+                var user = activeMeeting.Users.FirstOrDefault(u => u.Connections.Any(c => c.ConnectionId == connectionId));
+                if (user != null)
+                {
+                    return user;
+                }
+            }
+            throw new Exception();
+        }
 
         public void AddConnectionToActiveUser(string connectionId, LobbyUser activeUser) =>
             activeUser.AddConnection(connectionId);
@@ -47,6 +60,10 @@ namespace LobbyAPI.Services
         {
             var user = await _userService.GetUserById(userId);
             activeMeeting.Users.Add(new LobbyUser(user));
+        }
+        public async void RemoveUserFromMeeting(LobbyUser user, string connectionId)
+        {
+            activeMeeting.Users.Remove(new LobbyUser(user));
         }
     }
 }

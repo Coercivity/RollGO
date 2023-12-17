@@ -1,13 +1,12 @@
-﻿using LobbyAPI.Services;
+﻿using Domain.Entities;
+using LobbyAPI.Services;
 
 namespace LobbyAPI.Hubs
 {
-    public class LobbyManager(UserService userService, MeetingService meetingService, KinopoiskDataService kinopoiskDataClient)
+    public class LobbyManager( MeetingService meetingService, KinopoiskDataService kinopoiskDataClient)
     {
-        private readonly UserService _userService = userService;
         private readonly MeetingService _meetingService = meetingService;
         private readonly KinopoiskDataService _kinopoiskDataClient = kinopoiskDataClient;
-
 
         public async Task<HashSet<LobbyUser>?> JoinLobby(Guid lobbyId, Guid userId, string connectionId)
         {
@@ -16,20 +15,18 @@ namespace LobbyAPI.Hubs
             var activeUser = _meetingService.GetActiveUserFromMeeting(activeMeeting, userId);
             if (activeUser != null)
             {
-                _meetingService.AddConnectionToActiveUser(connectionId);
-                activeUser.AddConnection(connectionId);
+                _meetingService.AddConnectionToActiveUser(connectionId, activeUser);
                 return null;
             }
 
-            var user = await _userService.GetUserById(userId);
-            _meetingService.AddActiveUserToMeeting(user, activeMeeting);
+            await _meetingService.AddActiveUserToMeeting(userId, activeMeeting);
             
             return activeMeeting.Users;
         }
 
         public async Task DisconnectUser(string connectionId)
         {
-            var user = GetConnectedUserById(connectionId);
+            var user = _meetingService.GetActiveUserByConnectionId(connectionId);
             if (user == null || !user.Connections.Any())
             {
                 return;
@@ -37,11 +34,10 @@ namespace LobbyAPI.Hubs
 
             if (user.Connections.Count() == 1)
             {
-                //ActiveMeetings.Where(x => x.Users.Where(x => x.Connections.Any(x => x.ConnectionId.Equals(connectionId)))).Remove(user);
-                //here i need to remove user from one of active meeting 
+                _meetingService.RemoveUserFromMeeting(user, connectionId);
             }
 
-            user.RemoveConnection(connectionId);
+            _meetingService.RemoveConnectionFromActiveUser(connectionId, user);
         }
 
         public async Task JoinLobbyAnonymous(Guid lobbyId, string userName, string connectionId)
@@ -52,11 +48,13 @@ namespace LobbyAPI.Hubs
 
             if (activeUser != null)
             {
-                activeUser.AddConnection(connectionId);
+                _meetingService.AddConnectionToActiveUser(connectionId, activeUser);
                 return;
             }
 
-            ActiveUsers.Add(new LobbyUser(userId));
+            //TODO : handle anonymous user
+            var userId = Guid.NewGuid();
+            await _meetingService.AddActiveUserToMeeting(userId, activeMeeting);
         }
 
     }

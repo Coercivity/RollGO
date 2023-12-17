@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using LobbyAPI.Hubs;
 
 namespace LobbyAPI.Services
 {
