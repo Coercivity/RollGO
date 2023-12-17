@@ -4,39 +4,77 @@ using Infrastructure;
 using Infrastructure.Repository;
 using Infrastructure.Repository.Implementation;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace LobbyAPI
 {
     public class Startup(IConfiguration configuration)
     {
+        private readonly string CorsPolicyName = "localhost";
         public IConfiguration Configuration { get; } = configuration;
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddTransient<ILobbyRepository, LobbyRepository>();
             services.AddDatabaseRepositories(Configuration.GetConnectionString("DefaultConnectionString")!);
             services.AddSignalR();
             services.AddControllers();
-            services.AddSwaggerGen();
-            services.AddHealthChecks();
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).
-                AddCookie(op =>
+            services.AddSwaggerGen(s =>
+            {
+                s.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
-                    op.LoginPath = "/login";
-                    op.AccessDeniedPath = "/denied";
+                    Description = "JWT Authorization header using the Bearer scheme (Example: 'Bearer 12345abcdef')",
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Bearer"
                 });
+                s.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                          new OpenApiSecurityScheme
+                          {
+                              Reference = new OpenApiReference
+                              {
+                                  Type = ReferenceType.SecurityScheme,
+                                  Id = "Bearer"
+                              }
+                          },
+                         new string[] {}
+                    }
+                });
+            });
+            services.AddHealthChecks();
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]!)),
+                    ValidIssuer = Configuration["Jwt:Issuer"],
+                    ValidAudience = Configuration["Jwt:Issuer"]
+                };
+            });
+            services.AddCors(options =>
+            {
+                options.AddPolicy(CorsPolicyName, policy =>
+                {
+                    policy.WithOrigins("http://localhost:5173")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                });
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseHsts();
             }
 
             using (var scope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
@@ -45,8 +83,6 @@ namespace LobbyAPI
                 dbContext.Database.Migrate();
             }
 
-            app.UseHttpsRedirection();
-
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
@@ -54,7 +90,8 @@ namespace LobbyAPI
             });
 
             app.UseRouting();
-            app.UseCookiePolicy();
+
+            app.UseCors(CorsPolicyName);
 
             app.UseAuthentication();
             app.UseAuthorization();
