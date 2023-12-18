@@ -57,7 +57,7 @@ const Registration = () => {
       password,
     });
     setTokenPair({ accessToken: data.accessToken, refreshToken: data.refreshToken });
-    setUser(data.user);
+    setUser(data.user, false);
     navigate(Route.ROOT);
   };
 

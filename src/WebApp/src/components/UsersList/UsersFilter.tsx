@@ -37,7 +37,7 @@ const UsersFilter: FC<UsersFilterProps> = ({ filter, setFilter, setUsers, users 
           value={filter}
           onChange={sortUsers}
           options={[
-            { value: 'nickname', name: 'По имени' },
+            { value: 'username', name: 'По имени' },
             { value: 'isOnline', name: 'По статусу' },
           ]}
         />

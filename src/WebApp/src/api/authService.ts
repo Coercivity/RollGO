@@ -2,15 +2,11 @@ import axios from 'axios';
 
 import { Login } from '@models/Login';
 import { Register } from '@models/Register';
+import { TokenPair } from '@models/TokenPair';
 import { User } from '@models/User';
 
 interface LoginResponse {
   user: User;
-  accessToken: string;
-  refreshToken: string;
-}
-
-export interface TokenPair {
   accessToken: string;
   refreshToken: string;
 }
