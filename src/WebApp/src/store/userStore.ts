@@ -4,18 +4,18 @@ import { persist } from 'zustand/middleware';
 import { User } from '@models/User';
 
 type UserStoreState = Omit<User, 'email'> & {
-  setUser: (user: User) => void;
+  setUser: (user: User, isAnonymous: boolean) => void;
 };
 
 export const useUserStore = create(
   persist<UserStoreState>(
     (set) => ({
       isAnonymous: true,
-      username: '',
+      username: 'Anon',
       id: '',
       isOnline: true,
-      setUser: (user) => {
-        return set({ id: user.id, username: user.username, isOnline: true, isAnonymous: false });
+      setUser: (user, isAnonymous = false) => {
+        return set({ id: user.id, username: user.username, isOnline: true, isAnonymous });
       },
     }),
     {

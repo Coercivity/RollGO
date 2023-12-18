@@ -4,8 +4,9 @@ import { Button, Container } from '@mui/material';
 import InputBase from '@mui/material/InputBase';
 import { alpha, styled } from '@mui/material/styles';
 
-import { MovieData } from '../API/MovieData';
-import { Movie } from '../models/Movie';
+import { Movie } from '@models/Movie';
+
+import { MovieData } from '../mockAPI/MovieData';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
