@@ -30,7 +30,7 @@ const MovieView: FC<MovieViewProps> = ({ remove, number, movie }) => {
             p: 1,
             display: 'flex',
             justifyContent: 'space-between',
-            maxWidth: 810,
+            maxWidth: 880,
             whiteSpace: 'nowrap',
           }}
         >
