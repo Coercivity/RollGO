@@ -17,7 +17,7 @@ const MovieList: FC<MoviesListProps> = ({ setMovies, movies }) => {
 
   if (!movies.length) {
     return (
-      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+      <Box sx={{ display: 'flex', justifyContent: 'center', m: 3 }}>
         <Typography
           variant="h6"
           component="div"
@@ -30,7 +30,7 @@ const MovieList: FC<MoviesListProps> = ({ setMovies, movies }) => {
   }
 
   return (
-    <Box sx={{ m: 4 }}>
+    <Box sx={{ m: 3 }}>
       {movies.map((movie: Movie, index: number) => (
         <MovieView remove={remove} number={index + 1} movie={movie} key={movie.kinopoiskId} />
       ))}

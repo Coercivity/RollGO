@@ -66,7 +66,14 @@ const Registration = () => {
   };
 
   return (
-    <Box sx={{ display: 'flex', justifyContent: 'center', alignContent: 'center', mt: 20 }}>
+    <Box
+      sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        mt: 30,
+      }}
+    >
       <Card
         sx={{
           display: 'flex',
