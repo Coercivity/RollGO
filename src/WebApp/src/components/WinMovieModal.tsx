@@ -5,6 +5,7 @@ import { WheelData } from './SpiningWheel';
 
 const style = {
   position: 'absolute',
+  bgcolor: 'background.paper',
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
