@@ -26,7 +26,7 @@ interface WheelProps {
   movies: Movie[];
 }
 
-export interface WheelData {
+export interface IWheelData {
   option: string;
   backgroundColor: string;
 }
@@ -35,7 +35,9 @@ const SpinningWheel: FC<WheelProps> = ({ movies }) => {
   const [mustSpin, setMustSpin] = useState(false);
   const [prizeNumber, setPrizeNumber] = useState(0);
   const [spinDuration, setSpinDuration] = useState(5);
-  const [data, setData] = useState<WheelData[]>([{ option: '', backgroundColor: '#6495ed' }]);
+  const [wheelData, setWheelData] = useState<IWheelData[]>([
+    { option: '', backgroundColor: '#6495ed' },
+  ]);
   const [alignment, setAlignment] = useState('standart');
 
   const [modal, setModal] = useState(false);
@@ -54,8 +56,8 @@ const SpinningWheel: FC<WheelProps> = ({ movies }) => {
         option: movie.nameRu,
         backgroundColor: colorMap.get(movie.kinopoiskId),
       }));
-      setData(newData);
-    } else setData([{ option: '', backgroundColor: '#6495ed' }]);
+      setWheelData(newData);
+    } else setWheelData([{ option: '', backgroundColor: '#6495ed' }]);
   }, [movies]);
 
   const toggleChange = (newAlignment: string) => {
@@ -64,7 +66,7 @@ const SpinningWheel: FC<WheelProps> = ({ movies }) => {
 
   const handleSpinClick = () => {
     if (!mustSpin) {
-      const newPrizeNumber = Math.floor(Math.random() * data.length);
+      const newPrizeNumber = Math.floor(Math.random() * wheelData.length);
       setPrizeNumber(newPrizeNumber);
       setMustSpin(true);
     }
@@ -77,14 +79,14 @@ const SpinningWheel: FC<WheelProps> = ({ movies }) => {
 
   const onStopSpinning = () => {
     setMustSpin(false);
-    if (alignment === 'dropout' && data.length > 1) {
-      setData(data.filter((x) => x !== data[prizeNumber]));
-      if (data.length <= 1) setModal(true);
+    if (alignment === 'dropout' && wheelData.length > 1) {
+      setWheelData(wheelData.filter((x) => x !== wheelData[prizeNumber]));
+      if (wheelData.length <= 1) setModal(true);
     } else setModal(true);
   };
 
   const colors = () => {
-    return data.map((item) => item.backgroundColor);
+    return wheelData.map((item) => item.backgroundColor);
   };
 
   return (
@@ -117,7 +119,7 @@ const SpinningWheel: FC<WheelProps> = ({ movies }) => {
           prizeNumber={prizeNumber}
           textColors={['#ffffff']}
           backgroundColors={colors()}
-          data={data}
+          data={wheelData}
           fontSize={15}
           textDistance={55}
           outerBorderWidth={2}
@@ -129,7 +131,7 @@ const SpinningWheel: FC<WheelProps> = ({ movies }) => {
         />
       </Box>
 
-      <WinModal data={data} modal={modal} prizeNumber={prizeNumber} setModal={setModal} />
+      <WinModal wheelData={wheelData} modal={modal} prizeNumber={prizeNumber} setModal={setModal} />
     </Box>
   );
 };

@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { Box, Modal, Typography } from '@mui/material';
 
-import { WheelData } from './SpiningWheel';
+import { IWheelData } from './SpiningWheel';
 
 const style = {
   position: 'absolute',
@@ -18,12 +18,11 @@ const style = {
 interface WinModalProps {
   modal: boolean;
   setModal: (modal: boolean) => void;
-  data: WheelData[];
+  wheelData: IWheelData[];
   prizeNumber: number;
 }
 
-const WinModal: FC<WinModalProps> = ({ modal, setModal, data, prizeNumber }) => {
-  console.log(data.map((item) => item.option));
+const WinModal: FC<WinModalProps> = ({ modal, setModal, wheelData, prizeNumber }) => {
   return (
     <Modal
       open={modal}
@@ -37,7 +36,7 @@ const WinModal: FC<WinModalProps> = ({ modal, setModal, data, prizeNumber }) => 
         </Typography>
 
         <Typography id="modal-modal-title" variant="h5" component="h2">
-          {data[prizeNumber]?.option}!
+          {wheelData[prizeNumber]?.option}!
         </Typography>
       </Box>
     </Modal>
