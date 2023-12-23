@@ -2,6 +2,7 @@ using AutoMapper;
 using Domain.Entities;
 using Domain.Repositories;
 using UserAPI.DTOs;
+using UserAPI.Exceptions;
 
 namespace UserAPI.Services;
 
@@ -10,7 +11,7 @@ public class UserService(IUserRepository userRepository, IMapper mapper) : IUser
     private readonly IUserRepository _userRepository = userRepository;
     private readonly IMapper _mapper = mapper;
 
-    public async Task<UserDto?> CheckPassword(LoginRequestDto dto)
+    public async Task<UserDto> CheckPassword(LoginRequestDto dto)
     {
         User? user = null;
         if (dto.Username != null)
@@ -23,15 +24,24 @@ public class UserService(IUserRepository userRepository, IMapper mapper) : IUser
         }
         if (user == null)
         {
-            return null;
+            throw new UserNotFoundException(ErrorCode.WrongUsernameOrPassword);
         }
-        
+
         var result = BCrypt.Net.BCrypt.Verify(dto.Password, user.Password);
-        return result ? _mapper.Map<UserDto>(user) : null;
+        if (!result)
+        {
+            throw new UserNotFoundException(ErrorCode.WrongUsernameOrPassword);
+        }
+        return _mapper.Map<UserDto>(user);
     }
 
     public async Task<UserDto> CreateUser(CreateUserRequestDto dto)
     {
+        var userExistError = await UserExists(dto);
+        if (userExistError != null)
+        {
+            throw new UserConflictException(userExistError);
+        }
         var passwordHash = BCrypt.Net.BCrypt.HashPassword(dto.Password);
         var user = await _userRepository.CreateAsync(new User()
         {
@@ -58,12 +68,20 @@ public class UserService(IUserRepository userRepository, IMapper mapper) : IUser
         throw new NotImplementedException();
     }
 
-    public Task<bool> UserExists(CreateUserRequestDto dto)
+    private Task<Error> UserExists(CreateUserRequestDto dto)
     {
         var emailUser = _userRepository.GetByEmailAsync(dto.Email);
         var nameUser = _userRepository.GetByUsernameAsync(dto.Username);
         Task.WaitAll([emailUser, nameUser]);
 
-        return Task.FromResult(emailUser.Result != null || nameUser.Result != null);
+        if (emailUser.Result != null)
+        {
+            return Task.FromResult(ErrorCode.EmailExists);
+        }
+        if (nameUser != null)
+        {
+            return Task.FromResult(ErrorCode.UsernameExists);
+        }
+        return null!;
     }
 }

@@ -16,12 +16,6 @@ public class AuthController(ITokenService tokenService, IUserService userService
     [HttpPost("Register")]
     public async Task<ActionResult<LoginResponseDto>> Register([FromBody] CreateUserRequestDto dto)
     {
-        var isUserExist = await _userService.UserExists(dto);
-        if (isUserExist)
-        {
-            return Conflict(new { message = "User already exists" });
-        }
-
         var user = await _userService.CreateUser(dto);
         var tokenPair = await _tokenService.GetTokenPair(user);
 
@@ -32,11 +26,6 @@ public class AuthController(ITokenService tokenService, IUserService userService
     public async Task<ActionResult<LoginResponseDto>> Login([FromBody] LoginRequestDto dto)
     {
         var user = await _userService.CheckPassword(dto);
-        if (user == null)
-        {
-            return Unauthorized();
-        }
-
         var tokenPair = await _tokenService.GetTokenPair(user);
 
         return Ok(new LoginResponseDto(user, tokenPair.AccessToken, tokenPair.RefreshToken));

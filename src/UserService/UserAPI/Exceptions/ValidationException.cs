@@ -1,3 +1,4 @@
 namespace UserAPI.Exceptions;
 
-public class ValidationException(string message, ErrorCode code) : CustomException(message, code) { }
+public class ValidationException(Error error) : CustomException(error)
+{ }
