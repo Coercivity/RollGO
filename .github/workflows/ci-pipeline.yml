@@ -57,9 +57,9 @@ jobs:
       - name: Build lobby
         run: cd ./src/LobbyService && dotnet build
       - name: Install NUnit.ConsoleRunner
-        run: nuget install NUnit.ConsoleRunner -Version 3.13.0 -DirectDownload -OutputDirectory .
+        run: nuget install NUnit.ConsoleRunner -Version 3.16.3 -DirectDownload -OutputDirectory .
       - name: Run UnitTests
-        run: ./NUnit.ConsoleRunner.3.13.0/tools/nunit3-console.exe  ./src/LobbyService/Tests/bin/Debug/net8.0/Tests.dll
+        run: ./NUnit.ConsoleRunner.3.16.3/tools/nunit3-console.exe  ./src/LobbyService/Tests/bin/Debug/net8.0/Tests.dll
 
   user:
     if: needs.changes.outputs.user == 'true'
