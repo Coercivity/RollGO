@@ -31,7 +31,6 @@ const LobbyPage = () => {
   const [isWheelVisible, setIsWheelVisible] = useState(false);
   const { t } = useTranslation(LocalizationNamespace.MOVIE);
 
-
   const [openModal, setOpenModal] = useState(false);
   const [isAnonymous, setUser] = useUserStore((state) => [state.isAnonymous, state.setUser]);
 
@@ -96,7 +95,6 @@ const LobbyPage = () => {
         </Box>
       </Box>
       <LobbyNicknameModal open={openModal} setOpen={setOpenModal} />
-
     </Container>
   );
 };

@@ -1,5 +1,4 @@
 import { FC } from 'react';
-
 import { useTranslation } from 'react-i18next';
 import { Box, Modal, Typography } from '@mui/material';
 
@@ -28,7 +27,6 @@ interface WinModalProps {
 }
 
 const WinModal: FC<WinModalProps> = ({ modal, setModal, wheelData, prizeNumber }) => {
-
   const username = useUserStore((state) => state.username);
   const { t } = useTranslation(LocalizationNamespace.WHEEL);
 
