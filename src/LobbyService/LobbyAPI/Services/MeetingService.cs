@@ -1,15 +1,33 @@
 ﻿using Infrastructure.Repository;
 using LobbyAPI.Hubs;
+using Microsoft.Extensions.Caching.Distributed;
+using Newtonsoft.Json;
 using System.Linq;
 
 namespace LobbyAPI.Services
 {
-    public class MeetingService(IMeetingRepository meetingRepository, UserService userService)
+    public class MeetingService(IMeetingRepository meetingRepository, UserService userService, IDistributedCache cache)
     {
         private readonly IMeetingRepository _meetingRepository = meetingRepository;
         private readonly UserService _userService = userService;
+        private readonly IDistributedCache _cache = cache;
 
-        public HashSet<ActiveMeeting> ActiveMeetings { get; } = [];
+
+        public HashSet<ActiveMeeting> ActiveMeetings
+        {
+            get
+            {
+                var cachedMeetings = _cache.GetString("ActiveMeetings");
+                return cachedMeetings != null
+                    ? JsonConvert.DeserializeObject<HashSet<ActiveMeeting>>(cachedMeetings)
+                    : [];
+            }
+            set
+            {
+                var serializedMeetings = JsonConvert.SerializeObject(value);
+                _cache.SetString("ActiveMeetings", serializedMeetings);
+            }
+        }
 
         public ActiveMeeting GetActiveMeetingByLobbyId(Guid lobbyId) =>
             ActiveMeetings.FirstOrDefault(x => x.Meeting.Lobby.Id.Equals(lobbyId) && x.Meeting.IsActive == true)

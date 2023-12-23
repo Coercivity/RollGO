@@ -24,7 +24,15 @@ namespace LobbyAPI
             services.AddTransient<UserService>();
             services.AddTransient<KinopoiskDataService>();
             services.AddSingleton<LobbyManager>();
-            services.AddSignalR();
+
+
+            services.AddStackExchangeRedisCache(options =>
+            {
+                options.Configuration = Configuration.GetConnectionString("RedisConnectionString");
+                options.InstanceName = "RedisInstance";
+            });
+            services.AddSignalR().AddStackExchangeRedis(Configuration.GetConnectionString("RedisConnectionString")!); ;
+
             services.AddControllers();
             services.AddSwaggerGen(s =>
             {
@@ -47,7 +55,7 @@ namespace LobbyAPI
                                   Id = "Bearer"
                               }
                           },
-                         new string[] {}
+                         Array.Empty<string>()
                     }
                 });
             });
