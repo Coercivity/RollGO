@@ -5,6 +5,7 @@ import { Box, TextField, ToggleButton, ToggleButtonGroup } from '@mui/material';
 
 import WinModal from '@components/WinMovieModal';
 import { LocalizationNamespace } from '@enums/LocalizationNamespace';
+
 import { Movie } from '@models/Movie';
 
 const colorMap = new Map();
@@ -103,6 +104,7 @@ const SpinningWheel: FC<WheelProps> = ({ movies }) => {
           onChange={(_, value) => toggleChange(value)}
           aria-label="Platform"
         >
+
           <ToggleButton value="standart">{t('regular')}</ToggleButton>
           <ToggleButton value="dropout">{t('elimination')}</ToggleButton>
         </ToggleButtonGroup>
