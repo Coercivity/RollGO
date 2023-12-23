@@ -1,5 +1,9 @@
 import { FC } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Box, Modal, Typography } from '@mui/material';
+
+import { LocalizationNamespace } from '@enums/LocalizationNamespace';
+import { useUserStore } from '@store/userStore';
 
 import { IWheelData } from './SpiningWheel';
 
@@ -23,6 +27,8 @@ interface WinModalProps {
 }
 
 const WinModal: FC<WinModalProps> = ({ modal, setModal, wheelData, prizeNumber }) => {
+  const username = useUserStore((state) => state.username);
+  const { t } = useTranslation(LocalizationNamespace.WHEEL);
   return (
     <Modal
       open={modal}
@@ -31,10 +37,11 @@ const WinModal: FC<WinModalProps> = ({ modal, setModal, wheelData, prizeNumber }
       aria-describedby="modal-modal-description"
     >
       <Box sx={style}>
-        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-          Сегодня все смотрят
+        <Typography id="modal-modal-description" sx={{ mt: 2, mb: 2 }}>
+          {username} {t('won')}
         </Typography>
 
+        <Typography id="modal-modal-description">{t('todayWeWatchWatch')}</Typography>
         <Typography id="modal-modal-title" variant="h5" component="h2">
           {wheelData[prizeNumber]?.option}!
         </Typography>

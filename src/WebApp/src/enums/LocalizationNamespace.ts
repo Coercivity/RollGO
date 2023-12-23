@@ -4,4 +4,5 @@ export enum LocalizationNamespace {
   AUTH = 'auth',
   MOVIE = 'movie',
   LOBBY = 'lobby',
+  WHEEL = 'wheel',
 }
