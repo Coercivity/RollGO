@@ -3,5 +3,9 @@
   "sort": "Сортировать",
   "byName": "По имени",
   "byStatus": "По статусу",
-  "playersInTheLobby": "Игроков в лобби"
+  "playersInTheLobby": "Игроков в лобби",
+  "apply": "Применить",
+  "nameChangerTitle": "Имя пользователя",
+  "nameChangerText": "Данное имя будет отображаться только в этом лобби",
+  "userNameInput": "Введите имя"
 }

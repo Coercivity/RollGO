@@ -1,8 +1,10 @@
 import React, { FC, useEffect, useState } from 'react';
 import { Wheel } from 'react-custom-roulette';
+import { useTranslation } from 'react-i18next';
 import { Box, TextField, ToggleButton, ToggleButtonGroup } from '@mui/material';
 
 import WinModal from '@components/WinMovieModal';
+import { LocalizationNamespace } from '@enums/LocalizationNamespace';
 import { Movie } from '@models/Movie';
 
 const colorMap = new Map();
@@ -39,6 +41,8 @@ const SpinningWheel: FC<WheelProps> = ({ movies }) => {
     { option: '', backgroundColor: '#6495ed' },
   ]);
   const [alignment, setAlignment] = useState('standart');
+
+  const { t } = useTranslation(LocalizationNamespace.WHEEL);
 
   const [modal, setModal] = useState(false);
 
@@ -99,8 +103,8 @@ const SpinningWheel: FC<WheelProps> = ({ movies }) => {
           onChange={(_, value) => toggleChange(value)}
           aria-label="Platform"
         >
-          <ToggleButton value="standart">Обычный</ToggleButton>
-          <ToggleButton value="dropout">На выбывание</ToggleButton>
+          <ToggleButton value="standart">{t('regular')}</ToggleButton>
+          <ToggleButton value="dropout">{t('elimination')}</ToggleButton>
         </ToggleButtonGroup>
         <Box>
           <TextField
