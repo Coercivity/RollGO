@@ -71,7 +71,7 @@ namespace UserAPI
             });
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger logger)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -96,7 +96,7 @@ namespace UserAPI
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseMiddleware<LoggerMiddleware>(logger);
+            app.UseMiddleware<LoggerMiddleware>();
             app.UseMiddleware<ExceptionMiddleware>();
 
             app.UseEndpoints(endpoints =>

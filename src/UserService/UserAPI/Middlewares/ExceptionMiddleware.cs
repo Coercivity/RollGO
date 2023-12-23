@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using UserAPI.Exceptions;
 
 namespace UserAPI.Middlewares;
@@ -16,23 +17,18 @@ public class ExceptionMiddleware(RequestDelegate next)
         {
             context.Response.StatusCode = 404;
             context.Response.ContentType = "application/json";
-            await context.Response.WriteAsJsonAsync(ex.Code);
+            await context.Response.WriteAsJsonAsync(ex.Error);
         }
         catch (UserConflictException ex)
         {
             context.Response.StatusCode = 409;
             context.Response.ContentType = "application/json";
-            await context.Response.WriteAsJsonAsync(ex.Code);
-        }
-        catch (ValidationException ex)
-        {
-            context.Response.StatusCode = 403;
-            context.Response.ContentType = "application/json";
-            await context.Response.WriteAsJsonAsync(ex.Code);
+            await context.Response.WriteAsJsonAsync(ex.Error);
         }
         catch (Exception)
         {
             context.Response.StatusCode = 500;
+            context.Response.ContentType = "plain/text";
             await context.Response.WriteAsync("An unexpected error occurred.");
         }
     }

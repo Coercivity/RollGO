@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using AutoMapper;
 using Domain.Entities;
 using Domain.Repositories;
@@ -37,10 +38,15 @@ public class UserService(IUserRepository userRepository, IMapper mapper) : IUser
 
     public async Task<UserDto> CreateUser(CreateUserRequestDto dto)
     {
-        var userExistError = await UserExists(dto);
-        if (userExistError != null)
+        var usernameExists = await UsernameExists(dto.Username);
+        if (usernameExists)
         {
-            throw new UserConflictException(userExistError);
+            throw new UserConflictException(ErrorCode.UsernameExists);
+        }
+        var emailExists = await EmailExists(dto.Email);
+        if (emailExists)
+        {
+            throw new UserConflictException(ErrorCode.EmailExists);
         }
         var passwordHash = BCrypt.Net.BCrypt.HashPassword(dto.Password);
         var user = await _userRepository.CreateAsync(new User()
@@ -68,20 +74,15 @@ public class UserService(IUserRepository userRepository, IMapper mapper) : IUser
         throw new NotImplementedException();
     }
 
-    private Task<Error> UserExists(CreateUserRequestDto dto)
+    private async Task<bool> EmailExists(string email)
     {
-        var emailUser = _userRepository.GetByEmailAsync(dto.Email);
-        var nameUser = _userRepository.GetByUsernameAsync(dto.Username);
-        Task.WaitAll([emailUser, nameUser]);
+        var user = await _userRepository.GetByEmailAsync(email);
+        return user != null;
+    }
 
-        if (emailUser.Result != null)
-        {
-            return Task.FromResult(ErrorCode.EmailExists);
-        }
-        if (nameUser != null)
-        {
-            return Task.FromResult(ErrorCode.UsernameExists);
-        }
-        return null!;
+    private async Task<bool> UsernameExists(string username)
+    {
+        var user = await _userRepository.GetByUsernameAsync(username);
+        return user != null;
     }
 }
