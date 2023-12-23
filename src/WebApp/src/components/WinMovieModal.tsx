@@ -39,10 +39,10 @@ const WinModal: FC<WinModalProps> = ({ modal, setModal, wheelData, prizeNumber }
     >
       <Box sx={style}>
         <Typography id="modal-modal-description" sx={{ mt: 2, mb: 2 }}>
-          {username} {t('won')}
+          {t('won', { username })}
         </Typography>
 
-        <Typography id="modal-modal-description">{t('todayWeWatchWatch')}</Typography>
+        <Typography id="modal-modal-description">{t('todayWeWatch')}</Typography>
 
         <Typography id="modal-modal-title" variant="h5" component="h2">
           {wheelData[prizeNumber]?.option}!

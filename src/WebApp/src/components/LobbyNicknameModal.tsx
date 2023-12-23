@@ -28,10 +28,6 @@ const LobbyNicknameModal: FC<LobbyNicknameModalProps> = ({ setOpen, open }) => {
     setUser({ id: name, username: name, isOnline: true }, true);
   };
 
-  const isButtonDisabled = (): boolean => {
-    return !name;
-  };
-
   return (
     <Dialog open={open} keepMounted fullWidth={true}>
       <DialogTitle sx={{ mt: 2 }}>{t('nameChangerTitle')}</DialogTitle>
@@ -49,12 +45,7 @@ const LobbyNicknameModal: FC<LobbyNicknameModalProps> = ({ setOpen, open }) => {
       </DialogContent>
 
       <DialogActions>
-        <Button
-          sx={{ mr: 2, mb: 2 }}
-          variant="outlined"
-          disabled={isButtonDisabled()}
-          onClick={onCreate}
-        >
+        <Button sx={{ mr: 2, mb: 2 }} variant="outlined" disabled={!name} onClick={onCreate}>
           {t('apply')}
         </Button>
       </DialogActions>

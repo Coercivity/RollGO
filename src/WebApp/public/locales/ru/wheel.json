@@ -2,6 +2,6 @@
   "regular": "Обычный",
   "elimination": "На выбывание",
   "registration": "Регистрация",
-  "todayWeWatchWatch": " Сегодня все смотрят",
-  "won": "победил!"
+  "todayWeWatch": " Сегодня все смотрят",
+  "won": "{{username}} победил!"
 }
