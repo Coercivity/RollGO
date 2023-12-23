@@ -1,4 +1,3 @@
-using System.ComponentModel.DataAnnotations;
 using AutoMapper;
 using Domain.Entities;
 using Domain.Repositories;
@@ -58,20 +57,21 @@ public class UserService(IUserRepository userRepository, IMapper mapper) : IUser
         return _mapper.Map<UserDto>(user);
     }
 
-    public Task<Guid> DeleteUser(Guid id)
+    public async Task<Guid> DeleteUser(Guid id)
     {
-        throw new NotImplementedException();
+        return await _userRepository.DeleteAsync(id) ?? throw new UserNotFoundException(ErrorCode.UserNotFound);
     }
 
     public async Task<UserDto> GetUser(Guid id)
     {
-        var user = await _userRepository.GetByIdAsync(id);
+        var user = await _userRepository.GetByIdAsync(id) ?? throw new UserNotFoundException(ErrorCode.UserNotFound);
         return _mapper.Map<UserDto>(user);
     }
 
-    public Task<UserDto> UpdateUser(UserDto dto)
+    public async Task<UserDto> UpdateUser(UserDto dto)
     {
-        throw new NotImplementedException();
+        var user = await _userRepository.UpdateAsync(_mapper.Map<User>(dto)) ?? throw new UserNotFoundException(ErrorCode.UserNotFound);
+        return _mapper.Map<UserDto>(user);
     }
 
     private async Task<bool> EmailExists(string email)

@@ -4,7 +4,7 @@ namespace UserAPI.Services;
 
 public interface ITokenService
 {
-    public Task<bool> ValidateDeleteTokenPair(TokenPair tokenPair);
+    public Task<bool> ValidateAndDeleteTokenPair(TokenPair tokenPair);
 
     public Task<TokenPair> GetTokenPair(UserDto user);
 

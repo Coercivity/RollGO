@@ -34,9 +34,9 @@ public class AuthController(ITokenService tokenService, IUserService userService
     [HttpPost("RefreshToken")]
     public async Task<ActionResult<TokenPair>> RefreshToken([FromBody] TokenPair tokenPair)
     {
-        var isValidTokenPair = await _tokenService.ValidateDeleteTokenPair(tokenPair);
+        var isValidTokenPair = await _tokenService.ValidateAndDeleteTokenPair(tokenPair);
         var userId = _tokenService.GetTokenClaim(tokenPair.AccessToken, ClaimTypes.NameIdentifier);
-        var user = await _userService.GetUser(Guid.Parse(userId));
+        var user = await _userService.GetUser(Guid.Parse(userId!));
         if (!isValidTokenPair || user == null)
         {
             return Forbid();
