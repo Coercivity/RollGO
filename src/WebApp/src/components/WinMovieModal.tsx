@@ -1,4 +1,5 @@
 import { FC } from 'react';
+
 import { useTranslation } from 'react-i18next';
 import { Box, Modal, Typography } from '@mui/material';
 
@@ -27,8 +28,10 @@ interface WinModalProps {
 }
 
 const WinModal: FC<WinModalProps> = ({ modal, setModal, wheelData, prizeNumber }) => {
+
   const username = useUserStore((state) => state.username);
   const { t } = useTranslation(LocalizationNamespace.WHEEL);
+
   return (
     <Modal
       open={modal}
@@ -42,6 +45,7 @@ const WinModal: FC<WinModalProps> = ({ modal, setModal, wheelData, prizeNumber }
         </Typography>
 
         <Typography id="modal-modal-description">{t('todayWeWatchWatch')}</Typography>
+
         <Typography id="modal-modal-title" variant="h5" component="h2">
           {wheelData[prizeNumber]?.option}!
         </Typography>
