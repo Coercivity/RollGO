@@ -50,7 +50,7 @@ public class UserRepository(UserDbContext context) : IUserRepository
             return null;
         }
         user.Icon = entity.Icon;
-        userSet.Update(entity);
+        userSet.Update(user);
         await context.SaveChangesAsync();
         return user;
     }
