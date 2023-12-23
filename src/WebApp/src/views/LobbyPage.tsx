@@ -36,7 +36,7 @@ const LobbyPage = () => {
 
   useEffect(() => {
     if (isAnonymous) setOpenModal(true);
-  }, []);
+  }, [isAnonymous]);
 
   const { lobbyId } = useParams<LobbyParams>();
 
