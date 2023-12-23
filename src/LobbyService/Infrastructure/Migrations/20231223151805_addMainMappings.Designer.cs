@@ -3,6 +3,7 @@ using System;
 using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(LobbyDbContext))]
-    partial class LobbyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231223151805_addMainMappings")]
+    partial class addMainMappings
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -45,6 +48,9 @@ namespace Infrastructure.Migrations
 
                     b.Property<string[]>("Genres")
                         .HasColumnType("text[]");
+
+                    b.Property<bool>("IS_SERIES")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("ImdbId")
                         .IsRequired()
@@ -96,7 +102,7 @@ namespace Infrastructure.Migrations
 
                     b.ToTable("EntertainmentEntity");
 
-                    b.HasDiscriminator<bool>("IsSeries");
+                    b.HasDiscriminator<bool>("IS_SERIES");
 
                     b.UseTphMappingStrategy();
                 });
@@ -128,73 +134,73 @@ namespace Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("43af2362-7855-4ae9-bba1-e6394e01a469"),
-                            AdminId = new Guid("79d52242-5076-45e3-aa17-79ff41281ec7"),
-                            CreatedDateTime = new DateTime(2023, 12, 23, 15, 20, 10, 12, DateTimeKind.Utc).AddTicks(6339),
-                            Name = "Barbara Nelson"
+                            Id = new Guid("9ea5051e-1e71-4e24-8f57-c985a57a6ac2"),
+                            AdminId = new Guid("0b926e47-5292-48cd-bb12-4b0fa8beb65c"),
+                            CreatedDateTime = new DateTime(2023, 12, 23, 15, 18, 5, 163, DateTimeKind.Utc).AddTicks(3164),
+                            Name = "Elijah Rivera"
                         },
                         new
                         {
-                            Id = new Guid("34e65be4-1a44-4d50-9803-f364d2cc9ac1"),
-                            AdminId = new Guid("d2620132-a31f-4b35-b5c3-2fc4ce59493c"),
-                            CreatedDateTime = new DateTime(2023, 12, 23, 15, 20, 10, 12, DateTimeKind.Utc).AddTicks(6351),
-                            Name = "Elizabeth Robinson"
+                            Id = new Guid("36ce8946-ba8b-4ad1-b161-207415a1fb3d"),
+                            AdminId = new Guid("80251c73-b7ba-47b8-8117-ef8c003c76b8"),
+                            CreatedDateTime = new DateTime(2023, 12, 23, 15, 18, 5, 163, DateTimeKind.Utc).AddTicks(3169),
+                            Name = "Michelle Wright"
                         },
                         new
                         {
-                            Id = new Guid("716c383b-7373-405a-9744-ed933799f862"),
-                            AdminId = new Guid("160eed34-7233-402b-a961-f8579e99d2b2"),
-                            CreatedDateTime = new DateTime(2023, 12, 23, 15, 20, 10, 12, DateTimeKind.Utc).AddTicks(6354),
-                            Name = "David Hernandez"
+                            Id = new Guid("761b5cb6-ec36-4058-a992-68467b2ae179"),
+                            AdminId = new Guid("bb57cca0-25e9-4eab-a068-8362ec243fe4"),
+                            CreatedDateTime = new DateTime(2023, 12, 23, 15, 18, 5, 163, DateTimeKind.Utc).AddTicks(3178),
+                            Name = "Mateo Flores"
                         },
                         new
                         {
-                            Id = new Guid("3df7a4b9-cfe9-418a-9a08-4c5503533f91"),
-                            AdminId = new Guid("b4a3fe96-a4c2-4629-a59e-c5dd2664186d"),
-                            CreatedDateTime = new DateTime(2023, 12, 23, 15, 20, 10, 12, DateTimeKind.Utc).AddTicks(6357),
-                            Name = "Andre Hill"
+                            Id = new Guid("4200daf6-8a52-4f6b-ba84-2cd0ad9590c8"),
+                            AdminId = new Guid("643f20f5-fef7-4bea-8f82-893598a83bd7"),
+                            CreatedDateTime = new DateTime(2023, 12, 23, 15, 18, 5, 163, DateTimeKind.Utc).AddTicks(3180),
+                            Name = "Michelle Torres"
                         },
                         new
                         {
-                            Id = new Guid("c794ad7a-a5d6-4f81-9d66-2bd399a3d720"),
-                            AdminId = new Guid("fd096a11-cbdc-4807-a07a-285f905f4572"),
-                            CreatedDateTime = new DateTime(2023, 12, 23, 15, 20, 10, 12, DateTimeKind.Utc).AddTicks(6361),
-                            Name = "Matthew Hall"
+                            Id = new Guid("38b63150-e04b-4c02-95f8-169e70d03122"),
+                            AdminId = new Guid("ec9052c5-fd2a-49f1-beef-a9e6f18a24af"),
+                            CreatedDateTime = new DateTime(2023, 12, 23, 15, 18, 5, 163, DateTimeKind.Utc).AddTicks(3185),
+                            Name = "Lisa Torres"
                         },
                         new
                         {
-                            Id = new Guid("8467ff00-38dd-4515-b0bf-0d288fc0ca75"),
-                            AdminId = new Guid("34ed9b8f-4cef-41d5-8ea2-d9e5ff3617f2"),
-                            CreatedDateTime = new DateTime(2023, 12, 23, 15, 20, 10, 12, DateTimeKind.Utc).AddTicks(6365),
-                            Name = "Betty Jackson"
+                            Id = new Guid("e937a4a0-9657-4a1e-9f75-71383f3a46f3"),
+                            AdminId = new Guid("d6a4af77-d8e0-4e2e-a2ce-aac253fba96d"),
+                            CreatedDateTime = new DateTime(2023, 12, 23, 15, 18, 5, 163, DateTimeKind.Utc).AddTicks(3188),
+                            Name = "Jessica Carter"
                         },
                         new
                         {
-                            Id = new Guid("0b350621-1846-41e8-a754-eca73f225be0"),
-                            AdminId = new Guid("f19d255c-8a7d-4081-b2a0-f489ac6266dc"),
-                            CreatedDateTime = new DateTime(2023, 12, 23, 15, 20, 10, 12, DateTimeKind.Utc).AddTicks(6368),
-                            Name = "Shirley Green"
+                            Id = new Guid("8370c42c-6f34-485b-a717-6f830a85d080"),
+                            AdminId = new Guid("5f368436-78d6-46df-9046-b68d00b4db0e"),
+                            CreatedDateTime = new DateTime(2023, 12, 23, 15, 18, 5, 163, DateTimeKind.Utc).AddTicks(3190),
+                            Name = "Sharon Jones"
                         },
                         new
                         {
-                            Id = new Guid("1391e6e5-0408-4e9b-896a-7f46b8846067"),
-                            AdminId = new Guid("07d2313a-0b27-412c-852b-ceb894bd7c1e"),
-                            CreatedDateTime = new DateTime(2023, 12, 23, 15, 20, 10, 12, DateTimeKind.Utc).AddTicks(6372),
-                            Name = "Samuel Gonzalez"
+                            Id = new Guid("47987ac3-3e18-400a-9ee4-78f8e07b589f"),
+                            AdminId = new Guid("cf981b3c-3ae4-48a1-8a8c-addc0d4ff0b9"),
+                            CreatedDateTime = new DateTime(2023, 12, 23, 15, 18, 5, 163, DateTimeKind.Utc).AddTicks(3194),
+                            Name = "Mateo Lewis"
                         },
                         new
                         {
-                            Id = new Guid("82231ec2-b463-4783-8027-2ea6c2c971de"),
-                            AdminId = new Guid("fbfe2cbd-e18c-4af3-b5bc-9b18db6b1616"),
-                            CreatedDateTime = new DateTime(2023, 12, 23, 15, 20, 10, 12, DateTimeKind.Utc).AddTicks(6374),
-                            Name = "Liam Flores"
+                            Id = new Guid("bbbcc325-1c9e-419c-975f-c3aaefdf09e9"),
+                            AdminId = new Guid("0e014cd9-5b39-4996-ab2d-fdb9abb2c7c2"),
+                            CreatedDateTime = new DateTime(2023, 12, 23, 15, 18, 5, 163, DateTimeKind.Utc).AddTicks(3196),
+                            Name = "Susan Lewis"
                         },
                         new
                         {
-                            Id = new Guid("a17df574-89f7-4f8c-99b8-c72586de30ec"),
-                            AdminId = new Guid("be459c5c-0c38-4adc-be85-12c3d0c607d4"),
-                            CreatedDateTime = new DateTime(2023, 12, 23, 15, 20, 10, 12, DateTimeKind.Utc).AddTicks(6379),
-                            Name = "Julian Rodriguez"
+                            Id = new Guid("93662aea-f22d-487c-94fc-db55c37e9415"),
+                            AdminId = new Guid("bfbdee55-53d1-493c-8af3-335dfb1cb5a9"),
+                            CreatedDateTime = new DateTime(2023, 12, 23, 15, 18, 5, 163, DateTimeKind.Utc).AddTicks(3199),
+                            Name = "Jayden Baker"
                         });
                 });
 

@@ -29,7 +29,7 @@ namespace LobbyAPI.Controllers
         [HttpPost]
         public async Task<LobbyDto> Create([FromBody] SaveLobbyDto saveLobbyDto)
         {
-            var lobby = await _lobbyRepository.CreateAsync(new Lobby() { Name = saveLobbyDto.Name });
+            var lobby = await _lobbyRepository.CreateAsync(new Lobby() { Name = saveLobbyDto.Name, AdminId = saveLobbyDto.AdminId });
             LobbyDto lobbyDto = new(lobby);
             return lobbyDto;
         }

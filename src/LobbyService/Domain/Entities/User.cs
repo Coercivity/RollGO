@@ -2,5 +2,6 @@
 {
     public record User : EntityBase
     {
+
     }
 }

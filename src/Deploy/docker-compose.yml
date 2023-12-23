@@ -59,6 +59,8 @@ services:
       - redis:/var/lib/redis
       - redis-config:/usr/local/etc/redis/redis.conf
     container_name: redis-backplane
+    environment:
+      REDIS_CONNECTION_STRING: "${REDIS_HOST}:6379,password=${REDIS_PASSWORD}"
     hostname: redis
     ports:
       - "6379:6379"

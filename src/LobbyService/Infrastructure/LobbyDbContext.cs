@@ -12,7 +12,9 @@ namespace Infrastructure
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasPostgresExtension("uuid-ossp");
-            //modelBuilder.ApplyConfiguration(new EntertainmentEntityMapping());
+            modelBuilder.ApplyConfiguration(new EntertainmentEntityMapping());
+            modelBuilder.ApplyConfiguration(new MeetingMapping());
+            modelBuilder.ApplyConfiguration(new UserWeightMapping());
             modelBuilder.ApplyConfiguration(new LobbyMapping());
             DatabaseSeeder.Seed(modelBuilder);
 

@@ -11,8 +11,8 @@ namespace Infrastructure
             List<Lobby> lobbies = [];
             RealNameGenerator Generator = new();
 
-            for (int i = 0; i < 100; i++) 
-                lobbies.Add(new Lobby { Id = Guid.NewGuid(), Name = Generator.Generate(), CreatedDateTime = DateTime.UtcNow});
+            for (int i = 0; i < 10; i++) 
+                lobbies.Add(new Lobby { Id = Guid.NewGuid(), Name = Generator.Generate(), CreatedDateTime = DateTime.UtcNow, AdminId = Guid.NewGuid()});
             modelBuilder.Entity<Lobby>().HasData(lobbies);
         }
     }
