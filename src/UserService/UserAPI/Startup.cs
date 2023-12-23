@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using UserAPI.Mapping;
+using UserAPI.Middlewares;
 using UserAPI.Services;
 
 namespace UserAPI
@@ -70,7 +71,7 @@ namespace UserAPI
             });
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger logger)
         {
             if (env.IsDevelopment())
             {
@@ -94,6 +95,9 @@ namespace UserAPI
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseMiddleware<LoggerMiddleware>(logger);
+            app.UseMiddleware<ExceptionMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {
