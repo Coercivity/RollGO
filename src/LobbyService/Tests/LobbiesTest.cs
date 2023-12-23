@@ -27,6 +27,12 @@ namespace Tests
             SeedData();
         }
 
+        [TearDown]
+        public void Dispose()
+        {
+            _dbContext.Dispose();
+        }
+
         private void SeedData()
         {
             List<Lobby> lobbies = [];
@@ -44,14 +50,14 @@ namespace Tests
         public async Task CreateLobbyFromRepositoryTest()
         {
             Lobby newLobby = await _lobbyRepository.CreateAsync(new Lobby { Name = "test", AdminId = Guid.NewGuid() });
-            Assert.NotNull(newLobby);
+            Assert.That(newLobby, Is.Not.Null);
         }
 
         [Test]
         public async Task GetLobbiesFromRepositoryTest()
         {
             List<Lobby> lobbies = await _lobbyRepository.GetAll().ToListAsync();
-            Assert.Greater(lobbies.Count, 0);
+            Assert.That(lobbies.Count, Is.GreaterThan(0));
         }
 
         [Test]
@@ -62,7 +68,7 @@ namespace Tests
             lobby.Name = "test";
             Lobby updatedLobby = await _lobbyRepository.UpdateAsync(lobby);
 
-            Assert.AreEqual(lobby.Name, updatedLobby.Name);
+            Assert.That(lobby.Name, Is.EqualTo(updatedLobby.Name));
         }
 
         [Test]
@@ -72,9 +78,9 @@ namespace Tests
             Guid lobbyId = lobby.Id;
 
             await _lobbyRepository.DeleteAsync(lobbyId);
-            Lobby deleted = await _lobbyRepository.GetByIdAsync(lobbyId);
+            Lobby? deleted = await _lobbyRepository.GetByIdAsync(lobbyId);
 
-            Assert.IsNull(deleted);
+            Assert.That(deleted, Is.Null);
         }
     }
 }
