@@ -1,8 +1,5 @@
-﻿using Microsoft.AspNetCore.Authentication.Cookies;
-using LobbyAPI.Hubs;
+﻿using LobbyAPI.Hubs;
 using Infrastructure;
-using Infrastructure.Repository;
-using Infrastructure.Repository.Implementation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -22,11 +19,15 @@ namespace LobbyAPI
             services.AddDatabaseRepositories(Configuration.GetConnectionString("DefaultConnectionString")!);
             services.AddTransient<MeetingService>();
             services.AddTransient<UserService>();
-            services.AddTransient<KinopoiskDataService>();
+            services.AddTransient<FilmsDataService>();
             services.AddSingleton<LobbyManager>();
+            services.AddHttpClient<KinopoiskDataClient>(client =>
+            {
+                client.BaseAddress = new Uri(Configuration["KinopoiskAPISettings:Url"]!);
+                client.DefaultRequestHeaders.Add("X-API-KEY", Configuration["KinopoiskAPISettings:Apikey"]!);
+            });
 
-
-            services.AddStackExchangeRedisCache(options =>
+        services.AddStackExchangeRedisCache(options =>
             {
                 options.Configuration = Configuration.GetConnectionString("RedisConnectionString");
                 options.InstanceName = "RedisInstance";

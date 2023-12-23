@@ -3,10 +3,10 @@ using LobbyAPI.Services;
 
 namespace LobbyAPI.Hubs
 {
-    public class LobbyManager( MeetingService meetingService, KinopoiskDataService kinopoiskDataClient)
+    public class LobbyManager( MeetingService meetingService, FilmsDataService kinopoiskDataClient)
     {
         private readonly MeetingService _meetingService = meetingService;
-        private readonly KinopoiskDataService _kinopoiskDataClient = kinopoiskDataClient;
+        private readonly FilmsDataService _kinopoiskDataClient = kinopoiskDataClient;
 
         public async Task<HashSet<LobbyUser>?> JoinLobby(Guid lobbyId, Guid userId, string connectionId)
         {

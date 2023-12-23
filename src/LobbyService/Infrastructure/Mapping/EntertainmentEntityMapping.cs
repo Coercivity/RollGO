@@ -44,7 +44,7 @@ namespace Infrastructure.Mapping
 
             builder.Property(x => x.KinopoiskId)
                 .HasColumnName("KinopoiskId")
-                .HasColumnType("varchar");
+                .HasColumnType("int");
 
             builder.Property(x => x.ShortDescription)
                 .HasColumnName("ShortDescription")

@@ -1,6 +1,7 @@
 ﻿namespace LobbyAPI.Services
 {
-    public class KinopoiskDataService
+    public class FilmsDataService
     {
+
     }
 }
