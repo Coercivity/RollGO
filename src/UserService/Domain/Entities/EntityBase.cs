@@ -5,6 +5,5 @@ namespace Domain.Entities
         public Guid Id { get; set; } = Guid.NewGuid();
 
         public DateTime CreatedDateTime { get; set; } = DateTime.UtcNow;
-
     }
 }

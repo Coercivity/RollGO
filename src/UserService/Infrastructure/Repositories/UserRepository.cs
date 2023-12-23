@@ -17,14 +17,15 @@ public class UserRepository(UserDbContext context) : IUserRepository
         return addedUser.Entity;
     }
 
-    public Task<Guid?> DeleteAsync(Guid id)
+    public async Task<Guid?> DeleteAsync(Guid id)
     {
-        throw new NotImplementedException();
-    }
-
-    public IQueryable<User> GetAll()
-    {
-        throw new NotImplementedException();
+        var user = userSet.Find(id);
+        if (user == null) {
+            return null;
+        }
+        userSet.Remove(user);
+        await context.SaveChangesAsync();
+        return user.Id;
     }
 
     public Task<User?> GetByEmailAsync(string email)
@@ -38,12 +39,19 @@ public class UserRepository(UserDbContext context) : IUserRepository
     }
 
     public Task<User?> GetByUsernameAsync(string username)
-    {
+    {    
         return Task.FromResult(userSet.FirstOrDefault(x => x.Username == username));
     }
 
-    public Task<User> UpdateAsync(User entity)
+    public async Task<User?> UpdateAsync(User entity)
     {
-        throw new NotImplementedException();
+        var user = await userSet.FindAsync(entity.Id);
+        if (user == null) {
+            return null;
+        }
+        user.Icon = entity.Icon;
+        userSet.Update(user);
+        await context.SaveChangesAsync();
+        return user;
     }
 }

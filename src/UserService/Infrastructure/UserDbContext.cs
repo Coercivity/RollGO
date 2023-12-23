@@ -14,5 +14,7 @@ public class UserDbContext(DbContextOptions<UserDbContext> options) : DbContext(
         modelBuilder.HasPostgresExtension("uuid-ossp");
         modelBuilder.ApplyConfiguration(new UserMapping());
         modelBuilder.ApplyConfiguration(new UserSessionMapping());
+        
+        DatabaseSeeder.Seed(modelBuilder);
     }
 }
