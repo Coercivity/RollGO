@@ -1,10 +1,14 @@
 ﻿
+using LobbyAPI.Services;
+using System.Net.Http.Headers;
+
 namespace Tests
 {
     internal class BaseTests
     {
         protected LobbyDbContext _dbContext;
         protected LobbyRepository _lobbyRepository;
+        protected KinopoiskDataClient _kinopoiskDataClient;
         protected List<User> users = [];
         
         [SetUp]
@@ -13,11 +17,25 @@ namespace Tests
             // Set up the in-memory database and repository
             var serviceProvider = new ServiceCollection()
                 .AddDbContext<LobbyDbContext>(options =>
-                    options.UseInMemoryDatabase(databaseName: "InMemoryDatabase"))
+                    options
+                    .UseInMemoryDatabase(databaseName: "InMemoryDatabase"))
+                    //.UseNpgsql("Host=localhost;Port=5432;Database=postgres;Username=postgres;Password=test123123;"))
                 .BuildServiceProvider();
 
             _dbContext = serviceProvider.GetRequiredService<LobbyDbContext>();
             _lobbyRepository = new LobbyRepository(_dbContext);
+
+            var client = new HttpClient
+            {
+                BaseAddress = new Uri("https://kinopoiskapiunofficial.tech/api/v2.2/films/")
+            };
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(
+                new MediaTypeWithQualityHeaderValue("application/json"));
+            client.DefaultRequestHeaders.Add("X-API-KEY", "");
+
+            _kinopoiskDataClient = new KinopoiskDataClient(client);
+
             SeedData();
         }
 
@@ -25,7 +43,6 @@ namespace Tests
         {
             List<Meeting> meetings = [];
             List<UserWeight> usersWeights = [];
-            List<Film> film = [];
             List<Lobby> lobbies = [];
             List<LobbyUser> lobbyUsers = [];
 
@@ -52,6 +69,25 @@ namespace Tests
                 meetings.Add(new Meeting { IsActive = true, Lobby = lobby });
 
             _dbContext.Meetings.AddRange(meetings);
+            _dbContext.SaveChanges();
+
+            SeedFilms();
+        }
+
+        private void SeedFilms()
+        {
+            List<Film> films = [];
+
+            for (int i = 300; i < 310; i++)
+            {
+                var film = _kinopoiskDataClient.GetFilmAttributes(i).Result;
+                if (film is not null) 
+                { 
+                    films.Add(film);
+                }
+            }
+
+            _dbContext.Films.AddRange(films);
             _dbContext.SaveChanges();
         }
 
