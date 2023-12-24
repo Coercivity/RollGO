@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using UserAPI.Mapping;
+using UserAPI.Middlewares;
 using UserAPI.Services;
 
 namespace UserAPI
@@ -94,6 +95,9 @@ namespace UserAPI
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseMiddleware<LoggerMiddleware>();
+            app.UseMiddleware<ExceptionMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {
