@@ -9,10 +9,10 @@ namespace Infrastructure
         public static void Seed(ModelBuilder modelBuilder)
         {
             List<Lobby> lobbies = [];
-            RealNameGenerator Generator = new();
+            GamerTagGenerator Generator = new();
 
-            for (int i = 0; i < 10; i++) 
-                lobbies.Add(new Lobby { Id = Guid.NewGuid(), Name = Generator.Generate(), CreatedDateTime = DateTime.UtcNow, AdminId = Guid.NewGuid()});
+            for (int i = 0; i < 3; i++) 
+                lobbies.Add(new Lobby { Name = Generator.Generate(), AdminId = Guid.NewGuid()});
             modelBuilder.Entity<Lobby>().HasData(lobbies);
         }
     }

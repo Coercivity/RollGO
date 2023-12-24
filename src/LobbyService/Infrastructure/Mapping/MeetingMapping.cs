@@ -19,10 +19,9 @@ namespace Infrastructure.Mapping
                 .HasColumnName("WinnerId")
                 .HasColumnType("uuid");
 
-            //Ef core relationships have a reference navigation property on both sides
-            //builder.HasOne(m => m.Lobby)
-            //    .WithMany()
-            //    .IsRequired();
+            builder.HasOne(m => m.WinnerEntity)
+                .WithMany() 
+                .IsRequired(false); 
         }
     }
 

@@ -29,9 +29,6 @@ namespace Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<string[]>("Countries")
-                        .HasColumnType("text[]");
-
                     b.Property<DateTime>("CreatedDateTime")
                         .HasColumnType("timestamp with time zone");
 
@@ -43,9 +40,6 @@ namespace Infrastructure.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("FilmLength");
 
-                    b.Property<string[]>("Genres")
-                        .HasColumnType("text[]");
-
                     b.Property<string>("ImdbId")
                         .IsRequired()
                         .HasColumnType("varchar")
@@ -54,9 +48,8 @@ namespace Infrastructure.Migrations
                     b.Property<bool>("IsSeries")
                         .HasColumnType("boolean");
 
-                    b.Property<string>("KinopoiskId")
-                        .IsRequired()
-                        .HasColumnType("varchar")
+                    b.Property<int>("KinopoiskId")
+                        .HasColumnType("int")
                         .HasColumnName("KinopoiskId");
 
                     b.Property<string>("NameEn")
@@ -128,74 +121,51 @@ namespace Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("43af2362-7855-4ae9-bba1-e6394e01a469"),
-                            AdminId = new Guid("79d52242-5076-45e3-aa17-79ff41281ec7"),
-                            CreatedDateTime = new DateTime(2023, 12, 23, 15, 20, 10, 12, DateTimeKind.Utc).AddTicks(6339),
-                            Name = "Barbara Nelson"
+                            Id = new Guid("b70bd0bc-7309-46c1-a62f-816f668aad5e"),
+                            AdminId = new Guid("3b05d3a6-7445-4f85-a07f-c45a70177647"),
+                            CreatedDateTime = new DateTime(2023, 12, 24, 19, 22, 0, 128, DateTimeKind.Utc).AddTicks(9785),
+                            Name = "yo_mama"
                         },
                         new
                         {
-                            Id = new Guid("34e65be4-1a44-4d50-9803-f364d2cc9ac1"),
-                            AdminId = new Guid("d2620132-a31f-4b35-b5c3-2fc4ce59493c"),
-                            CreatedDateTime = new DateTime(2023, 12, 23, 15, 20, 10, 12, DateTimeKind.Utc).AddTicks(6351),
-                            Name = "Elizabeth Robinson"
+                            Id = new Guid("e06acd16-ab24-44f7-baa3-1b5d07d73b0c"),
+                            AdminId = new Guid("fa4812f1-20e6-4795-be8b-8fe5de551265"),
+                            CreatedDateTime = new DateTime(2023, 12, 24, 19, 22, 0, 128, DateTimeKind.Utc).AddTicks(9812),
+                            Name = "impostor"
                         },
                         new
                         {
-                            Id = new Guid("716c383b-7373-405a-9744-ed933799f862"),
-                            AdminId = new Guid("160eed34-7233-402b-a961-f8579e99d2b2"),
-                            CreatedDateTime = new DateTime(2023, 12, 23, 15, 20, 10, 12, DateTimeKind.Utc).AddTicks(6354),
-                            Name = "David Hernandez"
-                        },
-                        new
-                        {
-                            Id = new Guid("3df7a4b9-cfe9-418a-9a08-4c5503533f91"),
-                            AdminId = new Guid("b4a3fe96-a4c2-4629-a59e-c5dd2664186d"),
-                            CreatedDateTime = new DateTime(2023, 12, 23, 15, 20, 10, 12, DateTimeKind.Utc).AddTicks(6357),
-                            Name = "Andre Hill"
-                        },
-                        new
-                        {
-                            Id = new Guid("c794ad7a-a5d6-4f81-9d66-2bd399a3d720"),
-                            AdminId = new Guid("fd096a11-cbdc-4807-a07a-285f905f4572"),
-                            CreatedDateTime = new DateTime(2023, 12, 23, 15, 20, 10, 12, DateTimeKind.Utc).AddTicks(6361),
-                            Name = "Matthew Hall"
-                        },
-                        new
-                        {
-                            Id = new Guid("8467ff00-38dd-4515-b0bf-0d288fc0ca75"),
-                            AdminId = new Guid("34ed9b8f-4cef-41d5-8ea2-d9e5ff3617f2"),
-                            CreatedDateTime = new DateTime(2023, 12, 23, 15, 20, 10, 12, DateTimeKind.Utc).AddTicks(6365),
-                            Name = "Betty Jackson"
-                        },
-                        new
-                        {
-                            Id = new Guid("0b350621-1846-41e8-a754-eca73f225be0"),
-                            AdminId = new Guid("f19d255c-8a7d-4081-b2a0-f489ac6266dc"),
-                            CreatedDateTime = new DateTime(2023, 12, 23, 15, 20, 10, 12, DateTimeKind.Utc).AddTicks(6368),
-                            Name = "Shirley Green"
-                        },
-                        new
-                        {
-                            Id = new Guid("1391e6e5-0408-4e9b-896a-7f46b8846067"),
-                            AdminId = new Guid("07d2313a-0b27-412c-852b-ceb894bd7c1e"),
-                            CreatedDateTime = new DateTime(2023, 12, 23, 15, 20, 10, 12, DateTimeKind.Utc).AddTicks(6372),
-                            Name = "Samuel Gonzalez"
-                        },
-                        new
-                        {
-                            Id = new Guid("82231ec2-b463-4783-8027-2ea6c2c971de"),
-                            AdminId = new Guid("fbfe2cbd-e18c-4af3-b5bc-9b18db6b1616"),
-                            CreatedDateTime = new DateTime(2023, 12, 23, 15, 20, 10, 12, DateTimeKind.Utc).AddTicks(6374),
-                            Name = "Liam Flores"
-                        },
-                        new
-                        {
-                            Id = new Guid("a17df574-89f7-4f8c-99b8-c72586de30ec"),
-                            AdminId = new Guid("be459c5c-0c38-4adc-be85-12c3d0c607d4"),
-                            CreatedDateTime = new DateTime(2023, 12, 23, 15, 20, 10, 12, DateTimeKind.Utc).AddTicks(6379),
-                            Name = "Julian Rodriguez"
+                            Id = new Guid("472d95cc-381a-4d2f-b5eb-3fb282b10920"),
+                            AdminId = new Guid("d754bb36-659d-4734-81f5-76ab8fe6b69b"),
+                            CreatedDateTime = new DateTime(2023, 12, 24, 19, 22, 0, 128, DateTimeKind.Utc).AddTicks(9816),
+                            Name = "spark"
                         });
+                });
+
+            modelBuilder.Entity("Domain.Entities.LobbyUser", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id")
+                        .HasDefaultValueSql("uuid_generate_v4()");
+
+                    b.Property<DateTime>("CreatedDateTime")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("CreatedDateTime");
+
+                    b.Property<Guid>("LobbyId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LobbyId");
+
+                    b.ToTable("LobbyUser", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.Meeting", b =>
@@ -218,6 +188,9 @@ namespace Infrastructure.Migrations
                     b.Property<Guid>("LobbyId")
                         .HasColumnType("uuid");
 
+                    b.Property<Guid?>("WinnerEntityId")
+                        .HasColumnType("uuid");
+
                     b.Property<Guid?>("WinnerId")
                         .HasColumnType("uuid")
                         .HasColumnName("WinnerId");
@@ -225,6 +198,8 @@ namespace Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("LobbyId");
+
+                    b.HasIndex("WinnerEntityId");
 
                     b.ToTable("Meeting", (string)null);
                 });
@@ -269,6 +244,17 @@ namespace Infrastructure.Migrations
                     b.HasDiscriminator().HasValue(true);
                 });
 
+            modelBuilder.Entity("Domain.Entities.LobbyUser", b =>
+                {
+                    b.HasOne("Domain.Entities.Lobby", "Lobby")
+                        .WithMany("LobbyUsers")
+                        .HasForeignKey("LobbyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Lobby");
+                });
+
             modelBuilder.Entity("Domain.Entities.Meeting", b =>
                 {
                     b.HasOne("Domain.Entities.Lobby", "Lobby")
@@ -277,7 +263,13 @@ namespace Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Domain.Entities.EntertainmentEntity", "WinnerEntity")
+                        .WithMany()
+                        .HasForeignKey("WinnerEntityId");
+
                     b.Navigation("Lobby");
+
+                    b.Navigation("WinnerEntity");
                 });
 
             modelBuilder.Entity("Domain.Entities.UserWeight", b =>
@@ -293,6 +285,8 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Domain.Entities.Lobby", b =>
                 {
+                    b.Navigation("LobbyUsers");
+
                     b.Navigation("Meetings");
 
                     b.Navigation("UserWeights");

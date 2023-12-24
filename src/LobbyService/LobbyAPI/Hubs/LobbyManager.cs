@@ -8,7 +8,7 @@ namespace LobbyAPI.Hubs
         private readonly MeetingService _meetingService = meetingService;
         private readonly FilmsDataService _kinopoiskDataClient = kinopoiskDataClient;
 
-        public async Task<HashSet<LobbyUser>?> JoinLobby(Guid lobbyId, Guid userId, string connectionId)
+        public async Task<HashSet<LobbyActiveUser>?> JoinLobby(Guid lobbyId, Guid userId, string connectionId)
         {
             var activeMeeting = _meetingService.GetActiveMeetingByLobbyId(lobbyId);
 
@@ -21,7 +21,7 @@ namespace LobbyAPI.Hubs
 
             await _meetingService.AddActiveUserToMeeting(userId, activeMeeting);
             
-            return activeMeeting.Users;
+            return activeMeeting.ActiveUsers;
         }
 
         public async Task DisconnectUser(string connectionId)

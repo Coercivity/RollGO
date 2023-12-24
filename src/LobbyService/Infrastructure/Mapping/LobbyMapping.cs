@@ -26,6 +26,10 @@ namespace Infrastructure.Mapping
             builder.HasMany(l => l.UserWeights)
                 .WithOne(m => m.Lobby)
                 .IsRequired();
+
+            builder.HasMany(l => l.LobbyUsers)
+                .WithOne(m => m.Lobby)
+                .IsRequired();
         }
     }
 }

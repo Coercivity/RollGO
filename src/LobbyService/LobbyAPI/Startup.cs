@@ -6,35 +6,34 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using LobbyAPI.Services;
+using LobbyAPI.ServiceExtensions;
 
 namespace LobbyAPI
 {
     public class Startup(IConfiguration configuration)
     {
-        private readonly string CorsPolicyName = "localhost";
         public IConfiguration Configuration { get; } = configuration;
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDatabaseRepositories(Configuration.GetConnectionString("DefaultConnectionString")!);
+            services.AddDatabaseRepositories(Configuration);
+            services.AddKinopoiskAPIHttpClinet(Configuration);
+
             services.AddTransient<MeetingService>();
             services.AddTransient<UserService>();
             services.AddTransient<FilmsDataService>();
             services.AddSingleton<LobbyManager>();
-            services.AddHttpClient<KinopoiskDataClient>(client =>
-            {
-                client.BaseAddress = new Uri(Configuration["KinopoiskAPISettings:Url"]!);
-                client.DefaultRequestHeaders.Add("X-API-KEY", Configuration["KinopoiskAPISettings:Apikey"]!);
-            });
 
-        services.AddStackExchangeRedisCache(options =>
+
+            services.AddStackExchangeRedisCache(options =>
             {
                 options.Configuration = Configuration.GetConnectionString("RedisConnectionString");
                 options.InstanceName = "RedisInstance";
             });
-            services.AddSignalR().AddStackExchangeRedis(Configuration.GetConnectionString("RedisConnectionString")!); ;
+            services.AddSignalR().AddStackExchangeRedis(Configuration.GetConnectionString("RedisConnectionString")!); 
 
             services.AddControllers();
+
             services.AddSwaggerGen(s =>
             {
                 s.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
@@ -75,7 +74,7 @@ namespace LobbyAPI
             });
             services.AddCors(options =>
             {
-                options.AddPolicy(CorsPolicyName, policy =>
+                options.AddPolicy(Configuration["CorsPolicy:Name"]!, policy =>
                 {
                     policy.WithOrigins("http://localhost:5173")
                         .AllowAnyHeader()
@@ -105,7 +104,7 @@ namespace LobbyAPI
 
             app.UseRouting();
 
-            app.UseCors(CorsPolicyName);
+            app.UseCors(Configuration["CorsPolicy:Name"]!);
 
             app.UseAuthentication();
             app.UseAuthorization();

@@ -2,7 +2,7 @@
 
 namespace LobbyAPI.Hubs
 {
-    public class LobbyUser(User user)
+    public class LobbyActiveUser(User user)
     {
         private readonly HashSet<LobbyConnection> _connections = [];
 

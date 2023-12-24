@@ -5,7 +5,7 @@ namespace LobbyAPI.Services
     public class KinopoiskDataClient(HttpClient httpClient)
     {
         private readonly HttpClient _httpClient = httpClient;
-        public async Task<Film?> GetFilmAttributes(string id)
+        public async Task<Film?> GetFilmAttributes(int id)
         {
             var apiUrl = $"{_httpClient.BaseAddress}{id}";
 
