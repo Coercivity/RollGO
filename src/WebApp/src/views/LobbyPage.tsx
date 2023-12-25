@@ -34,7 +34,7 @@ const LobbyPage = () => {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [isWheelVisible, setIsWheelVisible] = useState(false);
 
-  const { t } = useTranslation(LocalizationNamespace.MOVIE);
+  const { t } = useTranslation(LocalizationNamespace.LOBBY);
 
   const [openModal, setOpenModal] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
@@ -86,7 +86,7 @@ const LobbyPage = () => {
           </Box>
         )}
 
-        <Box sx={{ mt: 4 }}>
+        <Box sx={{ mt: 4, minWidth: 255, maxWidth: 290 }}>
           <ToggleButtonGroup
             fullWidth
             size="small"
@@ -101,9 +101,13 @@ const LobbyPage = () => {
           </ToggleButtonGroup>
           <UsersList />
           <Button fullWidth variant="outlined" onClick={() => setSettingsOpen(true)}>
-            {<SettingsIcon />} Настройки лобби
+            {<SettingsIcon />} {t('lobbySettings')}
           </Button>
-          <LobbySettings settingsOpen={settingsOpen} setSettingsOpen={setSettingsOpen} />
+          <LobbySettings
+            lobbyId={lobbyId}
+            settingsOpen={settingsOpen}
+            setSettingsOpen={setSettingsOpen}
+          />
           <LobbyHistory />
         </Box>
       </Box>

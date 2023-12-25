@@ -21,9 +21,10 @@ import { LocalizationNamespace } from '@enums/LocalizationNamespace';
 interface LobbySettingsProps {
   setSettingsOpen: (x: boolean) => void;
   settingsOpen: boolean;
+  lobbyId: string | undefined;
 }
 
-const LobbySettings: FC<LobbySettingsProps> = ({ settingsOpen, setSettingsOpen }) => {
+const LobbySettings: FC<LobbySettingsProps> = ({ settingsOpen, setSettingsOpen, lobbyId }) => {
   const { t } = useTranslation(LocalizationNamespace.LOBBY);
 
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
@@ -40,6 +41,10 @@ const LobbySettings: FC<LobbySettingsProps> = ({ settingsOpen, setSettingsOpen }
     setSpinCount(Number(event.target.value));
   };
 
+  const lobbyIdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    event.preventDefault();
+  };
+
   const handlePopoverOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -52,27 +57,70 @@ const LobbySettings: FC<LobbySettingsProps> = ({ settingsOpen, setSettingsOpen }
 
   return (
     <Dialog open={settingsOpen} keepMounted fullWidth={true}>
-      <DialogTitle sx={{ mt: 2 }}> {t('lobbySettings')}</DialogTitle>
+      <DialogTitle sx={{ m: 1 }}> {t('lobbySettings')}</DialogTitle>
       <DialogContent>
         <List>
           <Box
             sx={{
               display: 'flex',
-              mb: 1,
               flexDirection: 'column',
               justifyContent: 'left',
               alignItems: 'flex-start',
+              ml: 1,
+              mr: 1,
             }}
           >
+            <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+              <Typography>Имя лобби</Typography>
+              <TextField
+                sx={{ ml: 1, maxWidth: 300, display: 'flex' }}
+                variant="standard"
+                size="small"
+                value={String(lobbyId)}
+                onChange={lobbyIdChange}
+              />
+            </Box>
+            <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+              <Typography>{t('moviesQuantity')}</Typography>
+              <TextField
+                sx={{ ml: 1, maxWidth: 40, display: 'flex' }}
+                variant="standard"
+                type="number"
+                size="small"
+                value={spinCount}
+                onChange={spinCountChange}
+              />
+            </Box>
+
+            <Box
+              sx={{
+                mb: 2,
+                display: 'flex',
+              }}
+            >
+              <Typography component="legend"> {t('minRating')}</Typography>
+              <Rating
+                sx={{ ml: 1 }}
+                max={10}
+                name="simple-controlled"
+                value={rating}
+                precision={0.5}
+                onChange={(event, newValue) => {
+                  event.preventDefault();
+                  setRating(newValue);
+                }}
+              />
+            </Box>
+
             <Box
               sx={{
                 display: 'flex',
                 alignItems: 'center',
-                justifyContent: 'center',
+                justifyContent: 'left',
               }}
             >
               <FormControlLabel
-                sx={{ ml: 0, mb: 0 }}
+                sx={{ ml: -2, mb: 0 }}
                 labelPlacement="end"
                 control={<Switch defaultChecked />}
                 label={t('complexCoefficient')}
@@ -90,6 +138,7 @@ const LobbySettings: FC<LobbySettingsProps> = ({ settingsOpen, setSettingsOpen }
                 id="mouse-over-popover"
                 sx={{
                   pointerEvents: 'none',
+                  width: 1500,
                 }}
                 open={open}
                 anchorEl={anchorEl}
@@ -107,37 +156,14 @@ const LobbySettings: FC<LobbySettingsProps> = ({ settingsOpen, setSettingsOpen }
                 <Typography sx={{ p: 1 }}>{t('hoverText')}</Typography>
               </Popover>
             </Box>
-            <Box sx={{ display: 'flex', alignItems: 'center', mt: 2 }}>
-              <Typography>{t('moviesQuantity')}</Typography>
-              <TextField
-                sx={{ ml: 1, maxWidth: 40, display: 'flex' }}
-                variant="standard"
-                type="number"
-                size="small"
-                value={spinCount}
-                onChange={spinCountChange}
-              />
-            </Box>
-          </Box>
-          <Box
-            sx={{
-              '& > legend': { mt: 2 },
-            }}
-          >
-            <Typography component="legend"> {t('minRating')}</Typography>
-            <Rating
-              max={10}
-              name="simple-controlled"
-              value={rating}
-              onChange={(event) => {
-                setRating(Number(event));
-              }}
-            />
           </Box>
         </List>
       </DialogContent>
 
       <DialogActions>
+        <Button sx={{ mr: 1, mb: 2 }} variant="text" onClick={() => setSettingsOpen(false)}>
+          {t('cancel')}
+        </Button>
         <Button
           sx={{ mr: 2, mb: 2 }}
           disabled={spinCount < 0}
