@@ -7,7 +7,6 @@ using Microsoft.OpenApi.Models;
 using UserAPI.Mapping;
 using UserAPI.Middlewares;
 using UserAPI.Services;
-using UserAPI.GrpcServices.Services;
 
 namespace UserAPI
 {
@@ -103,10 +102,10 @@ namespace UserAPI
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapGrpcService<GrpcServices.UserService>();
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
-                endpoints.MapGrpcService<GrpcUserService>();
             });
         }
     }

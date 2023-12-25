@@ -2,8 +2,10 @@ syntax = "proto3";
 
 option csharp_namespace = "UserAPI.GrpcServices";
 
+package user;
+
 service User {
-  rpc UsersById (UserByIdRequest) returns (UsersResponse) {};
+  rpc UsersById (UserByIdRequest) returns (UsersResponse);
 }
 
 message UserByIdRequest {
@@ -13,7 +15,7 @@ message UserByIdRequest {
 message UserResponse {
   string user_id = 1;
   string username = 2;
-  string icon = 3;
+  optional string icon = 3;
 }
 
 message UsersResponse {
