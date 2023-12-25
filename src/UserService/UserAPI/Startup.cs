@@ -7,6 +7,7 @@ using Microsoft.OpenApi.Models;
 using UserAPI.Mapping;
 using UserAPI.Middlewares;
 using UserAPI.Services;
+using UserAPI.GrpcServices.Services;
 
 namespace UserAPI
 {
@@ -69,6 +70,7 @@ namespace UserAPI
                         .AllowAnyMethod();
                 });
             });
+            services.AddGrpc();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -104,6 +106,7 @@ namespace UserAPI
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapGrpcService<GrpcUserService>();
             });
         }
     }
