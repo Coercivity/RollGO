@@ -75,7 +75,7 @@ const LobbySettings: FC<LobbySettingsProps> = ({ settingsOpen, setSettingsOpen }
                 sx={{ ml: 0, mb: 0 }}
                 labelPlacement="end"
                 control={<Switch defaultChecked />}
-                label={t('complexСoefficient')}
+                label={t('complexCoefficient')}
               />
               <Typography
                 sx={{ cursor: 'pointer' }}
@@ -110,8 +110,9 @@ const LobbySettings: FC<LobbySettingsProps> = ({ settingsOpen, setSettingsOpen }
             <Box sx={{ display: 'flex', alignItems: 'center', mt: 2 }}>
               <Typography>{t('moviesQuantity')}</Typography>
               <TextField
-                sx={{ ml: 1, maxWidth: 50, display: 'flex' }}
-                variant="outlined"
+                sx={{ ml: 1, maxWidth: 40, display: 'flex' }}
+                variant="standard"
+                type="number"
                 size="small"
                 value={spinCount}
                 onChange={spinCountChange}
@@ -137,7 +138,12 @@ const LobbySettings: FC<LobbySettingsProps> = ({ settingsOpen, setSettingsOpen }
       </DialogContent>
 
       <DialogActions>
-        <Button sx={{ mr: 2, mb: 2 }} variant="outlined" onClick={saveSettings}>
+        <Button
+          sx={{ mr: 2, mb: 2 }}
+          disabled={spinCount < 0}
+          variant="outlined"
+          onClick={saveSettings}
+        >
           {t('apply')}
         </Button>
       </DialogActions>
