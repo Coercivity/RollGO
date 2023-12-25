@@ -48,7 +48,7 @@ services:
     ports:
       - "5282:80"
     environment:
-      ASPNETCORE_URLS: http://0.0.0.0:80
+      ASPNETCORE_URLS: ${ASPNETCORE_URLS}
       ConnectionStrings__DefaultConnectionString: "Host=${POSTGRES_HOSTNAME};Port=5432;Database=${POSTGRES_DATABASE};Username=${POSTGRES_USERNAME};Password=${POSTGRES_PASSWORD}"
 
 volumes:

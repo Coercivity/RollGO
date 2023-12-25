@@ -16,18 +16,18 @@ public class TokenService(
     private readonly IUserSessionRepository _userSessionRepository = userSessionRepository;
     private readonly IConfiguration _config = configuration;
 
-    public async Task<bool> ValidateDeleteTokenPair(TokenPair tokenPair)
+    public async Task<bool> ValidateAndDeleteTokenPair(TokenPair tokenPair)
     {
         var userId = GetTokenClaim(tokenPair.AccessToken, ClaimTypes.NameIdentifier);
 
-        if (!ValidateRefreshToken(tokenPair.RefreshToken) || !ValidateAccessToken(tokenPair.AccessToken, userId)){
+        if (!ValidateRefreshToken(tokenPair.RefreshToken) || !ValidateAccessToken(tokenPair.AccessToken, userId!)){
             return false;
         }
 
         Guid? idToDelete = null;
         var refreshTokenId = GetTokenClaim(tokenPair.RefreshToken, ClaimTypes.NameIdentifier);
 
-        var sessions = await _userSessionRepository.GetUserSessionsByUserIdAsync(Guid.Parse(userId));
+        var sessions = await _userSessionRepository.GetUserSessionsByUserIdAsync(Guid.Parse(userId!));
         foreach (var session in sessions)
         {
             if (BCrypt.Net.BCrypt.Verify(refreshTokenId, session.RefreshTokenHash))
@@ -46,18 +46,13 @@ public class TokenService(
     {
         var accessToken = GenerateAccessToken(user);
         var (refreshToken, refreshTokenId) = GenerateRefreshToken();
-        var session = await _userSessionRepository.CreateAsync(
+        await _userSessionRepository.CreateAsync(
             new UserSession()
             {
                 UserId = user.Id,
                 RefreshTokenHash = BCrypt.Net.BCrypt.HashPassword(refreshTokenId),
             }
         );
-
-        if (session == null)
-        {
-            return null;
-        }
         return new TokenPair()
         {
             AccessToken = accessToken,
@@ -73,7 +68,7 @@ public class TokenService(
 
     private (string, string) GenerateRefreshToken()
     {
-        var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
+        var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]!));
         var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
         var refreshTokenId = Guid.NewGuid().ToString();
         var refreshClaims = new[] { new Claim(ClaimTypes.NameIdentifier, refreshTokenId), };
@@ -90,7 +85,7 @@ public class TokenService(
 
     private string GenerateAccessToken(UserDto user)
     {
-        var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
+        var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]!));
         var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
         var accessClaims = new[] { new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()), };
         var accessToken = new JwtSecurityToken(
