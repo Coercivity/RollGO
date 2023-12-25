@@ -43,6 +43,12 @@ public class UserRepository(UserDbContext context) : IUserRepository
         return Task.FromResult(userSet.FirstOrDefault(x => x.Username == username));
     }
 
+    public Task<IEnumerable<User>> GetUsersByIds(List<Guid> guids)
+    {
+        var users = userSet.Where(x => guids.Contains(x.Id));
+        return Task.FromResult(users.AsEnumerable());
+    }
+
     public async Task<User?> UpdateAsync(User entity)
     {
         var user = await userSet.FindAsync(entity.Id);
