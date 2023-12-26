@@ -71,7 +71,7 @@ const LobbySettings: FC<LobbySettingsProps> = ({ settingsOpen, setSettingsOpen, 
             }}
           >
             <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-              <Typography>Имя лобби</Typography>
+              <Typography>{t('lobbyName')}</Typography>
               <TextField
                 sx={{ ml: 1, maxWidth: 300, display: 'flex' }}
                 variant="standard"

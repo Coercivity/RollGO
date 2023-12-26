@@ -96,8 +96,8 @@ const LobbyPage = () => {
             exclusive
             aria-label="Platform"
           >
-            <ToggleButton value={false}>Список фильмов</ToggleButton>
-            <ToggleButton value={true}>Колесо</ToggleButton>
+            <ToggleButton value={false}>{t('movieList')}</ToggleButton>
+            <ToggleButton value={true}>{t('wheel')}</ToggleButton>
           </ToggleButtonGroup>
           <UsersList />
           <Button fullWidth variant="outlined" onClick={() => setSettingsOpen(true)}>
