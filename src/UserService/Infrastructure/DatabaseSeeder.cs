@@ -18,7 +18,7 @@ namespace Infrastructure;
             users.Add(new User() {
                 Username = "outflow",
                 Password = passwordHash,
-                Email = "serpens@rollgo.com"
+                Email = "outflow@rollgo.com"
             });
             users.Add(new User() {
                 Username = "serpens",

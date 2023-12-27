@@ -69,6 +69,7 @@ namespace UserAPI
                         .AllowAnyMethod();
                 });
             });
+            services.AddGrpc();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -101,6 +102,7 @@ namespace UserAPI
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapGrpcService<GrpcServices.UserService>();
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
