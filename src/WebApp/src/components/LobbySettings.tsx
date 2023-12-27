@@ -138,7 +138,9 @@ const LobbySettings: FC<LobbySettingsProps> = ({ settingsOpen, setSettingsOpen, 
                 id="mouse-over-popover"
                 sx={{
                   pointerEvents: 'none',
-                  maxWidth: 1500,
+                }}
+                PaperProps={{
+                  style: { width: '500px' },
                 }}
                 open={open}
                 anchorEl={anchorEl}
