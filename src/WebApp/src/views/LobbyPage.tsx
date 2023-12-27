@@ -3,8 +3,10 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import SettingsIcon from '@mui/icons-material/Settings';
 import {
   Box,
+  Button,
   Container,
   IconButton,
   ToggleButton,
@@ -12,7 +14,9 @@ import {
   Typography,
 } from '@mui/material';
 
+import LobbyHistory from '@components/LobbyHistory';
 import LobbyNicknameModal from '@components/LobbyNicknameModal';
+import LobbySettings from '@components/LobbySettings';
 import MovieList from '@components/MovieList';
 import MovieSearch from '@components/MovieSearch';
 import SpinningWheel from '@components/SpiningWheel';
@@ -29,13 +33,15 @@ type LobbyParams = {
 const LobbyPage = () => {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [isWheelVisible, setIsWheelVisible] = useState(false);
-  const { t } = useTranslation(LocalizationNamespace.MOVIE);
+
+  const { t } = useTranslation(LocalizationNamespace.LOBBY);
 
   const [openModal, setOpenModal] = useState(false);
+  const [settingsOpen, setSettingsOpen] = useState(false);
   const [isAnonymous, setUser] = useUserStore((state) => [state.isAnonymous, state.setUser]);
 
   useEffect(() => {
-    if (isAnonymous) setOpenModal(true);
+    if (!isAnonymous) setOpenModal(true); // выставил ! что б не вылазило при каждом сохранении
   }, [isAnonymous]);
 
   const { lobbyId } = useParams<LobbyParams>();
@@ -58,8 +64,10 @@ const LobbyPage = () => {
           <IconButton color="primary" onClick={exitLobby}>
             <ExitToAppIcon />
           </IconButton>
-          <Typography variant="h4">{t('room')}</Typography>
-          <Typography sx={{ ml: 3 }} variant="h4" color="text.secondary">
+          <Typography variant="h4" color="text.secondary">
+            {t('room')}
+          </Typography>
+          <Typography sx={{ ml: 3 }} variant="h4">
             {lobbyId}
           </Typography>
         </Box>
@@ -78,7 +86,7 @@ const LobbyPage = () => {
           </Box>
         )}
 
-        <Box sx={{ mt: 4 }}>
+        <Box sx={{ mt: 4, minWidth: 255, maxWidth: 290 }}>
           <ToggleButtonGroup
             fullWidth
             size="small"
@@ -88,10 +96,19 @@ const LobbyPage = () => {
             exclusive
             aria-label="Platform"
           >
-            <ToggleButton value={false}>Список фильмов</ToggleButton>
-            <ToggleButton value={true}>Колесо</ToggleButton>
+            <ToggleButton value={false}>{t('movieList')}</ToggleButton>
+            <ToggleButton value={true}>{t('wheel')}</ToggleButton>
           </ToggleButtonGroup>
           <UsersList />
+          <Button fullWidth variant="outlined" onClick={() => setSettingsOpen(true)}>
+            {<SettingsIcon />} {t('lobbySettings')}
+          </Button>
+          <LobbySettings
+            lobbyId={lobbyId}
+            settingsOpen={settingsOpen}
+            setSettingsOpen={setSettingsOpen}
+          />
+          <LobbyHistory />
         </Box>
       </Box>
       <LobbyNicknameModal open={openModal} setOpen={setOpenModal} />

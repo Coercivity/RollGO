@@ -62,7 +62,7 @@ const Navbar: FC = () => {
           }}
         >
           <Link href={Route.ROOT} sx={{ color: 'white', fontWeight: 700, textDecoration: 'none' }}>
-            RollGO
+            {t('RollGO')}
           </Link>
         </Typography>
         {isAnonymous ? (

@@ -23,7 +23,7 @@ const UsersList: FC = () => {
     <Card
       sx={{
         bgcolor: 'primary.main',
-        width: 200,
+
         p: 1,
         bg: 'grey.500',
       }}

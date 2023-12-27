@@ -1,5 +1,8 @@
 import { FC } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Box, Button } from '@mui/material';
+
+import { LocalizationNamespace } from '@enums/LocalizationNamespace';
 
 interface LobbyViewProps {
   remove: (lobby: string) => void;
@@ -8,6 +11,7 @@ interface LobbyViewProps {
 }
 
 const LobbyView: FC<LobbyViewProps> = ({ remove, number, lobby }) => {
+  const { t } = useTranslation(LocalizationNamespace.LOBBY);
   return (
     <Box
       sx={{
@@ -20,7 +24,7 @@ const LobbyView: FC<LobbyViewProps> = ({ remove, number, lobby }) => {
     >
       {number}. {lobby}
       <Button variant="outlined" color="error" onClick={() => remove(lobby)}>
-        Удалить
+        {t('delete')}
       </Button>
     </Box>
   );
