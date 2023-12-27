@@ -56,7 +56,7 @@ const LobbySettings: FC<LobbySettingsProps> = ({ settingsOpen, setSettingsOpen, 
   const open = Boolean(anchorEl);
 
   return (
-    <Dialog open={settingsOpen} keepMounted fullWidth={true}>
+    <Dialog open={settingsOpen} onClose={() => setSettingsOpen(false)} keepMounted fullWidth={true}>
       <DialogTitle sx={{ m: 1 }}> {t('lobbySettings')}</DialogTitle>
       <DialogContent>
         <List>
@@ -138,7 +138,7 @@ const LobbySettings: FC<LobbySettingsProps> = ({ settingsOpen, setSettingsOpen, 
                 id="mouse-over-popover"
                 sx={{
                   pointerEvents: 'none',
-                  width: 1500,
+                  maxWidth: 1500,
                 }}
                 open={open}
                 anchorEl={anchorEl}
