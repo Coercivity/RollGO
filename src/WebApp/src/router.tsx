@@ -2,8 +2,8 @@ import { Suspense } from 'react';
 import { createBrowserRouter, Outlet } from 'react-router-dom';
 import { Container } from '@mui/material';
 
-import Navbar from '@components/Navbar';
-import TermsOfUse from '@components/TermsOfUse';
+import Navbar from '@components/common/Navbar';
+import TermsOfUse from '@components/common/TermsOfUse';
 import { Route } from '@enums/Route';
 
 import LobbyPage from './pages/LobbyPage';

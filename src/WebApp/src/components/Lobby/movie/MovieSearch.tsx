@@ -3,7 +3,7 @@ import { Autocomplete, TextField } from '@mui/material';
 
 import { Movie } from '@models/Movie';
 
-import { MovieData } from '../mockAPI/MovieData';
+import { MovieData } from '../../../mockAPI/MovieData';
 
 interface SearchProps {
   movies: Movie[];

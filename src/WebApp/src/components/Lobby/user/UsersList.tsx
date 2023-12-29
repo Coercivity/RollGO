@@ -2,10 +2,9 @@ import { FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Box, Card, Typography } from '@mui/material';
 
+import UserView from '@components/common/UserView';
 import { LocalizationNamespace } from '@enums/LocalizationNamespace';
 import { User } from '@models/User';
-
-import UserView from '../UserView';
 
 import UsersFilter from './UsersFilter';
 

@@ -5,8 +5,8 @@ import StarBorderIcon from '@mui/icons-material/StarBorder';
 import { Box, Card, Grid, IconButton, Link, List, Skeleton, Typography } from '@mui/material';
 import ImageListItem from '@mui/material/ImageListItem';
 
-import { LocalizationNamespace } from '../enums/LocalizationNamespace';
-import { Movie } from '../models/Movie';
+import { LocalizationNamespace } from '@enums/LocalizationNamespace';
+import { Movie } from '@models/Movie';
 
 interface MovieViewProps {
   remove: (m: Movie) => void;

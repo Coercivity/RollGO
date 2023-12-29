@@ -16,13 +16,13 @@ import {
   Typography,
 } from '@mui/material';
 
-import LobbyHistory from '@components/LobbyHistory';
-import LobbyNicknameModal from '@components/LobbyNicknameModal';
-import LobbySettings from '@components/LobbySettings';
-import MovieList from '@components/MovieList';
-import MovieSearch from '@components/MovieSearch';
-import SpinningWheel from '@components/SpiningWheel';
-import UsersList from '@components/UsersList/UsersList';
+import LobbyHistory from '@components/Lobby/LobbyHistory';
+import LobbyNicknameModal from '@components/Lobby/LobbyNicknameModal';
+import LobbySettings from '@components/Lobby/LobbySettings';
+import MovieList from '@components/Lobby/movie/MovieList';
+import MovieSearch from '@components/Lobby/movie/MovieSearch';
+import SpinningWheel from '@components/Lobby/SpiningWheel';
+import UsersList from '@components/Lobby/user/UsersList';
 import { LocalizationNamespace } from '@enums/LocalizationNamespace';
 import { Route } from '@enums/Route';
 import { Movie } from '@models/Movie';
@@ -105,7 +105,7 @@ const LobbyPage = () => {
               {<SettingsIcon />} {t('lobbySettings')}
             </Button>
             <LobbySettings
-              lobbyId={lobbyId}
+              lobbyName={lobbyId}
               settingsOpen={settingsOpen}
               setSettingsOpen={setSettingsOpen}
             />

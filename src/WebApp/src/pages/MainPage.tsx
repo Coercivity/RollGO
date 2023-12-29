@@ -3,8 +3,8 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { Box, Button, Container } from '@mui/material';
 
-import LobbyCreationModal from '@components/LobbyCreationModal';
-import LobbyList from '@components/LobbyList';
+import LobbyCreationModal from '@components/Lobby/LobbyCreationModal';
+import LobbyList from '@components/Lobby/LobbyList';
 import { Route } from '@enums/Route';
 
 const MainPage = () => {
