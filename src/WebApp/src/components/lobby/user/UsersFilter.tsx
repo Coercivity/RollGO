@@ -5,7 +5,7 @@ import { Box, FormControl, InputLabel } from '@mui/material';
 import { LocalizationNamespace } from '@enums/LocalizationNamespace';
 import { User } from '@models/User';
 
-import { generalSort } from '../../utils/utils';
+import { generalSort } from '../../../utils/utils';
 
 import FilterSelector from './FilterSelector';
 

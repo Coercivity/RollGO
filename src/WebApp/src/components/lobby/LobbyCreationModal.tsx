@@ -57,7 +57,7 @@ const LobbyCreationModal: FC<LobbyCreationModalProps> = ({ setOpen, addNewLobby,
         <Button sx={{ mr: 1, mb: 2 }} variant="text" onClick={() => setOpen(false)}>
           {t('cancel')}
         </Button>
-        <Button sx={{ mr: 2, mb: 2 }} disabled={!lobby} variant="outlined" onClick={onCreate}>
+        <Button sx={{ mr: 2, mb: 2 }} disabled={!lobby} variant="contained" onClick={onCreate}>
           {t('save')}
         </Button>
       </DialogActions>

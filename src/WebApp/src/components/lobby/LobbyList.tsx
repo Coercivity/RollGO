@@ -16,7 +16,11 @@ const LobbyList: FC<LobbyListProps> = ({ lobbies, remove }) => {
   if (!lobbies.length) {
     return (
       <Box sx={{ border: 0.5, borderRadius: 3, p: 2, borderColor: 'grey.500' }}>
-        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+        <Typography
+          variant="h6"
+          component="div"
+          sx={{ flexGrow: 1, color: 'primary.contrastText', textAlign: 'center' }}
+        >
           {t('noLobbiesYet')}
         </Typography>
       </Box>

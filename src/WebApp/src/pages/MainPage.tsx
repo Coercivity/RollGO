@@ -3,8 +3,8 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { Box, Button, Container } from '@mui/material';
 
-import LobbyCreationModal from '@components/LobbyCreationModal';
-import LobbyList from '@components/LobbyList';
+import LobbyCreationModal from '@components/lobby/LobbyCreationModal';
+import LobbyList from '@components/lobby/LobbyList';
 import { Route } from '@enums/Route';
 
 const MainPage = () => {
@@ -26,7 +26,7 @@ const MainPage = () => {
   return (
     <Container maxWidth="lg">
       <Box sx={{ m: 2, textAlign: 'center' }}>
-        <Button onClick={() => setOpen(true)} variant="outlined" size="large">
+        <Button onClick={() => setOpen(true)} variant="contained" size="large">
           {t('createLobby')}
         </Button>
       </Box>
