@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Card, Typography } from '@mui/material';
+import { Box, Card, Typography } from '@mui/material';
 
 import { LocalizationNamespace } from '@enums/LocalizationNamespace';
 import { User } from '@models/User';
@@ -9,7 +9,7 @@ import UserView from '../UserView';
 
 import UsersFilter from './UsersFilter';
 
-const UsersList = () => {
+const UsersList: FC = () => {
   const { t } = useTranslation(LocalizationNamespace.LOBBY);
 
   const [users, setUsers] = useState<User[]>([
@@ -23,7 +23,7 @@ const UsersList = () => {
     <Card
       sx={{
         bgcolor: 'primary.main',
-        width: 200,
+
         p: 1,
         bg: 'grey.500',
       }}
@@ -32,15 +32,23 @@ const UsersList = () => {
         {t('playersInTheLobby')} {users.filter((x) => x.isOnline === true).length}/{users.length}{' '}
       </Typography>
       <UsersFilter filter={filter} setFilter={setFilter} users={users} setUsers={setUsers} />
-
-      {users.map(({ id, username, isOnline }) => (
-        <UserView
-          key={id}
-          nickname={username}
-          onClick={() => console.log('user view clicked')}
-          isOnline={isOnline}
-        />
-      ))}
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'left',
+          alignItems: 'flex-start',
+        }}
+      >
+        {users.map(({ id, username, isOnline }) => (
+          <UserView
+            key={id}
+            nickname={username}
+            onClick={() => console.log('user view clicked')}
+            isOnline={isOnline}
+          />
+        ))}
+      </Box>
     </Card>
   );
 };

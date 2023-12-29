@@ -30,7 +30,7 @@ const MovieView: FC<MovieViewProps> = ({ remove, number, movie }) => {
             p: 1,
             display: 'flex',
             justifyContent: 'space-between',
-            maxWidth: 810,
+            maxWidth: 880,
             whiteSpace: 'nowrap',
           }}
         >
@@ -64,7 +64,7 @@ const MovieView: FC<MovieViewProps> = ({ remove, number, movie }) => {
                 </Link>
                 <Typography sx={{ display: 'flex' }}>
                   {data ? (data.nameEn ? data.nameEn : data.nameOriginal) : ''}, {data && data.year}
-                  , {data ? data.filmLength : ''} {t('minute')}, 16+
+                  , {data ? data.filmLength : ''} {t('minute')}
                 </Typography>
                 <Typography sx={{ color: 'text.secondary' }}>{t('movieGenre')}</Typography>
                 <Typography sx={{ color: 'text.secondary' }}> {t('country')}</Typography>

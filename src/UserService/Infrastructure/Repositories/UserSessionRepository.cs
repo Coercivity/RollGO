@@ -16,9 +16,13 @@ public class UserSessionRepository(UserDbContext context) : IUserSessionReposito
         return addedSession.Entity;
     }
 
-    public Task<IEnumerable<UserSession>> DeleteAllUserSessionsAsync(Guid userId)
+    public async Task<IEnumerable<UserSession>> DeleteAllUserSessionsAsync(Guid userId)
     {
-        throw new NotImplementedException();
+        var sessions = sessionSet.Where(x => x.UserId == userId).ToList();
+        sessionSet.RemoveRange(sessions);
+        await context.SaveChangesAsync();
+
+        return sessions;
     }
 
     public async Task<Guid?> DeleteAsync(Guid id)
@@ -32,11 +36,6 @@ public class UserSessionRepository(UserDbContext context) : IUserSessionReposito
         return session.Id;
     }
 
-    public IQueryable<UserSession> GetAll()
-    {
-        throw new NotImplementedException();
-    }
-
     public Task<UserSession?> GetByIdAsync(Guid id)
     {
         throw new NotImplementedException();
@@ -47,7 +46,7 @@ public class UserSessionRepository(UserDbContext context) : IUserSessionReposito
         return Task.FromResult(sessionSet.Where(x => x.UserId == userId).AsEnumerable());
     }
 
-    public Task<UserSession> UpdateAsync(UserSession entity)
+    public Task<UserSession?> UpdateAsync(UserSession entity)
     {
         throw new NotImplementedException();
     }

@@ -29,7 +29,7 @@ const LobbyCreationModal: FC<LobbyCreationModalProps> = ({ setOpen, addNewLobby,
 
   return (
     <Dialog open={open} onClose={() => setOpen(false)} maxWidth="sm" fullWidth={true}>
-      <DialogTitle>{t('createLobby')}</DialogTitle>
+      <DialogTitle sx={{ mt: 1 }}>{t('createLobby')}</DialogTitle>
       <DialogContent>
         <TextField
           autoFocus
@@ -54,10 +54,10 @@ const LobbyCreationModal: FC<LobbyCreationModalProps> = ({ setOpen, addNewLobby,
         <Close />
       </IconButton>
       <DialogActions>
-        <Button variant="text" onClick={() => setOpen(false)}>
+        <Button sx={{ mr: 1, mb: 2 }} variant="text" onClick={() => setOpen(false)}>
           {t('cancel')}
         </Button>
-        <Button variant="outlined" onClick={onCreate}>
+        <Button sx={{ mr: 2, mb: 2 }} disabled={!lobby} variant="outlined" onClick={onCreate}>
           {t('save')}
         </Button>
       </DialogActions>

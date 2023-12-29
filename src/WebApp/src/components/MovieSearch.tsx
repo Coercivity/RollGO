@@ -1,11 +1,12 @@
 import React, { FC, useState } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
-import { Button, Container } from '@mui/material';
+import { Container, IconButton } from '@mui/material';
 import InputBase from '@mui/material/InputBase';
 import { alpha, styled } from '@mui/material/styles';
 
-import { MovieData } from '../API/MovieData';
-import { Movie } from '../models/Movie';
+import { Movie } from '@models/Movie';
+
+import { MovieData } from '../mockAPI/MovieData';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -18,16 +19,6 @@ const Search = styled('div')(({ theme }) => ({
     marginLeft: theme.spacing(0),
     width: 'auto',
   },
-}));
-
-const SearchIconWrapper = styled('div')(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: '100%',
-  position: 'absolute',
-  pointerEvents: 'none',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
 }));
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
@@ -59,7 +50,7 @@ const SearchAppBar: FC<SearchProps> = ({ movies, setMovies }) => {
 
   const searchFilm = () => {
     if (value.trim().length) {
-      const film = MovieData.find((f) => f.webUrl === value);
+      const film = MovieData[Number(value)];
       if (film) setMovies([...movies, film]);
       else noFilm();
       setValue('');
@@ -87,11 +78,9 @@ const SearchAppBar: FC<SearchProps> = ({ movies, setMovies }) => {
         />
       </Search>
 
-      <Button onClick={onClick}>
-        <SearchIconWrapper>
-          <SearchIcon />
-        </SearchIconWrapper>
-      </Button>
+      <IconButton sx={{ ml: 1 }} color="primary" onClick={onClick}>
+        <SearchIcon />
+      </IconButton>
     </Container>
   );
 };

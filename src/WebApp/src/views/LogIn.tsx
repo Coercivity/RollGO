@@ -24,12 +24,12 @@ const LogIn = () => {
       password,
     });
     setTokenPair({ accessToken: data.accessToken, refreshToken: data.refreshToken });
-    setUser(data.user);
+    setUser(data.user, false);
     navigate(Route.ROOT);
   };
 
   return (
-    <Box sx={{ display: 'flex', justifyContent: 'center', alignContent: 'center', mt: 20 }}>
+    <Box sx={{ display: 'flex', justifyContent: 'center', alignContent: 'center', mt: 35 }}>
       <Card
         sx={{
           display: 'flex',

@@ -1,5 +1,8 @@
 import { FC } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Box, Typography } from '@mui/material';
+
+import { LocalizationNamespace } from '@enums/LocalizationNamespace';
 
 import { Movie } from '../models/Movie';
 
@@ -11,26 +14,27 @@ interface MoviesListProps {
 }
 
 const MovieList: FC<MoviesListProps> = ({ setMovies, movies }) => {
+  const { t } = useTranslation(LocalizationNamespace.MOVIE);
   const remove = (m: Movie) => {
     setMovies(movies.filter((movie: Movie) => movie.kinopoiskId !== m.kinopoiskId));
   };
 
   if (!movies.length) {
     return (
-      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+      <Box sx={{ display: 'flex', justifyContent: 'center', m: 3 }}>
         <Typography
           variant="h6"
           component="div"
           sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
         >
-          Пока не добавлено ни одного фильма!
+          {t('moviesAreNotAddedYet')}
         </Typography>
       </Box>
     );
   }
 
   return (
-    <Box sx={{ m: 4 }}>
+    <Box sx={{ m: 3 }}>
       {movies.map((movie: Movie, index: number) => (
         <MovieView remove={remove} number={index + 1} movie={movie} key={movie.kinopoiskId} />
       ))}

@@ -39,6 +39,9 @@ namespace Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("Icon")
+                        .HasColumnType("text");
+
                     b.Property<string>("Password")
                         .HasColumnType("text");
 
@@ -49,6 +52,32 @@ namespace Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("User", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("7d9a0298-c78b-4695-ba85-328da77dbe49"),
+                            CreatedDateTime = new DateTime(2023, 12, 23, 16, 18, 33, 102, DateTimeKind.Utc).AddTicks(4458),
+                            Email = "slavoyar@hotmail.com",
+                            Password = "$2a$11$xjNnZHNqvIKURLF3ldakbeYlhxbXEABXQzQnKDExYmfiELqFM3uzC",
+                            Username = "slavoyar"
+                        },
+                        new
+                        {
+                            Id = new Guid("8f56b3cb-cd9c-4fe0-8634-41c243b077e1"),
+                            CreatedDateTime = new DateTime(2023, 12, 23, 16, 18, 33, 102, DateTimeKind.Utc).AddTicks(4497),
+                            Email = "serpens@rollgo.com",
+                            Password = "$2a$11$xjNnZHNqvIKURLF3ldakbeYlhxbXEABXQzQnKDExYmfiELqFM3uzC",
+                            Username = "outflow"
+                        },
+                        new
+                        {
+                            Id = new Guid("e643a90e-1e36-42e9-835c-f67224ac9266"),
+                            CreatedDateTime = new DateTime(2023, 12, 23, 16, 18, 33, 102, DateTimeKind.Utc).AddTicks(4499),
+                            Email = "serpens@hotmail.com",
+                            Password = "$2a$11$xjNnZHNqvIKURLF3ldakbeYlhxbXEABXQzQnKDExYmfiELqFM3uzC",
+                            Username = "serpens"
+                        });
                 });
 
             modelBuilder.Entity("Domain.Entities.UserSession", b =>

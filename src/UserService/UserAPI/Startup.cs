@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using UserAPI.Mapping;
+using UserAPI.Middlewares;
 using UserAPI.Services;
 
 namespace UserAPI
@@ -68,6 +69,7 @@ namespace UserAPI
                         .AllowAnyMethod();
                 });
             });
+            services.AddGrpc();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -95,8 +97,12 @@ namespace UserAPI
             app.UseAuthentication();
             app.UseAuthorization();
 
+            app.UseMiddleware<LoggerMiddleware>();
+            app.UseMiddleware<ExceptionMiddleware>();
+
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapGrpcService<GrpcServices.UserService>();
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
