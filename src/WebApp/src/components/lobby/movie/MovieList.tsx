@@ -1,10 +1,9 @@
 import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Box, Typography } from '@mui/material';
+import { Stack, Typography } from '@mui/material';
 
 import { LocalizationNamespace } from '@enums/LocalizationNamespace';
-
-import { Movie } from '../models/Movie';
+import { Movie } from '@models/Movie';
 
 import MovieView from './MovieView';
 
@@ -21,24 +20,22 @@ const MovieList: FC<MoviesListProps> = ({ setMovies, movies }) => {
 
   if (!movies.length) {
     return (
-      <Box sx={{ display: 'flex', justifyContent: 'center', m: 3 }}>
-        <Typography
-          variant="h6"
-          component="div"
-          sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-        >
-          {t('moviesAreNotAddedYet')}
-        </Typography>
-      </Box>
+      <Typography
+        variant="h6"
+        color="primary.contrastText"
+        sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+      >
+        {t('moviesAreNotAddedYet')}
+      </Typography>
     );
   }
 
   return (
-    <Box sx={{ m: 3 }}>
+    <Stack spacing={2} sx={{ height: '100%' }}>
       {movies.map((movie: Movie, index: number) => (
         <MovieView remove={remove} number={index + 1} movie={movie} key={movie.kinopoiskId} />
       ))}
-    </Box>
+    </Stack>
   );
 };
 

@@ -9,7 +9,7 @@ import { Route } from '@enums/Route';
 import { useAuthStore } from '@store/authStore';
 import { useUserStore } from '@store/userStore';
 
-const LogIn = () => {
+const LoginPage = () => {
   const { t } = useTranslation(LocalizationNamespace.AUTH);
   const setTokenPair = useAuthStore((state) => state.setTokenPair);
   const setUser = useUserStore((state) => state.setUser);
@@ -29,7 +29,15 @@ const LogIn = () => {
   };
 
   return (
-    <Box sx={{ display: 'flex', justifyContent: 'center', alignContent: 'center', mt: 35 }}>
+    <Box
+      sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignContent: 'center',
+        alignItems: 'center',
+        height: '100%',
+      }}
+    >
       <Card
         sx={{
           display: 'flex',
@@ -56,9 +64,8 @@ const LogIn = () => {
         <Box sx={{ mt: 2, display: 'flex', justifyContent: 'space-between' }}>
           <Typography>
             {t('dontHaveAccount')}
-            <Link underline="none" href={Route.REGISTRATION}>
-              {' '}
-              {t('registrate')}{' '}
+            <Link underline="none" sx={{ ml: 0.5 }} href={Route.REGISTRATION}>
+              {t('registrate')}
             </Link>
           </Typography>
           <Button variant="outlined" onClick={onLogin}>
@@ -70,4 +77,4 @@ const LogIn = () => {
   );
 };
 
-export default LogIn;
+export default LoginPage;

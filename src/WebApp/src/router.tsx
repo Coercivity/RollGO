@@ -1,13 +1,15 @@
 import { Suspense } from 'react';
 import { createBrowserRouter, Outlet } from 'react-router-dom';
+import { Container } from '@mui/material';
 
-import Navbar from '@components/Navbar';
-import TermsOfUse from '@components/TermsOfUse';
+import Navbar from '@components/common/Navbar';
+import TermsOfUse from '@components/common/TermsOfUse';
 import { Route } from '@enums/Route';
-import LobbyPage from '@views/LobbyPage';
-import LogIn from '@views/LogIn';
-import MainPage from '@views/MainPage';
-import Registration from '@views/Registration';
+
+import LobbyPage from './pages/LobbyPage';
+import LoginPage from './pages/LoginPage';
+import MainPage from './pages/MainPage';
+import RegistrationPage from './pages/RegistrationPage';
 // eslint-disable-next-line react-refresh/only-export-components
 const SuspenseWrapper = () => {
   return (
@@ -21,8 +23,10 @@ const SuspenseWrapper = () => {
 const NavbarWrapper = () => {
   return (
     <>
-      <Navbar />
-      <Outlet />
+      <Container maxWidth={false} disableGutters>
+        <Navbar />
+        <Outlet />
+      </Container>
     </>
   );
 };
@@ -48,11 +52,11 @@ export const router = createBrowserRouter([
       },
       {
         path: Route.LOGIN,
-        element: <LogIn />,
+        element: <LoginPage />,
       },
       {
         path: Route.REGISTRATION,
-        element: <Registration />,
+        element: <RegistrationPage />,
       },
       {
         path: Route.RULES,
