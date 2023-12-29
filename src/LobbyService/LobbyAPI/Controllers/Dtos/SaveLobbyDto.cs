@@ -6,6 +6,6 @@ namespace LobbyAPI.Controllers.Dtos
     public record SaveLobbyDto
     {
         public required string Name { get; set; }
-
+        public Guid AdminId { get; internal set; }
     }
 }
