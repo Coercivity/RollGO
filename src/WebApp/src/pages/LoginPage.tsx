@@ -9,7 +9,7 @@ import { Route } from '@enums/Route';
 import { useAuthStore } from '@store/authStore';
 import { useUserStore } from '@store/userStore';
 
-const LogIn = () => {
+const LoginPage = () => {
   const { t } = useTranslation(LocalizationNamespace.AUTH);
   const setTokenPair = useAuthStore((state) => state.setTokenPair);
   const setUser = useUserStore((state) => state.setUser);
@@ -78,4 +78,4 @@ const LogIn = () => {
   );
 };
 
-export default LogIn;
+export default LoginPage;

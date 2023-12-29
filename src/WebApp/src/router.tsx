@@ -5,10 +5,11 @@ import { Paper } from '@mui/material';
 import Navbar from '@components/Navbar';
 import TermsOfUse from '@components/TermsOfUse';
 import { Route } from '@enums/Route';
-import LobbyPage from '@views/LobbyPage';
-import LogIn from '@views/LogIn';
-import MainPage from '@views/MainPage';
-import Registration from '@views/Registration';
+
+import LobbyPage from './pages/LobbyPage';
+import LoginPage from './pages/LoginPage';
+import MainPage from './pages/MainPage';
+import RegistrationPage from './pages/RegistrationPage';
 // eslint-disable-next-line react-refresh/only-export-components
 const SuspenseWrapper = () => {
   return (
@@ -51,11 +52,11 @@ export const router = createBrowserRouter([
       },
       {
         path: Route.LOGIN,
-        element: <LogIn />,
+        element: <LoginPage />,
       },
       {
         path: Route.REGISTRATION,
-        element: <Registration />,
+        element: <RegistrationPage />,
       },
       {
         path: Route.RULES,

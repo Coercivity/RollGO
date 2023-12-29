@@ -9,7 +9,7 @@ import { Route } from '@enums/Route';
 import { useAuthStore } from '@store/authStore';
 import { useUserStore } from '@store/userStore';
 
-const Registration = () => {
+const RegistrationPage = () => {
   const { t } = useTranslation(LocalizationNamespace.AUTH);
   const [email, setEmail] = useState<string>('');
   const [emailError, setEmailError] = useState(false);
@@ -133,4 +133,4 @@ const Registration = () => {
   );
 };
 
-export default Registration;
+export default RegistrationPage;
