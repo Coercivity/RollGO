@@ -121,7 +121,7 @@ const RegistrationPage = () => {
           <Typography>
             {t('haveAccount')}
             <Link sx={{ ml: 0.5 }} underline="none" href={Route.LOGIN}>
-              {t('logIn!')}{' '}
+              {t('logIn!')}
             </Link>
           </Typography>
           <Button variant="outlined" disabled={isRegisterDisabled()} onClick={onRegister}>

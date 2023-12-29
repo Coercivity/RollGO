@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
@@ -14,15 +14,16 @@ import {
   ToggleButton,
   ToggleButtonGroup,
   Typography,
+  useTheme,
 } from '@mui/material';
 
-import LobbyHistory from '@components/Lobby/LobbyHistory';
-import LobbyNicknameModal from '@components/Lobby/LobbyNicknameModal';
-import LobbySettings from '@components/Lobby/LobbySettings';
-import MovieList from '@components/Lobby/movie/MovieList';
-import MovieSearch from '@components/Lobby/movie/MovieSearch';
-import SpinningWheel from '@components/Lobby/SpiningWheel';
-import UsersList from '@components/Lobby/user/UsersList';
+import LobbyHistory from '@components/lobby/LobbyHistory';
+import LobbyNicknameModal from '@components/lobby/LobbyNicknameModal';
+import LobbySettings from '@components/lobby/LobbySettings';
+import MovieList from '@components/lobby/movie/MovieList';
+import MovieSearch from '@components/lobby/movie/MovieSearch';
+import SpinningWheel from '@components/lobby/SpiningWheel';
+import UsersList from '@components/lobby/user/UsersList';
 import { LocalizationNamespace } from '@enums/LocalizationNamespace';
 import { Route } from '@enums/Route';
 import { Movie } from '@models/Movie';
@@ -34,12 +35,30 @@ type LobbyParams = {
 
 const LobbyPage = () => {
   const { t } = useTranslation(LocalizationNamespace.LOBBY);
+  const theme = useTheme();
 
   const [movies, setMovies] = useState<Movie[]>([]);
   const [isWheelVisible, setIsWheelVisible] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [isAnonymous, setUser] = useUserStore((state) => [state.isAnonymous, state.setUser]);
+  const [maxHeight, setMaxHeight] = useState(window.innerHeight);
+
+  const movieListContainer = useRef<HTMLElement>();
+
+  const handleResize = () => {
+    const offsetTop = movieListContainer.current?.offsetTop ?? 0;
+    const themeOffset = Number(theme.spacing().split('px')[0]) * 2;
+    setMaxHeight(window.innerHeight - offsetTop - themeOffset);
+  };
+
+  useEffect(() => {
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [movies]);
 
   useEffect(() => {
     if (!isAnonymous) setOpenModal(true); // выставил ! что б не вылазило при каждом сохранении
@@ -60,7 +79,7 @@ const LobbyPage = () => {
 
   return (
     <Container maxWidth="lg" sx={{ height: '100%', mt: 2 }}>
-      <Paper sx={{ py: 2, bgcolor: 'grey.900' }}>
+      <Paper sx={{ py: 2, bgcolor: 'grey.900', mb: 2 }}>
         <Box sx={{ display: 'flex', justifyContent: 'left' }}>
           <IconButton color="secondary" onClick={exitLobby}>
             <ExitToAppIcon />
@@ -79,7 +98,9 @@ const LobbyPage = () => {
             {!isWheelVisible ? (
               <>
                 <MovieSearch movies={movies} setMovies={setMovies} />
-                <MovieList movies={movies} setMovies={setMovies} />{' '}
+                <Box ref={movieListContainer} sx={{ mt: 2, maxHeight, overflow: 'auto' }}>
+                  <MovieList movies={movies} setMovies={setMovies} />
+                </Box>
               </>
             ) : (
               <SpinningWheel movies={movies} />

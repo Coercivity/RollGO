@@ -3,7 +3,7 @@ import { Wheel } from 'react-custom-roulette';
 import { useTranslation } from 'react-i18next';
 import { Box, TextField, ToggleButton, ToggleButtonGroup } from '@mui/material';
 
-import WinModal from '@components/Lobby/WinMovieModal';
+import WinModal from '@components/lobby/WinMovieModal';
 import { LocalizationNamespace } from '@enums/LocalizationNamespace';
 import { Movie } from '@models/Movie';
 

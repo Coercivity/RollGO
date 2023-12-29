@@ -28,7 +28,7 @@ const MovieView: FC<MovieViewProps> = ({ remove, movie }) => {
         <Card>
           <Grid container spacing={1}>
             <Grid item xs={2}>
-              <img width="100%" src={data.posterUrlPreview} />
+              <img width="100%" src={data.posterUrl} />
             </Grid>
             <Grid item xs={10}>
               <Grid container>

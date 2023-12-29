@@ -31,7 +31,7 @@ const MovieList: FC<MoviesListProps> = ({ setMovies, movies }) => {
   }
 
   return (
-    <Stack spacing={2}>
+    <Stack spacing={2} sx={{ height: '100%' }}>
       {movies.map((movie: Movie, index: number) => (
         <MovieView remove={remove} number={index + 1} movie={movie} key={movie.kinopoiskId} />
       ))}

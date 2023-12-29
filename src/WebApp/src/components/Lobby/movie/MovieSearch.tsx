@@ -22,6 +22,7 @@ const SearchAppBar: FC<SearchProps> = ({ movies, setMovies }) => {
   return (
     <Autocomplete
       multiple
+      limitTags={3}
       sx={{ minWidth: 10 }}
       getOptionLabel={(option) => option.nameRu}
       renderInput={(params) => <TextField {...params} label="Movie" />}

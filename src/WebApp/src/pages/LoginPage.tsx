@@ -64,9 +64,8 @@ const LoginPage = () => {
         <Box sx={{ mt: 2, display: 'flex', justifyContent: 'space-between' }}>
           <Typography>
             {t('dontHaveAccount')}
-            <Link underline="none" href={Route.REGISTRATION}>
-              {' '}
-              {t('registrate')}{' '}
+            <Link underline="none" sx={{ ml: 0.5 }} href={Route.REGISTRATION}>
+              {t('registrate')}
             </Link>
           </Typography>
           <Button variant="outlined" onClick={onLogin}>
