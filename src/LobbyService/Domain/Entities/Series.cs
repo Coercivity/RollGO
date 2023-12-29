@@ -1,6 +1,4 @@
 ﻿namespace Domain.Entities
 {
-    public record Series : EntertainmentEntity
-    {
-    }
+    public record Series : EntertainmentEntity { }
 }

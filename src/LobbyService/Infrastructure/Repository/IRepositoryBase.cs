@@ -2,7 +2,8 @@
 
 namespace Infrastructure.Repository
 {
-    public interface IRepositoryBase<TEntity> where TEntity : EntityBase
+    public interface IRepositoryBase<TEntity>
+        where TEntity : EntityBase
     {
         public Task<TEntity> CreateAsync(TEntity entity);
         public Task<TEntity> UpdateAsync(TEntity entity);

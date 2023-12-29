@@ -4,7 +4,8 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.Mapping
 {
-    internal class BaseEntityMapping<TEntity>(string tableName) : IEntityTypeConfiguration<TEntity> where TEntity : EntityBase
+    internal class BaseEntityMapping<TEntity>(string tableName) : IEntityTypeConfiguration<TEntity>
+        where TEntity : EntityBase
     {
         private string _tableName { get; set; } = tableName;
 
@@ -13,7 +14,9 @@ namespace Infrastructure.Mapping
             builder.ToTable(_tableName);
 
             builder.HasKey(k => k.Id);
-            builder.Property(p => p.Id).HasColumnName("Id")
+            builder
+                .Property(p => p.Id)
+                .HasColumnName("Id")
                 .HasColumnType("uuid")
                 .HasDefaultValueSql("uuid_generate_v4()")
                 .IsRequired(true);
