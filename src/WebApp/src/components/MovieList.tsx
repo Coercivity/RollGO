@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Box, Typography } from '@mui/material';
+import { List, Typography } from '@mui/material';
 
 import { LocalizationNamespace } from '@enums/LocalizationNamespace';
 
@@ -23,7 +23,7 @@ const MovieList: FC<MoviesListProps> = ({ setMovies, movies }) => {
     return (
       <Typography
         variant="h6"
-        component="div"
+        color="primary.contrastText"
         sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
       >
         {t('moviesAreNotAddedYet')}
@@ -32,11 +32,11 @@ const MovieList: FC<MoviesListProps> = ({ setMovies, movies }) => {
   }
 
   return (
-    <Box>
+    <List>
       {movies.map((movie: Movie, index: number) => (
         <MovieView remove={remove} number={index + 1} movie={movie} key={movie.kinopoiskId} />
       ))}
-    </Box>
+    </List>
   );
 };
 

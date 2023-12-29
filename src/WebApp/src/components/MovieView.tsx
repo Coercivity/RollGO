@@ -2,7 +2,7 @@ import { FC, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import ClearIcon from '@mui/icons-material/Clear';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
-import { Box, Card, IconButton, Link, List, Skeleton, Typography } from '@mui/material';
+import { Box, Card, Grid, IconButton, Link, List, Skeleton, Typography } from '@mui/material';
 import ImageListItem from '@mui/material/ImageListItem';
 
 import { LocalizationNamespace } from '../enums/LocalizationNamespace';
@@ -14,7 +14,7 @@ interface MovieViewProps {
   movie: Movie;
 }
 
-const MovieView: FC<MovieViewProps> = ({ remove, number, movie }) => {
+const MovieView: FC<MovieViewProps> = ({ remove, movie }) => {
   const [data, setData] = useState<Movie>();
 
   useEffect(() => {
@@ -23,99 +23,60 @@ const MovieView: FC<MovieViewProps> = ({ remove, number, movie }) => {
 
   const { t } = useTranslation(LocalizationNamespace.MOVIE);
   return (
-    <Box>
+    <>
       {data ? (
-        <Card
-          sx={{
-            p: 1,
-            display: 'flex',
-            justifyContent: 'space-between',
-            maxWidth: 880,
-            whiteSpace: 'nowrap',
-          }}
-        >
-          <Typography sx={{ p: 1 }}> {number}.</Typography>
-          <Box
-            flexGrow={1}
-            sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}
-          >
-            <Box sx={{ display: 'flex', flexDirection: 'row', m: 1, gap: 2 }}>
-              <ImageListItem sx={{ width: 125, height: 150 }}>
-                (
-                <img src={data.posterUrlPreview} />)
-              </ImageListItem>
-              <List>
-                <Link
-                  href={data.webUrl}
-                  underline="none"
-                  color="inherit"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <Typography
-                    variant="h4"
-                    sx={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                    }}
+        <Card>
+          <Grid container spacing={1}>
+            <Grid item xs={2}>
+              <img width="100%" src={data.posterUrlPreview} />
+            </Grid>
+            <Grid item xs={10}>
+              <Grid container>
+                <Grid item xs={11}>
+                  <Link
+                    href={data.webUrl}
+                    underline="none"
+                    color="inherit"
+                    target="_blank"
+                    rel="noopener noreferrer"
                   >
-                    {data && data.nameRu}
-                  </Typography>
-                </Link>
-                <Typography sx={{ display: 'flex' }}>
-                  {data ? (data.nameEn ? data.nameEn : data.nameOriginal) : ''}, {data && data.year}
-                  , {data ? data.filmLength : ''} {t('minute')}
-                </Typography>
-                <Typography sx={{ color: 'text.secondary' }}>{t('movieGenre')}</Typography>
-                <Typography sx={{ color: 'text.secondary' }}> {t('country')}</Typography>
-                <Typography sx={{ color: 'text.secondary' }}> {t('director')}</Typography>
-                <Typography sx={{ color: 'text.secondary' }}> {t('mainActors')}</Typography>
-              </List>
-            </Box>
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                flexDirection: 'column',
-              }}
-            >
-              <Box
-                sx={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'flex-end',
-                }}
-              >
-                <Typography sx={{ display: 'flex' }}>
-                  {t('ratingKinopoisk')}: {data ? data.ratingKinopoisk : ''}
-                  <StarBorderIcon sx={{ maxWidth: 20 }} />
-                </Typography>
-                <Typography sx={{ display: 'flex' }}>
-                  {t('ratingIMDb')}: {data ? data.ratingImdb : ''}
-                  <StarBorderIcon
-                    sx={{
-                      maxWidth: 20,
-                    }}
-                  />
-                </Typography>
-              </Box>
-            </Box>
-          </Box>
-          <Box sx={{ m: -1 }}>
-            <IconButton
-              size="small"
-              sx={{
-                display: 'flex',
-                justifyContent: 'flex-start',
-                flexDirection: 'column',
-              }}
-              onClick={() => remove(data)}
-              color="error"
-            >
-              <ClearIcon />
-            </IconButton>
-          </Box>
+                    <Typography variant="h4">{data && data.nameRu}</Typography>
+                  </Link>
+                </Grid>
+                <Grid item xs={1}>
+                  <IconButton size="small" onClick={() => remove(data)} color="secondary">
+                    <ClearIcon />
+                  </IconButton>
+                </Grid>
+              </Grid>
+              <Grid container>
+                <Grid item xs={6}>
+                  <List>
+                    <Typography sx={{ display: 'flex' }}>
+                      {data ? (data.nameEn ? data.nameEn : data.nameOriginal) : ''},{' '}
+                      {data && data.year}, {data ? data.filmLength : ''} {t('minute')}
+                    </Typography>
+                    <Typography sx={{ color: 'text.secondary' }}>{t('movieGenre')}</Typography>
+                    <Typography sx={{ color: 'text.secondary' }}> {t('country')}</Typography>
+                    <Typography sx={{ color: 'text.secondary' }}> {t('director')}</Typography>
+                    <Typography sx={{ color: 'text.secondary' }}> {t('mainActors')}</Typography>
+                  </List>
+                </Grid>
+                <Grid item xs={6}>
+                  <List>
+                    <Typography sx={{ display: 'flex', alignItems: 'center' }}>
+                      {t('ratingKinopoisk')}: {data ? data.ratingKinopoisk : ''}
+                      <StarBorderIcon />
+                    </Typography>
+                    <Typography sx={{ display: 'flex', alignItems: 'center' }}>
+                      {t('ratingIMDb')}: {data ? data.ratingImdb : ''}
+                      <StarBorderIcon />
+                    </Typography>
+                  </List>
+                </Grid>
+              </Grid>
+            </Grid>
+          </Grid>
         </Card>
       ) : (
         <Card>
@@ -134,7 +95,7 @@ const MovieView: FC<MovieViewProps> = ({ remove, number, movie }) => {
           </Box>
         </Card>
       )}
-    </Box>
+    </>
   );
 };
 

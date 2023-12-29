@@ -1,6 +1,6 @@
 import { Suspense } from 'react';
 import { createBrowserRouter, Outlet } from 'react-router-dom';
-import { Paper } from '@mui/material';
+import { Container } from '@mui/material';
 
 import Navbar from '@components/Navbar';
 import TermsOfUse from '@components/TermsOfUse';
@@ -14,9 +14,7 @@ import RegistrationPage from './pages/RegistrationPage';
 const SuspenseWrapper = () => {
   return (
     <Suspense>
-      <Paper sx={{ height: '100%', backgroundColor: '#212121' }}>
-        <Outlet />
-      </Paper>
+      <Outlet />
     </Suspense>
   );
 };
@@ -25,8 +23,10 @@ const SuspenseWrapper = () => {
 const NavbarWrapper = () => {
   return (
     <>
-      <Navbar />
-      <Outlet />
+      <Container maxWidth={false} disableGutters>
+        <Navbar />
+        <Outlet />
+      </Container>
     </>
   );
 };

@@ -8,7 +8,9 @@ import {
   Box,
   Button,
   Container,
+  Grid,
   IconButton,
+  Paper,
   ToggleButton,
   ToggleButtonGroup,
   Typography,
@@ -31,11 +33,10 @@ type LobbyParams = {
 };
 
 const LobbyPage = () => {
-  const [movies, setMovies] = useState<Movie[]>([]);
-  const [isWheelVisible, setIsWheelVisible] = useState(false);
-
   const { t } = useTranslation(LocalizationNamespace.LOBBY);
 
+  const [movies, setMovies] = useState<Movie[]>([]);
+  const [isWheelVisible, setIsWheelVisible] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [isAnonymous, setUser] = useUserStore((state) => [state.isAnonymous, state.setUser]);
@@ -58,10 +59,10 @@ const LobbyPage = () => {
   };
 
   return (
-    <Container maxWidth="lg">
-      <Box>
-        <Box sx={{ display: 'flex', textAlign: 'left', justifyContent: 'left' }}>
-          <IconButton color="primary" onClick={exitLobby}>
+    <Container maxWidth="lg" sx={{ height: '100%', mt: 2 }}>
+      <Paper sx={{ py: 2, bgcolor: 'grey.900' }}>
+        <Box sx={{ display: 'flex', justifyContent: 'left' }}>
+          <IconButton color="secondary" onClick={exitLobby}>
             <ExitToAppIcon />
           </IconButton>
           <Typography variant="h4" color="text.secondary">
@@ -71,44 +72,47 @@ const LobbyPage = () => {
             {lobbyId}
           </Typography>
         </Box>
-      </Box>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-        {!isWheelVisible ? (
-          <Box>
-            <MovieSearch movies={movies} setMovies={setMovies} />
-            <MovieList movies={movies} setMovies={setMovies} />
+      </Paper>
+      <Grid container spacing={2}>
+        <Grid item xs={8}>
+          <Box sx={{ p: 2, height: '100%', bgcolor: 'grey.900' }}>
+            {!isWheelVisible ? (
+              <>
+                <MovieSearch movies={movies} setMovies={setMovies} />
+                <MovieList movies={movies} setMovies={setMovies} />{' '}
+              </>
+            ) : (
+              <SpinningWheel movies={movies} />
+            )}
           </Box>
-        ) : (
-          <Box>
-            <SpinningWheel movies={movies} />
+        </Grid>
+        <Grid item xs={4}>
+          <Box sx={{ maxWidth: '600px' }}>
+            <ToggleButtonGroup
+              fullWidth
+              size="small"
+              color="primary"
+              value={isWheelVisible}
+              onChange={(_, value) => handleChange(value)}
+              exclusive
+              aria-label="Platform"
+            >
+              <ToggleButton value={false}>{t('movieList')}</ToggleButton>
+              <ToggleButton value={true}>{t('wheel')}</ToggleButton>
+            </ToggleButtonGroup>
+            <UsersList />
+            <Button fullWidth variant="contained" onClick={() => setSettingsOpen(true)}>
+              {<SettingsIcon />} {t('lobbySettings')}
+            </Button>
+            <LobbySettings
+              lobbyId={lobbyId}
+              settingsOpen={settingsOpen}
+              setSettingsOpen={setSettingsOpen}
+            />
+            <LobbyHistory />
           </Box>
-        )}
-
-        <Box>
-          <ToggleButtonGroup
-            fullWidth
-            size="small"
-            color="primary"
-            value={isWheelVisible}
-            onChange={(_, value) => handleChange(value)}
-            exclusive
-            aria-label="Platform"
-          >
-            <ToggleButton value={false}>{t('movieList')}</ToggleButton>
-            <ToggleButton value={true}>{t('wheel')}</ToggleButton>
-          </ToggleButtonGroup>
-          <UsersList />
-          <Button fullWidth variant="contained" onClick={() => setSettingsOpen(true)}>
-            {<SettingsIcon />} {t('lobbySettings')}
-          </Button>
-          <LobbySettings
-            lobbyId={lobbyId}
-            settingsOpen={settingsOpen}
-            setSettingsOpen={setSettingsOpen}
-          />
-          <LobbyHistory />
-        </Box>
-      </Box>
+        </Grid>
+      </Grid>
       <LobbyNicknameModal open={openModal} setOpen={setOpenModal} />
     </Container>
   );
