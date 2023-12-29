@@ -1,6 +1,6 @@
 import React, { FC, useState } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
-import { Container, IconButton } from '@mui/material';
+import { Box, IconButton } from '@mui/material';
 import InputBase from '@mui/material/InputBase';
 import { alpha, styled } from '@mui/material/styles';
 
@@ -62,7 +62,7 @@ const SearchAppBar: FC<SearchProps> = ({ movies, setMovies }) => {
   };
 
   return (
-    <Container sx={{ display: 'flex' }}>
+    <Box sx={{ display: 'flex' }}>
       <Search
         sx={{
           backgroundColor: 'lightgrey',
@@ -78,10 +78,10 @@ const SearchAppBar: FC<SearchProps> = ({ movies, setMovies }) => {
         />
       </Search>
 
-      <IconButton sx={{ ml: 1 }} color="primary" onClick={onClick}>
+      <IconButton color="primary" onClick={onClick}>
         <SearchIcon />
       </IconButton>
-    </Container>
+    </Box>
   );
 };
 

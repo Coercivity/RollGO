@@ -29,7 +29,15 @@ const LogIn = () => {
   };
 
   return (
-    <Box sx={{ display: 'flex', justifyContent: 'center', alignContent: 'center', mt: 35 }}>
+    <Box
+      sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignContent: 'center',
+        alignItems: 'center',
+        height: '100%',
+      }}
+    >
       <Card
         sx={{
           display: 'flex',

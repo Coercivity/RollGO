@@ -7,18 +7,6 @@ import { useUserStore } from '@store/userStore';
 
 import { IWheelData } from './SpiningWheel';
 
-const style = {
-  position: 'absolute',
-  bgcolor: 'background.paper',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 4,
-};
-
 interface WinModalProps {
   modal: boolean;
   setModal: (modal: boolean) => void;
@@ -37,7 +25,7 @@ const WinModal: FC<WinModalProps> = ({ modal, setModal, wheelData, prizeNumber }
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
-      <Box sx={style}>
+      <Box>
         <Typography id="modal-modal-description" sx={{ mt: 2, mb: 2 }}>
           {t('won', { username })}
         </Typography>

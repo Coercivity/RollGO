@@ -21,20 +21,18 @@ const MovieList: FC<MoviesListProps> = ({ setMovies, movies }) => {
 
   if (!movies.length) {
     return (
-      <Box sx={{ display: 'flex', justifyContent: 'center', m: 3 }}>
-        <Typography
-          variant="h6"
-          component="div"
-          sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-        >
-          {t('moviesAreNotAddedYet')}
-        </Typography>
-      </Box>
+      <Typography
+        variant="h6"
+        component="div"
+        sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+      >
+        {t('moviesAreNotAddedYet')}
+      </Typography>
     );
   }
 
   return (
-    <Box sx={{ m: 3 }}>
+    <Box>
       {movies.map((movie: Movie, index: number) => (
         <MovieView remove={remove} number={index + 1} movie={movie} key={movie.kinopoiskId} />
       ))}

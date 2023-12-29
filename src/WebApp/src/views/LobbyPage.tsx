@@ -59,7 +59,7 @@ const LobbyPage = () => {
 
   return (
     <Container maxWidth="lg">
-      <Box sx={{ textAlign: 'center', mt: 6 }}>
+      <Box>
         <Box sx={{ display: 'flex', textAlign: 'left', justifyContent: 'left' }}>
           <IconButton color="primary" onClick={exitLobby}>
             <ExitToAppIcon />
@@ -67,26 +67,24 @@ const LobbyPage = () => {
           <Typography variant="h4" color="text.secondary">
             {t('room')}
           </Typography>
-          <Typography sx={{ ml: 3 }} variant="h4">
+          <Typography sx={{ ml: 2 }} variant="h4">
             {lobbyId}
           </Typography>
         </Box>
       </Box>
       <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
         {!isWheelVisible ? (
-          <Box sx={{ mt: 3 }}>
-            <Box sx={{ display: 'flex', justifyContent: 'flex-start' }}>
-              <MovieSearch movies={movies} setMovies={setMovies} />
-            </Box>
+          <Box>
+            <MovieSearch movies={movies} setMovies={setMovies} />
             <MovieList movies={movies} setMovies={setMovies} />
           </Box>
         ) : (
-          <Box sx={{ m: 3 }}>
+          <Box>
             <SpinningWheel movies={movies} />
           </Box>
         )}
 
-        <Box sx={{ mt: 4, minWidth: 255, maxWidth: 290 }}>
+        <Box>
           <ToggleButtonGroup
             fullWidth
             size="small"
@@ -100,7 +98,7 @@ const LobbyPage = () => {
             <ToggleButton value={true}>{t('wheel')}</ToggleButton>
           </ToggleButtonGroup>
           <UsersList />
-          <Button fullWidth variant="outlined" onClick={() => setSettingsOpen(true)}>
+          <Button fullWidth variant="contained" onClick={() => setSettingsOpen(true)}>
             {<SettingsIcon />} {t('lobbySettings')}
           </Button>
           <LobbySettings

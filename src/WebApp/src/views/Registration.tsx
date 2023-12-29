@@ -71,7 +71,7 @@ const Registration = () => {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        mt: 30,
+        height: '100%',
       }}
     >
       <Card

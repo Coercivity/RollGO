@@ -46,9 +46,19 @@ const StyledBadgeOffline = styled(Badge)(({ theme }) => ({
   },
 }));
 
+const ButtonStyle = {
+  p: 1,
+  borderRadius: 2,
+  m: 1,
+  color: 'white',
+  width: '100%',
+  display: 'flex',
+  justifyContent: 'start',
+};
+
 const UserView = forwardRef<HTMLElement, UserViewProps>(({ nickname, isOnline = true }, _) => {
   return isOnline ? (
-    <IconButton sx={{ p: 1, borderRadius: 2, m: 1, color: 'white' }}>
+    <IconButton sx={ButtonStyle}>
       <StyledBadgeOnline
         overlap="circular"
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
@@ -59,7 +69,7 @@ const UserView = forwardRef<HTMLElement, UserViewProps>(({ nickname, isOnline = 
       <Typography sx={{ m: 0.5 }}>{nickname}</Typography>
     </IconButton>
   ) : (
-    <IconButton sx={{ p: 1, borderRadius: 2, m: 1, color: 'white' }}>
+    <IconButton sx={ButtonStyle}>
       <StyledBadgeOffline
         overlap="circular"
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}

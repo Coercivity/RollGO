@@ -26,7 +26,7 @@ const MainPage = () => {
   return (
     <Container maxWidth="lg">
       <Box sx={{ m: 2, textAlign: 'center' }}>
-        <Button onClick={() => setOpen(true)} variant="outlined" size="large">
+        <Button onClick={() => setOpen(true)} variant="contained" size="large">
           {t('createLobby')}
         </Button>
       </Box>
