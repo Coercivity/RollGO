@@ -10,6 +10,6 @@ namespace Infrastructure.Repository
         public Task DeleteAsync(TEntity entity);
         public Task DeleteAsync(Guid id);
         public Task<TEntity?> GetByIdAsync(Guid id);
-        public IQueryable<TEntity> GetAll();
+        public IQueryable<TEntity> GetAll(Func<TEntity, bool>? predicate = null);
     }
 }

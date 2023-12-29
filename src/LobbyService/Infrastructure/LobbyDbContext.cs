@@ -8,7 +8,7 @@ namespace Infrastructure
     {
         public DbSet<Lobby> Lobbies { get; set; } = null!;
         public DbSet<UserWeight> UsersWeights { get; set; } = null!;
-        public DbSet<Film> Films { get; set; } = null!;
+        public DbSet<EntertainmentEntity> EntertainmentEntities { get; set; } = null!;
         public DbSet<Meeting> Meetings { get; set; } = null!;
         public DbSet<LobbyUser> LobbyUsers { get; set; } = null!;
 

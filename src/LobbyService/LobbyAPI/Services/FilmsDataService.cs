@@ -1,17 +1,26 @@
 ﻿using Domain.Entities;
+using Infrastructure.Repository;
 
 namespace LobbyAPI.Services
 {
-    public class FilmsDataService(KinopoiskDataClient dataClient, IConfiguration configuration)
-        : IFilmsDataService
+    public class FilmsDataService(
+        KinopoiskDataClient dataClient,
+        IEntertainmentRepository filmsRepository
+    ) : IFilmsDataService
     {
         private readonly KinopoiskDataClient _dataClient = dataClient;
-        private readonly IConfiguration _configuration = configuration;
+        private readonly IEntertainmentRepository _filmsRepository = filmsRepository;
 
-        public async Task<Film> GetFilm(int filmId)
+        public async Task<EntertainmentEntity?> GetFilm(int filmId)
         {
-            //if (_configuration.Get([])) take data from external/internal api condition
+            var film = await TryRecieveFromNative(filmId);
+            if (film is not null)
+                return film;
+
             return await _dataClient.GetFilmAttributes(filmId);
         }
+
+        private async Task<EntertainmentEntity?> TryRecieveFromNative(int filmId) =>
+            await _filmsRepository.GetByKinopoiskId(filmId);
     }
 }

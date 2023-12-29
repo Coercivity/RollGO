@@ -4,6 +4,6 @@ namespace LobbyAPI.Services
 {
     public interface IFilmsDataService
     {
-        public Task<Film> GetFilm(int filmId);
+        public Task<EntertainmentEntity?> GetFilm(int filmId);
     }
 }
