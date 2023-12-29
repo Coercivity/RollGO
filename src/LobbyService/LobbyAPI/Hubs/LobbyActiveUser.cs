@@ -14,14 +14,10 @@ namespace LobbyAPI.Hubs
         {
             ArgumentNullException.ThrowIfNull(connectionId);
 
-            var connection = new LobbyConnection
-            {
-                ConnectionId = connectionId
-            };
+            var connection = new LobbyConnection { ConnectionId = connectionId };
 
             _connections.Add(connection);
         }
-
 
         public void RemoveConnection(string connectionId)
         {

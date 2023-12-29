@@ -11,6 +11,5 @@
         public List<Meeting>? Meetings { get; set; }
 
         public List<LobbyUser>? LobbyUsers { get; set; }
-
     }
 }

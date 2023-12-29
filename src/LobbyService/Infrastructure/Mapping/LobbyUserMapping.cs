@@ -10,7 +10,8 @@ namespace Infrastructure.Mapping
         {
             base.Configure(builder);
 
-            builder.Property(p => p.UserId)
+            builder
+                .Property(p => p.UserId)
                 .HasColumnName("UserId")
                 .HasColumnType("uuid")
                 .IsRequired(true);

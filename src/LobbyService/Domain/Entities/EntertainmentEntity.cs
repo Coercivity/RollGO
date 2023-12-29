@@ -15,7 +15,7 @@
         public string? Description { get; set; }
         public string? ShortDescription { get; set; }
         public bool IsSeries { get; set; }
-       /* public IList<string>? Genres { get; set; }
-        public IList<string>? Countries { get; set; }*/
+        /* public IList<string>? Genres { get; set; }
+         public IList<string>? Countries { get; set; }*/
     }
 }

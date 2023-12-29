@@ -21,7 +21,6 @@ namespace Infrastructure
             modelBuilder.ApplyConfiguration(new LobbyMapping());
             modelBuilder.ApplyConfiguration(new LobbyUserMapping());
             DatabaseSeeder.Seed(modelBuilder);
-
         }
     }
 }

@@ -1,6 +1,5 @@
-﻿
+﻿using System.Net.Http.Headers;
 using LobbyAPI.Services;
-using System.Net.Http.Headers;
 
 namespace Tests
 {
@@ -10,16 +9,16 @@ namespace Tests
         protected LobbyRepository _lobbyRepository;
         protected KinopoiskDataClient _kinopoiskDataClient;
         protected List<User> users = [];
-        
+
         [SetUp]
         public void Setup()
         {
             // Set up the in-memory database and repository
             var serviceProvider = new ServiceCollection()
-                .AddDbContext<LobbyDbContext>(options =>
-                    options
-                    .UseInMemoryDatabase(databaseName: "InMemoryDatabase"))
-                    //.UseNpgsql("Host=localhost;Port=5432;Database=postgres;Username=postgres;Password=test123123;"))
+                .AddDbContext<LobbyDbContext>(
+                    options => options.UseInMemoryDatabase(databaseName: "InMemoryDatabase")
+                )
+                //.UseNpgsql("Host=localhost;Port=5432;Database=postgres;Username=postgres;Password=test123123;"))
                 .BuildServiceProvider();
 
             _dbContext = serviceProvider.GetRequiredService<LobbyDbContext>();
@@ -31,7 +30,8 @@ namespace Tests
             };
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(
-                new MediaTypeWithQualityHeaderValue("application/json"));
+                new MediaTypeWithQualityHeaderValue("application/json")
+            );
             client.DefaultRequestHeaders.Add("X-API-KEY", "");
 
             _kinopoiskDataClient = new KinopoiskDataClient(client);
@@ -56,14 +56,13 @@ namespace Tests
                 users.Add(user);
                 lobbies.Add(lobby);
 
-                lobbyUsers.Add(new LobbyUser { Lobby =  lobby, UserId = user.Id });
+                lobbyUsers.Add(new LobbyUser { Lobby = lobby, UserId = user.Id });
                 usersWeights.Add(new UserWeight { UserId = user.Id, Lobby = lobby });
             }
             _dbContext.Lobbies.AddRange(lobbies);
             _dbContext.UsersWeights.AddRange(usersWeights);
             _dbContext.LobbyUsers.AddRange(lobbyUsers);
             _dbContext.SaveChanges();
-
 
             foreach (var lobby in lobbies)
                 meetings.Add(new Meeting { IsActive = true, Lobby = lobby });
@@ -81,8 +80,8 @@ namespace Tests
             for (int i = 300; i < 310; i++)
             {
                 var film = _kinopoiskDataClient.GetFilmAttributes(i).Result;
-                if (film is not null) 
-                { 
+                if (film is not null)
+                {
                     films.Add(film);
                 }
             }

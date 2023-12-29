@@ -1,5 +1,5 @@
-﻿using Domain.Entities;
-using System.Collections;
+﻿using System.Collections;
+using Domain.Entities;
 
 namespace Infrastructure.Repository
 {

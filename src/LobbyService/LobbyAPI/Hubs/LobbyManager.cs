@@ -3,12 +3,16 @@ using LobbyAPI.Services;
 
 namespace LobbyAPI.Hubs
 {
-    public class LobbyManager( MeetingService meetingService, FilmsDataService kinopoiskDataClient)
+    public class LobbyManager(MeetingService meetingService, FilmsDataService kinopoiskDataClient)
     {
         private readonly MeetingService _meetingService = meetingService;
         private readonly FilmsDataService _kinopoiskDataClient = kinopoiskDataClient;
 
-        public async Task<HashSet<LobbyActiveUser>?> JoinLobby(Guid lobbyId, Guid userId, string connectionId)
+        public async Task<HashSet<LobbyActiveUser>?> JoinLobby(
+            Guid lobbyId,
+            Guid userId,
+            string connectionId
+        )
         {
             var activeMeeting = _meetingService.GetActiveMeetingByLobbyId(lobbyId);
 
@@ -20,7 +24,7 @@ namespace LobbyAPI.Hubs
             }
 
             await _meetingService.AddActiveUserToMeeting(userId, activeMeeting);
-            
+
             return activeMeeting.ActiveUsers;
         }
 
@@ -56,6 +60,5 @@ namespace LobbyAPI.Hubs
             var userId = Guid.NewGuid();
             await _meetingService.AddActiveUserToMeeting(userId, activeMeeting);
         }
-
     }
 }

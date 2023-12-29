@@ -2,11 +2,12 @@ namespace Tests
 {
     internal class LobbiesTests : BaseTests
     {
-
         [Test]
         public async Task CreateLobbyFromRepositoryTest()
         {
-            Lobby newLobby = await _lobbyRepository.CreateAsync(new Lobby { Name = "test", AdminId = Guid.NewGuid() });
+            Lobby newLobby = await _lobbyRepository.CreateAsync(
+                new Lobby { Name = "test", AdminId = Guid.NewGuid() }
+            );
             Assert.That(newLobby, Is.Not.Null);
         }
 

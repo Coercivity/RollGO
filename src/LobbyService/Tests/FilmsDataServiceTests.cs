@@ -1,6 +1,4 @@
 ﻿namespace Tests
 {
-    internal class FilmsDataServiceTests
-    {
-    }
+    internal class FilmsDataServiceTests { }
 }

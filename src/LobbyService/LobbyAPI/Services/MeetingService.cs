@@ -5,12 +5,15 @@ using Newtonsoft.Json;
 
 namespace LobbyAPI.Services
 {
-    public class MeetingService(IMeetingRepository meetingRepository, UserService userService, IDistributedCache cache)
+    public class MeetingService(
+        IMeetingRepository meetingRepository,
+        UserService userService,
+        IDistributedCache cache
+    )
     {
         private readonly IMeetingRepository _meetingRepository = meetingRepository;
         private readonly UserService _userService = userService;
         private readonly IDistributedCache _cache = cache;
-
 
         public HashSet<ActiveMeeting> ActiveMeetings
         {
@@ -29,23 +32,28 @@ namespace LobbyAPI.Services
         }
 
         public ActiveMeeting GetActiveMeetingByLobbyId(Guid lobbyId) =>
-            ActiveMeetings.FirstOrDefault(x => x.Meeting.Lobby.Id.Equals(lobbyId) && x.Meeting.IsActive == true)
-            ?? throw new Exception();
+            ActiveMeetings.FirstOrDefault(
+                x => x.Meeting.Lobby.Id.Equals(lobbyId) && x.Meeting.IsActive == true
+            ) ?? throw new Exception();
 
         public LobbyActiveUser GetActiveUserByMeeting(ActiveMeeting meeting, string connectionId) =>
-            ActiveMeetings.FirstOrDefault(x => x.Meeting.Equals(meeting))?
-            .ActiveUsers.Where(x => x.Connections.Equals(connectionId)).FirstOrDefault()
-            ?? throw new Exception();
+            ActiveMeetings
+                .FirstOrDefault(x => x.Meeting.Equals(meeting))
+                ?.ActiveUsers
+                .Where(x => x.Connections.Equals(connectionId))
+                .FirstOrDefault() ?? throw new Exception();
 
         public LobbyActiveUser GetActiveUserFromMeeting(ActiveMeeting activeMeeting, Guid userId) =>
-            activeMeeting.ActiveUsers.FirstOrDefault(x => x.User.Id.Equals(userId)) 
+            activeMeeting.ActiveUsers.FirstOrDefault(x => x.User.Id.Equals(userId))
             ?? throw new Exception();
 
         public LobbyActiveUser GetActiveUserByConnectionId(string connectionId)
         {
             foreach (var activeMeeting in ActiveMeetings)
             {
-                var user = activeMeeting.ActiveUsers.FirstOrDefault(u => u.Connections.Any(c => c.ConnectionId == connectionId));
+                var user = activeMeeting.ActiveUsers.FirstOrDefault(
+                    u => u.Connections.Any(c => c.ConnectionId == connectionId)
+                );
                 if (user != null)
                 {
                     return user;
@@ -62,14 +70,17 @@ namespace LobbyAPI.Services
         public void AddConnectionToActiveUser(string connectionId, LobbyActiveUser activeUser) =>
             activeUser.AddConnection(connectionId);
 
-        public void RemoveConnectionFromActiveUser(string connectionId, LobbyActiveUser activeUser) =>
-            activeUser.RemoveConnection(connectionId);
+        public void RemoveConnectionFromActiveUser(
+            string connectionId,
+            LobbyActiveUser activeUser
+        ) => activeUser.RemoveConnection(connectionId);
 
         public async Task AddActiveUserToMeeting(Guid userId, ActiveMeeting activeMeeting)
         {
             var user = await _userService.GetUserById(userId);
             activeMeeting.ActiveUsers.Add(new LobbyActiveUser(user));
         }
+
         public void RemoveUserFromMeeting(LobbyActiveUser user, string connectionId)
         {
             var meeting = GetActiveMeetingByConnectionId(connectionId);

@@ -1,6 +1,4 @@
 ﻿namespace Infrastructure.Repository
 {
-    public interface IMeetingRepository
-    {
-    }
+    public interface IMeetingRepository { }
 }

@@ -11,8 +11,8 @@ namespace Infrastructure
             List<Lobby> lobbies = [];
             GamerTagGenerator Generator = new();
 
-            for (int i = 0; i < 3; i++) 
-                lobbies.Add(new Lobby { Name = Generator.Generate(), AdminId = Guid.NewGuid()});
+            for (int i = 0; i < 3; i++)
+                lobbies.Add(new Lobby { Name = Generator.Generate(), AdminId = Guid.NewGuid() });
             modelBuilder.Entity<Lobby>().HasData(lobbies);
         }
     }

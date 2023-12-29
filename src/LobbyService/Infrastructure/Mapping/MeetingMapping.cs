@@ -10,19 +10,15 @@ namespace Infrastructure.Mapping
         {
             base.Configure(builder);
 
-            builder.Property(m => m.IsActive)
+            builder
+                .Property(m => m.IsActive)
                 .HasColumnName("IsActive")
                 .HasColumnType("bool")
                 .IsRequired();
 
-            builder.Property(x => x.WinnerId)
-                .HasColumnName("WinnerId")
-                .HasColumnType("uuid");
+            builder.Property(x => x.WinnerId).HasColumnName("WinnerId").HasColumnType("uuid");
 
-            builder.HasOne(m => m.WinnerEntity)
-                .WithMany() 
-                .IsRequired(false); 
+            builder.HasOne(m => m.WinnerEntity).WithMany().IsRequired(false);
         }
     }
-
 }

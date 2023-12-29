@@ -47,9 +47,9 @@ services:
     depends_on:
       - postgres
     ports:
-      - "5282:80"
+      - "5282:5282"
+      - "5283:5283"
     environment:
-      ASPNETCORE_URLS: ${ASPNETCORE_URLS}
       ConnectionStrings__DefaultConnectionString: "Host=${POSTGRES_HOSTNAME};Port=5432;Database=${POSTGRES_DATABASE};Username=${POSTGRES_USERNAME};Password=${POSTGRES_PASSWORD}"
 
   redis:

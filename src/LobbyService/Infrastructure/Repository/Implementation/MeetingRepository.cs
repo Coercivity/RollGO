@@ -1,6 +1,4 @@
 ﻿namespace Infrastructure.Repository.Implementation
 {
-    public class MeetingRepository : IMeetingRepository
-    {
-    }
+    public class MeetingRepository : IMeetingRepository { }
 }

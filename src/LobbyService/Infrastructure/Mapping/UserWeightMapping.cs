@@ -10,16 +10,16 @@ namespace Infrastructure.Mapping
         {
             base.Configure(builder);
 
-            builder.Property(x => x.UserId)
+            builder
+                .Property(x => x.UserId)
                 .HasColumnName("UserId")
                 .HasColumnType("uuid")
                 .IsRequired();
-            
+
             //Ef core relationships have a reference navigation property on both sides
             //builder.HasOne(m => m.Lobby)
             //    .WithMany()
             //    .IsRequired();
-
         }
     }
 }
