@@ -21,6 +21,6 @@ namespace LobbyAPI.Services
         }
 
         private async Task<EntertainmentEntity?> TryRecieveFromNative(int filmId) =>
-            await _filmsRepository.GetByKinopoikId(filmId);
+            await _filmsRepository.GetByKinopoiskId(filmId);
     }
 }

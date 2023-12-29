@@ -7,9 +7,9 @@ namespace Infrastructure.Repository.Implementation
         : RepositoryBase<EntertainmentEntity>(context),
             IEntertainmentRepository
     {
-        public async Task<EntertainmentEntity?> GetByKinopoikId(int kinopoikId) =>
+        public async Task<EntertainmentEntity?> GetByKinopoiskId(int kinopoiskId) =>
             await _context.EntertainmentEntities.FirstOrDefaultAsync(
-                x => x.KinopoiskId == kinopoikId
+                x => x.KinopoiskId == kinopoiskId
             );
     }
 }

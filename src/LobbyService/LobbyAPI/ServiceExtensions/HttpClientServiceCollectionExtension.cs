@@ -4,7 +4,7 @@ namespace LobbyAPI.ServiceExtensions
 {
     public static class HttpClientServiceCollectionExtension
     {
-        public static IServiceCollection AddKinopoiskAPIHttpClinetExtension(
+        public static IServiceCollection AddKinopoiskAPIHttpClientExtension(
             this IServiceCollection services,
             IConfiguration configuration
         )

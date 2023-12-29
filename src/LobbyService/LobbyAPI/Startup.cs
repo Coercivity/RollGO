@@ -1,5 +1,6 @@
 ﻿using Infrastructure;
 using LobbyAPI.Hubs;
+using LobbyAPI.Middlewares;
 using LobbyAPI.ServiceExtensions;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,7 +13,7 @@ namespace LobbyAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDatabaseRepositoriesExtension(_configuration);
-            services.AddKinopoiskAPIHttpClinetExtension(_configuration);
+            services.AddKinopoiskAPIHttpClientExtension(_configuration);
             services.AddSignalRExtension(_configuration);
             services.AddUserServiceExtension(_configuration);
 
@@ -55,6 +56,7 @@ namespace LobbyAPI
                 dbContext.Database.Migrate();
             }
 
+            app.UseMiddleware<ExceptionHandlingMiddleware>();
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {

@@ -4,6 +4,6 @@ namespace Infrastructure.Repository
 {
     public interface IEntertainmentRepository : IRepositoryBase<EntertainmentEntity>
     {
-        public Task<EntertainmentEntity?> GetByKinopoikId(int kinopoikId);
+        public Task<EntertainmentEntity?> GetByKinopoiskId(int kinopoiskId);
     }
 }
