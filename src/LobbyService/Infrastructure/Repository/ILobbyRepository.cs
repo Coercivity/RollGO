@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using Domain.Entities;
+﻿using Domain.Entities;
 
 namespace Infrastructure.Repository
 {

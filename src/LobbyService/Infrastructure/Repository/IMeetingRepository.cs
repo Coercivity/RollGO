@@ -1,4 +1,6 @@
-﻿namespace Infrastructure.Repository
+﻿using Domain.Entities;
+
+namespace Infrastructure.Repository
 {
-    public interface IMeetingRepository { }
+    public interface IMeetingRepository : IRepositoryBase<Meeting> { }
 }

@@ -8,7 +8,7 @@ namespace Infrastructure
 {
     public static class DatabaseServiceCollectionExtension
     {
-        public static IServiceCollection AddDatabaseRepositories(
+        public static IServiceCollection AddDatabaseRepositoriesExtension(
             this IServiceCollection services,
             IConfiguration configuration
         )
@@ -20,6 +20,8 @@ namespace Infrastructure
 
             services.AddTransient<ILobbyRepository, LobbyRepository>();
             services.AddTransient<IMeetingRepository, MeetingRepository>();
+            services.AddTransient<IEntertainmentRepository, EntertainmentRepository>();
+            services.AddTransient<IUserWeightRepository, UserWeightRepository>();
             return services;
         }
     }

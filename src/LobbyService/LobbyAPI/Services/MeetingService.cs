@@ -7,12 +7,12 @@ namespace LobbyAPI.Services
 {
     public class MeetingService(
         IMeetingRepository meetingRepository,
-        UserService userService,
+        IUserService userService,
         IDistributedCache cache
     )
     {
         private readonly IMeetingRepository _meetingRepository = meetingRepository;
-        private readonly UserService _userService = userService;
+        private readonly IUserService _userService = userService;
         private readonly IDistributedCache _cache = cache;
 
         public HashSet<ActiveMeeting> ActiveMeetings
