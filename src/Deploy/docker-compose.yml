@@ -34,9 +34,8 @@ services:
       - postgres
       - redis
     ports:
-      - "5228:80"
+      - "5228:8080"
     environment:
-      ASPNETCORE_URLS: ${ASPNETCORE_URLS}
       ConnectionStrings__DefaultConnectionString: "Host=${POSTGRES_HOSTNAME};Port=5432;Database=${POSTGRES_DATABASE};Username=${POSTGRES_USERNAME};Password=${POSTGRES_PASSWORD}"
 
   user-api:

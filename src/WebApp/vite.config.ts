@@ -26,6 +26,12 @@ export default defineConfig({
         changeOrigin: true,
         secure: false,
       },
-    }
+      '^(/lobbyHub|/api/lobbies)' : {
+        target: 'http://localhost:5228',
+        changeOrigin: true,
+        secure: false,
+        ws: true,
+      },
+    },
   }
 });

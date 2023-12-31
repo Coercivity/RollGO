@@ -1,26 +1,29 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
+import { useLoaderData, useNavigate } from 'react-router-dom';
 import { Box, Button, Container } from '@mui/material';
 
+import lobbyService from '@api/lobbyService';
 import LobbyCreationModal from '@components/lobby/LobbyCreationModal';
 import LobbyList from '@components/lobby/LobbyList';
 import { Route } from '@enums/Route';
+import { Lobby } from '@models/Lobby';
 
 const MainPage = () => {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
-  const [lobbies, setLobbies] = useState<string[]>([]);
+  const [lobbies, setLobbies] = useState<Lobby[]>(useLoaderData() as Lobby[]);
   const navigate = useNavigate();
 
-  const addNewLobby = (lobby: string) => {
-    setLobbies([...lobbies, lobby]);
+  const addNewLobby = async (lobbyName: string) => {
+    const lobby = await lobbyService.createLobby(lobbyName);
     setOpen(false);
-    navigate(`${Route.LOBBY}/${lobby}`);
+    navigate(`${Route.LOBBY}/${lobby.id}`);
   };
 
-  const remove = (name: string) => {
-    setLobbies(lobbies.filter((p) => p !== name));
+  const remove = async (lobbyId: string) => {
+    await lobbyService.removeLobby(lobbyId);
+    setLobbies(lobbies.filter((lobby) => lobby.id !== lobbyId));
   };
 
   return (

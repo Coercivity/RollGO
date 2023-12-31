@@ -1,21 +1,22 @@
 import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Box, Typography } from '@mui/material';
+import { Box, Paper, Typography } from '@mui/material';
 
 import { LocalizationNamespace } from '@enums/LocalizationNamespace';
+import { Lobby } from '@models/Lobby';
 
 import LobbyView from './LobbyView';
 
 interface LobbyListProps {
-  lobbies: string[];
-  remove: (lobby: string) => void;
+  lobbies: Lobby[];
+  remove: (lobbyId: string) => void;
 }
 
 const LobbyList: FC<LobbyListProps> = ({ lobbies, remove }) => {
   const { t } = useTranslation(LocalizationNamespace.LOBBY);
   if (!lobbies.length) {
     return (
-      <Box sx={{ border: 0.5, borderRadius: 3, p: 2, borderColor: 'grey.500' }}>
+      <Box sx={{ borderRadius: 3, p: 2, borderColor: 'grey.500' }}>
         <Typography
           variant="h6"
           component="div"
@@ -28,11 +29,11 @@ const LobbyList: FC<LobbyListProps> = ({ lobbies, remove }) => {
   }
 
   return (
-    <Box sx={{ border: 0.5, borderRadius: 3, p: 2, borderColor: 'primary.main' }}>
-      {lobbies.map((lobby, index: number) => (
-        <LobbyView remove={remove} number={index + 1} lobby={lobby} key={lobby} />
+    <Paper sx={{ borderRadius: 3, p: 2, bgcolor: 'grey.900' }}>
+      {lobbies.map((lobby) => (
+        <LobbyView remove={() => remove(lobby.id)} lobby={lobby} key={lobby.id} />
       ))}
-    </Box>
+    </Paper>
   );
 };
 

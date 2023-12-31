@@ -74,7 +74,7 @@ namespace LobbyAPI
             {
                 endpoints.MapHealthChecks("health");
                 endpoints.MapControllers();
-                endpoints.MapHub<LobbyHub>("/lobby");
+                endpoints.MapHub<LobbyHub>("/lobbyHub");
             });
         }
     }
