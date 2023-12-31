@@ -2,6 +2,7 @@ import { Suspense } from 'react';
 import { createBrowserRouter, Outlet } from 'react-router-dom';
 import { Container } from '@mui/material';
 
+import lobbyService from '@api/lobbyService';
 import Navbar from '@components/common/Navbar';
 import TermsOfUse from '@components/common/TermsOfUse';
 import { Route } from '@enums/Route';
@@ -43,10 +44,12 @@ export const router = createBrowserRouter([
           {
             path: Route.ROOT,
             element: <MainPage />,
+            loader: async () => lobbyService.getLobbies(),
           },
           {
             path: `${Route.LOBBY}/:lobbyId`,
             element: <LobbyPage />,
+            loader: async ({ params }) => lobbyService.getLobby(params.lobbyId ?? ''),
           },
         ],
       },

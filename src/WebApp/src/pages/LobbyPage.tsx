@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
-import { useParams } from 'react-router-dom';
+import { useLoaderData, useNavigate } from 'react-router-dom';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import SettingsIcon from '@mui/icons-material/Settings';
 import {
@@ -17,6 +16,7 @@ import {
   useTheme,
 } from '@mui/material';
 
+import lobbyHubService from '@api/lobbyHubService';
 import LobbyHistory from '@components/lobby/LobbyHistory';
 import LobbyNicknameModal from '@components/lobby/LobbyNicknameModal';
 import LobbySettings from '@components/lobby/LobbySettings';
@@ -26,22 +26,24 @@ import SpinningWheel from '@components/lobby/SpiningWheel';
 import UsersList from '@components/lobby/user/UsersList';
 import { LocalizationNamespace } from '@enums/LocalizationNamespace';
 import { Route } from '@enums/Route';
+import { Lobby } from '@models/Lobby';
 import { Movie } from '@models/Movie';
 import { useUserStore } from '@store/userStore';
-
-type LobbyParams = {
-  lobbyId: string;
-};
 
 const LobbyPage = () => {
   const { t } = useTranslation(LocalizationNamespace.LOBBY);
   const theme = useTheme();
+  const lobby = useLoaderData() as Lobby;
 
   const [movies, setMovies] = useState<Movie[]>([]);
   const [isWheelVisible, setIsWheelVisible] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
-  const [isAnonymous, setUser] = useUserStore((state) => [state.isAnonymous, state.setUser]);
+  const [isAnonymous, setUser, username] = useUserStore((state) => [
+    state.isAnonymous,
+    state.setUser,
+    state.username,
+  ]);
   const [maxHeight, setMaxHeight] = useState(window.innerHeight);
 
   const movieListContainer = useRef<HTMLElement>();
@@ -65,12 +67,16 @@ const LobbyPage = () => {
     if (!isAnonymous) setOpenModal(true); // выставил ! что б не вылазило при каждом сохранении
   }, [isAnonymous]);
 
-  const { lobbyId } = useParams<LobbyParams>();
+  useEffect(() => {
+    lobbyHubService.joinLobbyAnonymous(lobby.id, username).catch(console.error);
+    return () => {
+      lobbyHubService.stopConnection();
+    };
+  }, []);
 
   const navigate = useNavigate();
   const exitLobby = () => {
     setUser({ id: '', username: 'Anon', isOnline: false }, true);
-
     navigate(Route.ROOT);
   };
 
@@ -89,7 +95,7 @@ const LobbyPage = () => {
             {t('room')}
           </Typography>
           <Typography sx={{ ml: 2 }} variant="h4">
-            {lobbyId}
+            {lobby.name}
           </Typography>
         </Box>
       </Paper>
@@ -127,7 +133,7 @@ const LobbyPage = () => {
               {<SettingsIcon />} {t('lobbySettings')}
             </Button>
             <LobbySettings
-              lobbyName={lobbyId}
+              lobbyName={lobby.name}
               settingsOpen={settingsOpen}
               setSettingsOpen={setSettingsOpen}
             />
