@@ -1,4 +1,3 @@
-using System.ComponentModel.DataAnnotations;
 using UserAPI.Exceptions;
 
 namespace UserAPI.Middlewares;

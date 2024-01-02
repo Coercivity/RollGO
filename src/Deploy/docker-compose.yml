@@ -1,6 +1,13 @@
 version: '3.8'
 
 services:
+  certificate:
+    container_name: certificate
+    build: 
+      dockerfile: Dockerfile.cert
+    volumes:
+      - certificate:/app
+
   postgres:
     image: postgres
     hostname: ${POSTGRES_HOSTNAME}
@@ -45,9 +52,11 @@ services:
       dockerfile: Dockerfile
     depends_on:
       - postgres
+      - certificate
     ports:
       - "5282:5282"
-      - "5283:5283"
+    volumes:
+      - certificate:/app/cert
     environment:
       ConnectionStrings__DefaultConnectionString: "Host=${POSTGRES_HOSTNAME};Port=5432;Database=${POSTGRES_DATABASE};Username=${POSTGRES_USERNAME};Password=${POSTGRES_PASSWORD}"
 
@@ -85,6 +94,7 @@ volumes:
   postgres-data:
   redis:
   redis-config:
+  certificate:
 
 networks:
   redis-network:
