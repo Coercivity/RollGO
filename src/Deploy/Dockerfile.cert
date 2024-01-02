@@ -1,0 +1,7 @@
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS cert-generator
+
+WORKDIR /app
+
+RUN dotnet dev-certs https -ep /app/certificate.pfx -p password
+
+VOLUME /app
