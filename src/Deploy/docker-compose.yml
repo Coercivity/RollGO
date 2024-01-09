@@ -40,8 +40,11 @@ services:
     depends_on:
       - postgres
       - redis
+      - certificate
     ports:
-      - "5228:8080"
+      - "5228:5228"
+    volumes:
+      - certificate:/app/cert
     environment:
       ConnectionStrings__DefaultConnectionString: "Host=${POSTGRES_HOSTNAME};Port=5432;Database=${POSTGRES_DATABASE};Username=${POSTGRES_USERNAME};Password=${POSTGRES_PASSWORD}"
 

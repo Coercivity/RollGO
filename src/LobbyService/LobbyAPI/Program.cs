@@ -12,6 +12,19 @@ namespace LobbyAPI
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
+
+                    webBuilder.UseKestrel((context, options) =>
+                    {
+                        options.ListenAnyIP(context.Configuration.GetValue<int>("Port"), listenOptions =>
+                        {
+                            if (!context.HostingEnvironment.IsDevelopment())
+                            {
+                                listenOptions.UseHttps(context.Configuration["Certificates:Path"]!, context.Configuration["Certificates:Password"]);
+                            } else {
+                                listenOptions.UseHttps();
+                            }
+                        });
+                    });
                 });
     }
 }
