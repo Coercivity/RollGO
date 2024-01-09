@@ -1,17 +1,22 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import LogoutIcon from '@mui/icons-material/Logout';
+import SettingsIcon from '@mui/icons-material/Settings';
 import {
   AppBar,
   Button,
   ButtonGroup,
-  IconButton,
   Link,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
   Toolbar,
-  Tooltip,
   Typography,
 } from '@mui/material';
+import Popover from '@mui/material/Popover';
 import { Box } from '@mui/system';
 
 import { LocalizationNamespace } from '@enums/LocalizationNamespace';
@@ -24,6 +29,7 @@ import UserView from './UserView';
 const Navbar: FC = () => {
   const { t } = useTranslation(LocalizationNamespace.NAVBAR);
   const setTokenPair = useAuthStore((state) => state.setTokenPair);
+  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const [username, isAnonymous, setUser] = useUserStore((state) => [
     state.username,
     state.isAnonymous,
@@ -35,7 +41,13 @@ const Navbar: FC = () => {
   const onLogout = async () => {
     setTokenPair({ accessToken: '', refreshToken: '' });
     setUser({ id: '', username: 'Anon', isOnline: false }, true);
+    setAnchorEl(null);
     navigate(Route.ROOT);
+  };
+
+  const goSettings = () => {
+    navigate(Route.USER_SETTINGS);
+    setAnchorEl(null);
   };
 
   const signUp = () => {
@@ -46,9 +58,16 @@ const Navbar: FC = () => {
     navigate(Route.LOGIN);
   };
 
-  const onUserViewClick = () => {
-    console.log('go to user settings');
-  }; //???
+  const open = Boolean(anchorEl);
+  const id = open ? 'simple-popover' : undefined;
+
+  const onUserViewClick = (event: React.MouseEvent<HTMLButtonElement | null>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handlePopoverClose = () => {
+    setAnchorEl(null);
+  };
 
   return (
     <AppBar position="static">
@@ -72,12 +91,38 @@ const Navbar: FC = () => {
           </ButtonGroup>
         ) : (
           <Box>
-            <Tooltip title={t('openProfile')} sx={{ display: 'flex', flexDirection: 'row' }}>
-              <UserView nickname={username} onClick={onUserViewClick} isOnline={true} />
-            </Tooltip>
-            <IconButton onClick={onLogout} sx={{ color: 'white' }}>
-              <LogoutIcon />
-            </IconButton>
+            <Popover
+              sx={{ width: '100%', minWidth: 360 }}
+              id={id}
+              open={open}
+              anchorEl={anchorEl}
+              onClose={handlePopoverClose}
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'left',
+              }}
+            >
+              <List>
+                <ListItem disablePadding>
+                  <ListItemButton onClick={goSettings}>
+                    <ListItemIcon>
+                      <SettingsIcon />
+                    </ListItemIcon>
+                    <ListItemText primary={t('profileSettings')} />
+                  </ListItemButton>
+                </ListItem>
+                <ListItem disablePadding>
+                  <ListItemButton onClick={onLogout}>
+                    <ListItemIcon>
+                      <LogoutIcon />
+                    </ListItemIcon>
+                    <ListItemText primary={t('logout')} />
+                  </ListItemButton>
+                </ListItem>
+              </List>
+            </Popover>
+
+            <UserView nickname={username} onUserViewClick={onUserViewClick} isOnline={true} />
           </Box>
         )}
       </Toolbar>

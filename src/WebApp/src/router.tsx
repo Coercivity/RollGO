@@ -8,6 +8,7 @@ import LobbyPage from '@views/LobbyPage';
 import LogIn from '@views/LogIn';
 import MainPage from '@views/MainPage';
 import Registration from '@views/Registration';
+import UserSettingsPage from '@views/UserSettingsPage';
 // eslint-disable-next-line react-refresh/only-export-components
 const SuspenseWrapper = () => {
   return (
@@ -43,6 +44,10 @@ export const router = createBrowserRouter([
           {
             path: `${Route.LOBBY}/:lobbyId`,
             element: <LobbyPage />,
+          },
+          {
+            path: Route.USER_SETTINGS,
+            element: <UserSettingsPage />,
           },
         ],
       },
