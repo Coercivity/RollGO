@@ -24,5 +24,5 @@ jobs:
           ssh root@${{ secrets.RUVDS_SERVER_IP }} -o StrictHostKeyChecking=no "
             cd RollGO/src/Deploy
             git pull
-            docker-compose up -d --build
+            docker compose up -d --build
           "
