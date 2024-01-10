@@ -22,7 +22,7 @@ jobs:
       - name: Connect to Server and Deploy
         run: |
           ssh root@${{ secrets.RUVDS_SERVER_IP }} -o StrictHostKeyChecking=no "
-            cd RollGo/src/Deploy
+            cd RollGO/src/Deploy
             git pull
             docker-compose up -d --build
           "
