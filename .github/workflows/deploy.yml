@@ -11,18 +11,22 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Set up SSH keys
-      uses: webfactory/ssh-agent@v0.8.0
-      with:
-        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+      - name: Set up SSH keys
+        uses: webfactory/ssh-agent@v0.8.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-    - name: Connect to Server and Deploy
-      run: |
-        ssh -o StrictHostKeyChecking=no -i $SSH_PRIVATE_KEY root@${{ secrets.RUVDS_SERVER_IP }} "
-          cd RollGo/src/Deploy
-          git pull
-          docker-compose up -d --build
-        "
+      - name: Get server IP from secret
+        run: |
+          RUVDS_SERVER_IP=${{ secrets.RUVDS_SERVER_IP }}
+
+      - name: Connect to Server and Deploy
+        run: |
+          ssh root@$RUVDS_SERVER_IP "
+            cd RollGo/src/Deploy
+            git pull
+            docker-compose up -d --build
+          "
