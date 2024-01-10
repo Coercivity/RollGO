@@ -15,7 +15,7 @@ namespace LobbyAPI.Controllers
         public async Task<List<LobbyDto>> GetAllLobbies()
         {
             var lobbies = _lobbyRepository.GetAll();
-            List<LobbyDto> lobbyDtos = lobbies.Select(x => new LobbyDto(x)).ToList();
+            List<LobbyDto> lobbyDtos = [.. lobbies.Select(x => new LobbyDto(x))];
             return lobbyDtos;
         }
 
@@ -29,7 +29,9 @@ namespace LobbyAPI.Controllers
         [HttpPost]
         public async Task<LobbyDto> Create([FromBody] SaveLobbyDto saveLobbyDto)
         {
-            var lobby = await _lobbyRepository.CreateAsync(new Lobby() { Name = saveLobbyDto.Name });
+            var lobby = await _lobbyRepository.CreateAsync(
+                new Lobby() { Name = saveLobbyDto.Name, AdminId = saveLobbyDto.AdminId }
+            );
             LobbyDto lobbyDto = new(lobby);
             return lobbyDto;
         }

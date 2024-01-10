@@ -2,7 +2,8 @@
 {
     public record UserWeight : EntityBase
     {
-        public required User User { get; set; }
+        public required Guid UserId { get; set; }
+
         public required Lobby Lobby { get; set; }
     }
 }

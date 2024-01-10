@@ -16,7 +16,7 @@ export default defineConfig({
         replacement: fileURLToPath(new URL('./src/components', import.meta.url)),
       },
       { find: '@models', replacement: fileURLToPath(new URL('./src/models', import.meta.url)) },
-      { find: '@views', replacement: fileURLToPath(new URL('./src/views', import.meta.url)) },
+      { find: '@pages', replacement: fileURLToPath(new URL('./src/pages', import.meta.url)) },
     ],
   },
   server: {
@@ -26,6 +26,12 @@ export default defineConfig({
         changeOrigin: true,
         secure: false,
       },
-    }
+      '^(/lobbyHub|/api/lobbies)' : {
+        target: 'http://localhost:5228',
+        changeOrigin: true,
+        secure: false,
+        ws: true,
+      },
+    },
   }
 });
