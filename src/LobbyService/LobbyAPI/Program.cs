@@ -20,7 +20,9 @@ namespace LobbyAPI
                             if (!context.HostingEnvironment.IsDevelopment())
                             {
                                 listenOptions.UseHttps(context.Configuration["Certificates:Path"]!, context.Configuration["Certificates:Password"]);
-                            } else {
+                            }
+                            else
+                            {
                                 listenOptions.UseHttps();
                             }
                         });
