@@ -3,7 +3,6 @@ import { fileURLToPath, URL } from 'node:url';
 import react from '@vitejs/plugin-react';
 import viteTsconfigPaths from 'vite-tsconfig-paths';
 
-// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react(), viteTsconfigPaths()],
   resolve: {
@@ -27,7 +26,7 @@ export default defineConfig({
         secure: false,
       },
       '^(/lobbyHub|/api/lobbies)' : {
-        target: 'http://localhost:5228',
+        target: 'https://localhost:5228',
         changeOrigin: true,
         secure: false,
         ws: true,
