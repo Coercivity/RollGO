@@ -5,7 +5,7 @@ import { styled } from '@mui/material/styles';
 
 interface UserViewProps {
   nickname: string;
-  onClick: () => void;
+  onClick?: (event: React.MouseEvent<HTMLButtonElement | null>) => void;
   isOnline?: boolean;
 }
 
@@ -56,30 +56,32 @@ const ButtonStyle = {
   justifyContent: 'start',
 };
 
-const UserView = forwardRef<HTMLElement, UserViewProps>(({ nickname, isOnline = true }, _) => {
-  return isOnline ? (
-    <IconButton sx={ButtonStyle}>
-      <StyledBadgeOnline
-        overlap="circular"
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-        variant="dot"
-      >
-        <Avatar />
-      </StyledBadgeOnline>
-      <Typography sx={{ m: 0.5 }}>{nickname}</Typography>
-    </IconButton>
-  ) : (
-    <IconButton sx={ButtonStyle}>
-      <StyledBadgeOffline
-        overlap="circular"
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-        variant="dot"
-      >
-        <Avatar />
-      </StyledBadgeOffline>
-      <Typography sx={{ m: 0.5 }}>{nickname}</Typography>
-    </IconButton>
-  );
-});
+const UserView = forwardRef<HTMLElement, UserViewProps>(
+  ({ nickname, isOnline = true, onClick }, _) => {
+    return isOnline ? (
+      <IconButton sx={ButtonStyle} onClick={onClick}>
+        <StyledBadgeOnline
+          overlap="circular"
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+          variant="dot"
+        >
+          <Avatar />
+        </StyledBadgeOnline>
+        <Typography sx={{ m: 0.5 }}>{nickname}</Typography>
+      </IconButton>
+    ) : (
+      <IconButton sx={ButtonStyle}>
+        <StyledBadgeOffline
+          overlap="circular"
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+          variant="dot"
+        >
+          <Avatar />
+        </StyledBadgeOffline>
+        <Typography sx={{ m: 0.5 }}>{nickname}</Typography>
+      </IconButton>
+    );
+  }
+);
 
 export default UserView;

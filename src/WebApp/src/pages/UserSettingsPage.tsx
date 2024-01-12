@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { Avatar, Box, Button, Card, Stack, TextField, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
-import { authService } from '@api/authService';
+import { userService } from '@api/userService';
 import { LocalizationNamespace } from '@enums/LocalizationNamespace';
-import { useAuthStore } from '@store/authStore';
 import { useUserStore } from '@store/userStore';
 
 const VisuallyHiddenInput = styled('input')({
@@ -23,13 +22,15 @@ const VisuallyHiddenInput = styled('input')({
 
 const UserSettingsPage = () => {
   const { t } = useTranslation(LocalizationNamespace.USER_SETTINGS);
-  const [previousUsername, mail, setUser] = useUserStore((state) => [
+  const [previousUsername, mail, setUser, id] = useUserStore((state) => [
     state.username,
     state.email,
     state.setUser,
+    state.id,
   ]);
+  const isOnline = true;
 
-  const [email, setEmail] = useState(mail);
+  const [email, setEmail] = useState('');
   const [emailError, setEmailError] = useState(false);
   const [username, setUsername] = useState<string>(previousUsername);
   const [oldPassword, setOldPassword] = useState<string>('');
@@ -37,13 +38,19 @@ const UserSettingsPage = () => {
   const [confirmPassword, setConfirmPassword] = useState<string>();
   const [passwordError, setPasswordError] = useState(false);
 
-  const setTokenPair = useAuthStore((state) => state.setTokenPair);
+  const [success, setSuccess] = useState(false);
+
+  useEffect(() => {
+    console.log(mail);
+    setEmail(mail);
+  }, []);
 
   const onEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (emailError && !e.target.validationMessage) {
       setEmailError(false);
     }
     setEmail(e.target.value);
+    console.log(e.target.value);
   };
 
   const onEmailBlur = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -68,26 +75,25 @@ const UserSettingsPage = () => {
   };
 
   const confirmChanges = async () => {
+    setSuccess(true);
     if (email && username) {
-      const data = await authService.register({
+      const data = await userService.settingsChange({
         email,
         username,
-        password,
+        id,
+        isOnline,
       });
-      setTokenPair({
-        accessToken: data.accessToken,
-        refreshToken: data.refreshToken,
-      });
-      setUser(data.user, false);
+      setUser(data, false);
+      console.log(data);
     }
   };
 
   const isRegisterDisabled = (): boolean => {
-    if (emailError) return false;
-    if (password && !confirmPassword) return false;
-    if (password && !oldPassword) return false;
-    if (!password && oldPassword) return false;
-    return true;
+    if (emailError) return true;
+    if (password && !confirmPassword) return true;
+    if (password && !oldPassword) return true;
+    if (!password && oldPassword) return true;
+    return false;
   };
 
   return (
@@ -138,12 +144,14 @@ const UserSettingsPage = () => {
             variant="standard"
             error={emailError}
             onChange={onEmailChange}
+            value={email}
             onBlur={onEmailBlur}
           />
           <TextField
             margin="dense"
             label={t('changeLogin')}
             variant="standard"
+            value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
         </Box>
@@ -170,6 +178,7 @@ const UserSettingsPage = () => {
           <TextField
             margin="dense"
             label={t('newPassword')}
+            disabled={oldPassword === ''}
             error={passwordError}
             type="password"
             variant="standard"
@@ -177,6 +186,7 @@ const UserSettingsPage = () => {
           />
           <TextField
             margin="dense"
+            disabled={password === ''}
             label={t('confirmNewPassword')}
             error={passwordError}
             type="password"
@@ -198,6 +208,7 @@ const UserSettingsPage = () => {
             color="error"
           >
             {passwordError && <Typography color="error"> {t('error')}</Typography>}
+            {success && !passwordError && <Typography color="green"> {t('success')}</Typography>}
           </Box>
           <Button
             sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}

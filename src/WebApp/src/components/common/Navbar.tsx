@@ -46,8 +46,8 @@ const Navbar: FC = () => {
   };
 
   const goSettings = () => {
-    navigate(Route.USER_SETTINGS);
     setAnchorEl(null);
+    navigate(Route.USER_SETTINGS);
   };
 
   const signUp = () => {
@@ -59,7 +59,7 @@ const Navbar: FC = () => {
   };
 
   const open = Boolean(anchorEl);
-  const id = open ? 'simple-popover' : undefined;
+  const popoverId = open ? 'simple-popover' : undefined;
 
   const onUserViewClick = (event: React.MouseEvent<HTMLButtonElement | null>) => {
     setAnchorEl(event.currentTarget);
@@ -85,7 +85,7 @@ const Navbar: FC = () => {
           </Link>
         </Typography>
         {isAnonymous ? (
-          <ButtonGroup disableElevation variant="contained" aria-label="Disabled elevation buttons">
+          <ButtonGroup disableElevation variant="text" aria-label="Disabled elevation buttons">
             <Button onClick={logIn}>{t('login')}</Button>
             <Button onClick={signUp}>{t('registration')}</Button>
           </ButtonGroup>
@@ -93,7 +93,7 @@ const Navbar: FC = () => {
           <Box>
             <Popover
               sx={{ width: '100%', minWidth: 360 }}
-              id={id}
+              id={popoverId}
               open={open}
               anchorEl={anchorEl}
               onClose={handlePopoverClose}
@@ -122,7 +122,7 @@ const Navbar: FC = () => {
               </List>
             </Popover>
 
-            <UserView nickname={username} onUserViewClick={onUserViewClick} isOnline={true} />
+            <UserView nickname={username} onClick={onUserViewClick} isOnline={true} />
           </Box>
         )}
       </Toolbar>
