@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { Avatar, Box, Button, Card, Stack, TextField, Typography } from '@mui/material';
@@ -28,22 +28,16 @@ const UserSettingsPage = () => {
     state.setUser,
     state.id,
   ]);
-  const isOnline = true;
 
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState(mail);
   const [emailError, setEmailError] = useState(false);
   const [username, setUsername] = useState<string>(previousUsername);
-  const [oldPassword, setOldPassword] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
+  const [oldPassword, setOldPassword] = useState<string>();
+  const [password, setPassword] = useState<string>();
   const [confirmPassword, setConfirmPassword] = useState<string>();
   const [passwordError, setPasswordError] = useState(false);
 
   const [success, setSuccess] = useState(false);
-
-  useEffect(() => {
-    console.log(mail);
-    setEmail(mail);
-  }, []);
 
   const onEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (emailError && !e.target.validationMessage) {
@@ -77,11 +71,11 @@ const UserSettingsPage = () => {
   const confirmChanges = async () => {
     setSuccess(true);
     if (email && username) {
-      const data = await userService.settingsChange({
+      const data = await userService.update({
         email,
         username,
         id,
-        isOnline,
+        password,
       });
       setUser(data, false);
       console.log(data);
@@ -178,7 +172,7 @@ const UserSettingsPage = () => {
           <TextField
             margin="dense"
             label={t('newPassword')}
-            disabled={oldPassword === ''}
+            disabled={oldPassword === null}
             error={passwordError}
             type="password"
             variant="standard"
@@ -186,7 +180,7 @@ const UserSettingsPage = () => {
           />
           <TextField
             margin="dense"
-            disabled={password === ''}
+            disabled={password === null}
             label={t('confirmNewPassword')}
             error={passwordError}
             type="password"

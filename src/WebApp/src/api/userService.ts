@@ -1,10 +1,10 @@
 import axios from 'axios';
 
-import { User } from '@models/User';
+import { User, UserRequest } from '@models/User';
 
 class UserService {
-  settingsChange(data: User): Promise<User> {
-    return axios.put<User, User>('api/user', data);
+  update(data: UserRequest): Promise<User> {
+    return axios.put<UserRequest, User>('api/user', data);
   }
 }
 
