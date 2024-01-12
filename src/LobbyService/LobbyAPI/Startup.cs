@@ -62,6 +62,8 @@ namespace LobbyAPI
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Lobby service API V1");
             });
+            
+            app.UseHttpsRedirection();
 
             app.UseRouting();
 
