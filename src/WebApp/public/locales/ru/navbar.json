@@ -2,5 +2,7 @@
   "openProfile": "Открыть профиль",
   "login": "Войти",
   "registration": "Регистрация",
-  "RollGO": "RollGO"
+  "RollGO": "RollGO",
+  "profileSettings": "Настройки профиля",
+  "logout": "Выйти"
 }

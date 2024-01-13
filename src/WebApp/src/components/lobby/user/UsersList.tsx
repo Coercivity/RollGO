@@ -26,12 +26,7 @@ const UsersList: FC = () => {
       <UsersFilter filter={filter} setFilter={setFilter} users={users} setUsers={setUsers} />
       <Box>
         {users.map(({ id, username, isOnline }) => (
-          <UserView
-            key={id}
-            nickname={username}
-            onClick={() => console.log('user view clicked')}
-            isOnline={isOnline}
-          />
+          <UserView key={id} nickname={username} isOnline={isOnline} />
         ))}
       </Box>
     </Card>

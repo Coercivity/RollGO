@@ -6,6 +6,7 @@ import lobbyService from '@api/lobbyService';
 import Navbar from '@components/common/Navbar';
 import TermsOfUse from '@components/common/TermsOfUse';
 import { Route } from '@enums/Route';
+import UserSettingsPage from '@pages/UserSettingsPage';
 
 import LobbyPage from './pages/LobbyPage';
 import LoginPage from './pages/LoginPage';
@@ -50,6 +51,10 @@ export const router = createBrowserRouter([
             path: `${Route.LOBBY}/:lobbyId`,
             element: <LobbyPage />,
             loader: async ({ params }) => lobbyService.getLobby(params.lobbyId ?? ''),
+          },
+          {
+            path: Route.USER_SETTINGS,
+            element: <UserSettingsPage />,
           },
         ],
       },

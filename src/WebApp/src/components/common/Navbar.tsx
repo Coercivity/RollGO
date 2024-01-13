@@ -1,17 +1,22 @@
-import { FC } from 'react';
+import { FC, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import LogoutIcon from '@mui/icons-material/Logout';
+import SettingsIcon from '@mui/icons-material/Settings';
 import {
   AppBar,
   Button,
   ButtonGroup,
-  IconButton,
   Link,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
   Toolbar,
-  Tooltip,
   Typography,
 } from '@mui/material';
+import Popover from '@mui/material/Popover';
 import { Box } from '@mui/system';
 
 import { LocalizationNamespace } from '@enums/LocalizationNamespace';
@@ -24,6 +29,8 @@ import UserView from './UserView';
 const Navbar: FC = () => {
   const { t } = useTranslation(LocalizationNamespace.NAVBAR);
   const setTokenPair = useAuthStore((state) => state.setTokenPair);
+  const anchorEl = useRef<HTMLButtonElement | null>(null);
+  const [open, setOpen] = useState(false);
   const [username, isAnonymous, setUser] = useUserStore((state) => [
     state.username,
     state.isAnonymous,
@@ -36,6 +43,12 @@ const Navbar: FC = () => {
     setTokenPair({ accessToken: '', refreshToken: '' });
     setUser({ id: '', username: 'Anon', isOnline: false }, true);
     navigate(Route.ROOT);
+    setOpen(false);
+  };
+
+  const goSettings = () => {
+    navigate(Route.USER_SETTINGS);
+    setOpen(false);
   };
 
   const signUp = () => {
@@ -45,10 +58,6 @@ const Navbar: FC = () => {
   const logIn = () => {
     navigate(Route.LOGIN);
   };
-
-  const onUserViewClick = () => {
-    console.log('go to user settings');
-  }; //???
 
   return (
     <AppBar position="static">
@@ -66,18 +75,48 @@ const Navbar: FC = () => {
           </Link>
         </Typography>
         {isAnonymous ? (
-          <ButtonGroup disableElevation variant="contained" aria-label="Disabled elevation buttons">
+          <ButtonGroup disableElevation variant="text" aria-label="Disabled elevation buttons">
             <Button onClick={logIn}>{t('login')}</Button>
             <Button onClick={signUp}>{t('registration')}</Button>
           </ButtonGroup>
         ) : (
           <Box>
-            <Tooltip title={t('openProfile')} sx={{ display: 'flex', flexDirection: 'row' }}>
-              <UserView nickname={username} onClick={onUserViewClick} isOnline={true} />
-            </Tooltip>
-            <IconButton onClick={onLogout} sx={{ color: 'white' }}>
-              <LogoutIcon />
-            </IconButton>
+            <Popover
+              sx={{ width: '100%' }}
+              open={open}
+              anchorEl={anchorEl.current}
+              onClose={() => setOpen(false)}
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'left',
+              }}
+            >
+              <List>
+                <ListItem disablePadding>
+                  <ListItemButton onClick={goSettings}>
+                    <ListItemIcon>
+                      <SettingsIcon />
+                    </ListItemIcon>
+                    <ListItemText primary={t('profileSettings')} />
+                  </ListItemButton>
+                </ListItem>
+                <ListItem disablePadding>
+                  <ListItemButton onClick={onLogout}>
+                    <ListItemIcon>
+                      <LogoutIcon />
+                    </ListItemIcon>
+                    <ListItemText primary={t('logout')} />
+                  </ListItemButton>
+                </ListItem>
+              </List>
+            </Popover>
+
+            <UserView
+              ref={anchorEl}
+              nickname={username}
+              onClick={() => setOpen(true)}
+              isOnline={true}
+            />
           </Box>
         )}
       </Toolbar>

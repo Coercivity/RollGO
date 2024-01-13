@@ -5,4 +5,5 @@ export enum Route {
   REGISTRATION = '/registration',
   LOGIN = '/login',
   RULES = '/terms-of-use',
+  USER_SETTINGS = '/user-settings',
 }

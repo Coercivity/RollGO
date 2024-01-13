@@ -1,0 +1,14 @@
+{
+  "changeEmail": "Изменить e-mail",
+  "oldPassword": "Старый пароль",
+  "newPassword": "Новый пароль",
+  "confirmNewPassword": "Подтвердите новый пароль",
+  "changeLogin": "Изменить логин",
+  "confirm": "Подтвердить изменения",
+  "accountSettings": "Настройки аккаунта",
+  "commonSettings": "Основные настройки",
+  "passwordChange": "Смена пароля",
+  "uploadFile": "Загрузить изображение",
+  "error": "Ошибка, введите новый и старый пароли",
+  "success": "Ваш данные были успешно изменены!"
+}

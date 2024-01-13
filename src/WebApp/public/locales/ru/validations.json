@@ -1,0 +1,7 @@
+ {
+   "EmailExists": "Этот e-mail уже используется",
+   "PasswordsNotMatch" : "Новые пароли не совпадают",
+   "IncorrectEmail" : "Введите корректный e-mail",
+   "UsernameExists": "Это имя уже используется",
+   "WrongPassword": "Неверный пароль"
+ }

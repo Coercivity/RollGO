@@ -39,5 +39,6 @@ axios.interceptors.response.use(
         }
       }
     }
+    throw error;
   }
 );

@@ -6,3 +6,11 @@ export interface User {
   icon?: string;
   isAnonymous?: boolean;
 }
+
+export interface UserRequest {
+  id: string;
+  username: string;
+  email?: string;
+  password?: string;
+  currentPassword?: string;
+}
