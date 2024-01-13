@@ -82,7 +82,7 @@ const Navbar: FC = () => {
         ) : (
           <Box>
             <Popover
-              sx={{ width: '100%', minWidth: 360 }}
+              sx={{ width: '100%' }}
               open={open}
               anchorEl={anchorEl.current}
               onClose={() => setOpen(false)}
