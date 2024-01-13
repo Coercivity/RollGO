@@ -9,7 +9,7 @@ namespace Infrastructure;
         {
             List<User> users = [];
 
-            var passwordHash = BCrypt.Net.BCrypt.HashPassword("Password1!");
+            var passwordHash = BCrypt.Net.BCrypt.HashPassword("qwe123");
             users.Add(new User() {
                 Username = "slavoyar",
                 Password = passwordHash,

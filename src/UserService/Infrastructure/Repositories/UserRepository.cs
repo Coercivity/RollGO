@@ -20,7 +20,8 @@ public class UserRepository(UserDbContext context) : IUserRepository
     public async Task<Guid?> DeleteAsync(Guid id)
     {
         var user = userSet.Find(id);
-        if (user == null) {
+        if (user == null)
+        {
             return null;
         }
         userSet.Remove(user);
@@ -39,7 +40,7 @@ public class UserRepository(UserDbContext context) : IUserRepository
     }
 
     public Task<User?> GetByUsernameAsync(string username)
-    {    
+    {
         return Task.FromResult(userSet.FirstOrDefault(x => x.Username == username));
     }
 
@@ -52,10 +53,14 @@ public class UserRepository(UserDbContext context) : IUserRepository
     public async Task<User?> UpdateAsync(User entity)
     {
         var user = await userSet.FindAsync(entity.Id);
-        if (user == null) {
+        if (user == null)
+        {
             return null;
         }
-        user.Icon = entity.Icon;
+        user.Icon = entity.Icon ?? user.Icon;
+        user.Username = entity.Username ?? user.Username;
+        user.Email = entity.Email ?? user.Email;
+        user.Password = entity.Password ?? user.Password;
         userSet.Update(user);
         await context.SaveChangesAsync();
         return user;
