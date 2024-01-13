@@ -56,28 +56,27 @@ const ButtonStyle = {
   justifyContent: 'start',
 };
 
-const UserView = forwardRef<HTMLElement, UserViewProps>(
-  ({ nickname, isOnline = true, onClick }, _) => {
-    return isOnline ? (
-      <IconButton sx={ButtonStyle} onClick={onClick}>
-        <StyledBadgeOnline
-          overlap="circular"
-          anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-          variant="dot"
-        >
-          <Avatar />
-        </StyledBadgeOnline>
-        <Typography sx={{ m: 0.5 }}>{nickname}</Typography>
-      </IconButton>
-    ) : (
-      <IconButton sx={ButtonStyle}>
-        <StyledBadgeOffline
-          overlap="circular"
-          anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-          variant="dot"
-        >
-          <Avatar />
-        </StyledBadgeOffline>
+const UserView = forwardRef<HTMLButtonElement, UserViewProps>(
+  ({ nickname, isOnline = true, onClick }, ref) => {
+    return (
+      <IconButton sx={ButtonStyle} onClick={onClick} ref={ref}>
+        {isOnline ? (
+          <StyledBadgeOnline
+            overlap="circular"
+            anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+            variant="dot"
+          >
+            <Avatar />
+          </StyledBadgeOnline>
+        ) : (
+          <StyledBadgeOffline
+            overlap="circular"
+            anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+            variant="dot"
+          >
+            <Avatar />
+          </StyledBadgeOffline>
+        )}
         <Typography sx={{ m: 0.5 }}>{nickname}</Typography>
       </IconButton>
     );

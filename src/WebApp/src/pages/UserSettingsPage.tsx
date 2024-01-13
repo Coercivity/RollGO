@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { Avatar, Box, Button, Card, Stack, TextField, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import { AxiosError } from 'axios';
 
 import { userService } from '@api/userService';
+import { ErrorCode } from '@enums/ErrorCode';
 import { LocalizationNamespace } from '@enums/LocalizationNamespace';
 import { useUserStore } from '@store/userStore';
 
@@ -20,8 +22,15 @@ const VisuallyHiddenInput = styled('input')({
   width: 1,
 });
 
+const EMAIL_ERRORS = [ErrorCode.EmailExists, ErrorCode.IncorrectEmail];
+const USERNAME_ERRORS = [ErrorCode.UsernameExists];
+const PASSWORD_ERRORS = [ErrorCode.PasswordsNotMatch, ErrorCode.WrongPassword];
+
 const UserSettingsPage = () => {
-  const { t } = useTranslation(LocalizationNamespace.USER_SETTINGS);
+  const { t } = useTranslation([
+    LocalizationNamespace.USER_SETTINGS,
+    LocalizationNamespace.VALIDATIONS,
+  ]);
   const [previousUsername, mail, setUser, id] = useUserStore((state) => [
     state.username,
     state.email,
@@ -30,27 +39,37 @@ const UserSettingsPage = () => {
   ]);
 
   const [email, setEmail] = useState(mail);
-  const [emailError, setEmailError] = useState(false);
   const [username, setUsername] = useState<string>(previousUsername);
   const [oldPassword, setOldPassword] = useState<string>();
   const [password, setPassword] = useState<string>();
   const [confirmPassword, setConfirmPassword] = useState<string>();
-  const [passwordError, setPasswordError] = useState(false);
+  const [error, setError] = useState<ErrorCode>();
 
   const [success, setSuccess] = useState(false);
 
+  useEffect(() => {
+    if (error !== ErrorCode.IncorrectEmail && !password && !confirmPassword && !oldPassword)
+      setError(undefined);
+  }, [oldPassword, password, confirmPassword]);
+
   const onEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (emailError && !e.target.validationMessage) {
-      setEmailError(false);
+    if (error && EMAIL_ERRORS.includes(error) && !e.target.validationMessage) {
+      setError(undefined);
     }
     setEmail(e.target.value);
-    console.log(e.target.value);
   };
 
   const onEmailBlur = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     if (e.target.validationMessage) {
-      setEmailError(true);
+      setError(ErrorCode.IncorrectEmail);
     }
+  };
+
+  const onUsernameChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    if (error && USERNAME_ERRORS.includes(error)) {
+      setError(undefined);
+    }
+    setUsername(e.target.value);
   };
 
   const onPasswordChange = (
@@ -58,36 +77,43 @@ const UserSettingsPage = () => {
     callback: (value: string) => void
   ) => {
     callback(e.target.value);
-    if (passwordError && password == confirmPassword) {
-      setPasswordError(false);
+    if (
+      error &&
+      PASSWORD_ERRORS.includes(error) &&
+      (password === e.target.value || confirmPassword === e.target.value)
+    ) {
+      setError(undefined);
     }
   };
 
-  const onConfirmBlur = () => {
-    setPasswordError(password !== confirmPassword);
-    // TODO: add custom message for password differ
+  const onPasswordBlur = (value: string) => {
+    if (value !== password || value !== confirmPassword) setError(ErrorCode.PasswordsNotMatch);
   };
 
   const confirmChanges = async () => {
-    setSuccess(true);
-    if (email && username) {
+    try {
       const data = await userService.update({
         email,
         username,
         id,
         password,
+        currentPassword: oldPassword,
       });
       setUser(data, false);
-      console.log(data);
+
+      setSuccess(true);
+    } catch (e) {
+      if (e instanceof AxiosError && e.response) setError(e.response.data.code);
     }
   };
 
   const isRegisterDisabled = (): boolean => {
-    if (emailError) return true;
-    if (password && !confirmPassword) return true;
-    if (password && !oldPassword) return true;
-    if (!password && oldPassword) return true;
-    return false;
+    return (
+      !!error ||
+      (!!password && !confirmPassword) ||
+      (!!password && !oldPassword) ||
+      (!password && !!oldPassword)
+    );
   };
 
   return (
@@ -132,11 +158,12 @@ const UserSettingsPage = () => {
 
           <TextField
             margin="dense"
+            required
             autoFocus
             label={t('changeEmail')}
             type="email"
             variant="standard"
-            error={emailError}
+            error={error && EMAIL_ERRORS.includes(error)}
             onChange={onEmailChange}
             value={email}
             onBlur={onEmailBlur}
@@ -146,7 +173,9 @@ const UserSettingsPage = () => {
             label={t('changeLogin')}
             variant="standard"
             value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            required
+            error={error && USERNAME_ERRORS.includes(error)}
+            onChange={onUsernameChange}
           />
         </Box>
         <Box
@@ -164,7 +193,7 @@ const UserSettingsPage = () => {
           <TextField
             margin="dense"
             label={t('oldPassword')}
-            error={passwordError}
+            error={error && PASSWORD_ERRORS.includes(error)}
             type="password"
             variant="standard"
             onChange={(e) => setOldPassword(e.target.value)}
@@ -172,21 +201,22 @@ const UserSettingsPage = () => {
           <TextField
             margin="dense"
             label={t('newPassword')}
-            disabled={oldPassword === null}
-            error={passwordError}
+            disabled={!oldPassword && !password}
+            error={error && PASSWORD_ERRORS.includes(error)}
             type="password"
             variant="standard"
             onChange={(e) => onPasswordChange(e, setPassword)}
+            onBlur={(e) => onPasswordBlur(e.target.value)}
           />
           <TextField
             margin="dense"
-            disabled={password === null}
+            disabled={!password && !confirmPassword}
             label={t('confirmNewPassword')}
-            error={passwordError}
+            error={error && PASSWORD_ERRORS.includes(error)}
             type="password"
             variant="standard"
             onChange={(e) => onPasswordChange(e, setConfirmPassword)}
-            onBlur={() => onConfirmBlur()}
+            onBlur={(e) => onPasswordBlur(e.target.value)}
           />
         </Box>
         <Box
@@ -201,8 +231,12 @@ const UserSettingsPage = () => {
             sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}
             color="error"
           >
-            {passwordError && <Typography color="error"> {t('error')}</Typography>}
-            {success && !passwordError && <Typography color="green"> {t('success')}</Typography>}
+            {error && (
+              <Typography color="error">
+                {t(error, { ns: LocalizationNamespace.VALIDATIONS })}
+              </Typography>
+            )}
+            {success && !error && <Typography color="green"> {t('success')}</Typography>}
           </Box>
           <Button
             sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}

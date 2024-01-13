@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import LogoutIcon from '@mui/icons-material/Logout';
@@ -29,7 +29,8 @@ import UserView from './UserView';
 const Navbar: FC = () => {
   const { t } = useTranslation(LocalizationNamespace.NAVBAR);
   const setTokenPair = useAuthStore((state) => state.setTokenPair);
-  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+  const anchorEl = useRef<HTMLButtonElement | null>(null);
+  const [open, setOpen] = useState(false);
   const [username, isAnonymous, setUser] = useUserStore((state) => [
     state.username,
     state.isAnonymous,
@@ -41,13 +42,13 @@ const Navbar: FC = () => {
   const onLogout = async () => {
     setTokenPair({ accessToken: '', refreshToken: '' });
     setUser({ id: '', username: 'Anon', isOnline: false }, true);
-    setAnchorEl(null);
     navigate(Route.ROOT);
+    setOpen(false);
   };
 
   const goSettings = () => {
-    setAnchorEl(null);
     navigate(Route.USER_SETTINGS);
+    setOpen(false);
   };
 
   const signUp = () => {
@@ -56,17 +57,6 @@ const Navbar: FC = () => {
 
   const logIn = () => {
     navigate(Route.LOGIN);
-  };
-
-  const open = Boolean(anchorEl);
-  const popoverId = open ? 'simple-popover' : undefined;
-
-  const onUserViewClick = (event: React.MouseEvent<HTMLButtonElement | null>) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handlePopoverClose = () => {
-    setAnchorEl(null);
   };
 
   return (
@@ -93,10 +83,9 @@ const Navbar: FC = () => {
           <Box>
             <Popover
               sx={{ width: '100%', minWidth: 360 }}
-              id={popoverId}
               open={open}
-              anchorEl={anchorEl}
-              onClose={handlePopoverClose}
+              anchorEl={anchorEl.current}
+              onClose={() => setOpen(false)}
               anchorOrigin={{
                 vertical: 'bottom',
                 horizontal: 'left',
@@ -122,7 +111,12 @@ const Navbar: FC = () => {
               </List>
             </Popover>
 
-            <UserView nickname={username} onClick={onUserViewClick} isOnline={true} />
+            <UserView
+              ref={anchorEl}
+              nickname={username}
+              onClick={() => setOpen(true)}
+              isOnline={true}
+            />
           </Box>
         )}
       </Toolbar>
