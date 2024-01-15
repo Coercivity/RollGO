@@ -76,7 +76,7 @@ const LoginPage = () => {
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             {<ErrorOutlineIcon color="error" />}
             <Typography color="error" sx={{ fontSize: 14, fontWeight: 'light', ml: 0.5 }}>
-              {t('{}', { ns: LocalizationNamespace.VALIDATIONS })}
+              {t(error, { ns: LocalizationNamespace.VALIDATIONS })}
             </Typography>
           </Box>
         )}
