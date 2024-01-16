@@ -1,7 +1,9 @@
  {
    "EmailExists": "Этот e-mail уже используется.",
    "PasswordsNotMatch" : "Пароли не совпадают.",
-   "IncorrectEmail" : "Введите корректный e-mail.",
    "UsernameExists": "Это имя уже используется.",
-   "WrongPasswordOrUsername": "Неверное имя пользователя или пароль."
+   "WrongUsernameOrPassword": "Неверное имя пользователя или пароль.",
+   "WrongPassword": "Неверный пароль.",
+   "PasswordValidation": "Пароль должен содержать буквы, цифры, специальные символы и не менее 8 символов.",
+   "EmailValidation": "Введите корректный e-mail."
  }

@@ -46,7 +46,7 @@ const UserSettingsPage = () => {
   const [success, setSuccess] = useState(false);
 
   useEffect(() => {
-    if (error !== ErrorCode.IncorrectEmail && !password && !confirmPassword && !oldPassword)
+    if (error !== ErrorCode.EmailValidation && !password && !confirmPassword && !oldPassword)
       setError(undefined);
   }, [oldPassword, password, confirmPassword]);
 
@@ -59,7 +59,7 @@ const UserSettingsPage = () => {
 
   const onEmailBlur = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     if (e.target.validationMessage) {
-      setError(ErrorCode.IncorrectEmail);
+      setError(ErrorCode.EmailValidation);
     }
   };
 
@@ -94,7 +94,7 @@ const UserSettingsPage = () => {
         email,
         username,
         id,
-        password,
+        password: password === '' ? undefined : password,
         currentPassword: oldPassword,
       });
       setUser(data, false);
@@ -192,7 +192,7 @@ const UserSettingsPage = () => {
           <TextField
             margin="dense"
             label={t('oldPassword')}
-            error={error === ErrorCode.WrongPasswordOrUsername}
+            error={error === ErrorCode.WrongPassword}
             type="password"
             variant="standard"
             onChange={(e) => setOldPassword(e.target.value)}
@@ -233,15 +233,9 @@ const UserSettingsPage = () => {
             {error && (
               <Box sx={{ display: 'flex', alignItems: 'center' }}>
                 {<ErrorOutlineIcon color="error" />}
-                {error !== ErrorCode.WrongPasswordOrUsername ? (
-                  <Typography color="error" sx={{ fontWeight: 'light', ml: 0.5 }}>
-                    {t(error, { ns: LocalizationNamespace.VALIDATIONS })}
-                  </Typography>
-                ) : (
-                  <Typography color="error" sx={{ fontWeight: 'light', ml: 0.5 }}>
-                    {t('WrongPassword')}
-                  </Typography>
-                )}
+                <Typography color="error" sx={{ fontWeight: 'light', ml: 0.5, maxWidth: 400 }}>
+                  {t(error, { ns: LocalizationNamespace.VALIDATIONS })}
+                </Typography>
               </Box>
             )}
             {success && !error && <Typography color="green"> {t('success')}</Typography>}

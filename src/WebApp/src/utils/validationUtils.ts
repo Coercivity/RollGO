@@ -15,7 +15,9 @@ export const isValidationError = (error: unknown): error is ValidationError => {
 };
 
 export const isCustomError = (error: unknown): error is CustomError => {
-  return (error as CustomError).code !== undefined && (error as CustomError).message !== undefined;
+  return (
+    (error as CustomError).code !== undefined && (error as CustomError).description !== undefined
+  );
 };
 
 export const handleError = (error: unknown, callback: (code: ErrorCode) => void): void => {
@@ -26,7 +28,7 @@ export const handleError = (error: unknown, callback: (code: ErrorCode) => void)
   if (isCustomError(error.response.data)) {
     callback(error.response.data.code);
   } else if (isValidationError(error.response.data)) {
-    const fields = Object.keys(error.response.data);
+    const fields = Object.keys(error.response.data.errors);
     callback(`${fields[0]}Validation` as ErrorCode);
   }
 };

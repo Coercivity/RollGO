@@ -8,5 +8,5 @@ export interface ValidationError {
 
 export interface CustomError {
   code: ErrorCode;
-  message: string;
+  description: string;
 }
