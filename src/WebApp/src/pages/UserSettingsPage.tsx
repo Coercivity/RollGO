@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import { Avatar, Box, Button, Card, Stack, TextField, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { AxiosError } from 'axios';
 
 import { userService } from '@api/userService';
-import { ErrorCode } from '@enums/ErrorCode';
+import { EMAIL_ERRORS, ErrorCode, PASSWORD_ERRORS, USERNAME_ERRORS } from '@enums/ErrorCode';
 import { LocalizationNamespace } from '@enums/LocalizationNamespace';
 import { useUserStore } from '@store/userStore';
+
+import { handleError } from '../utils/validationUtils';
 
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
@@ -21,10 +23,6 @@ const VisuallyHiddenInput = styled('input')({
   whiteSpace: 'nowrap',
   width: 1,
 });
-
-const EMAIL_ERRORS = [ErrorCode.EmailExists, ErrorCode.IncorrectEmail];
-const USERNAME_ERRORS = [ErrorCode.UsernameExists];
-const PASSWORD_ERRORS = [ErrorCode.PasswordsNotMatch, ErrorCode.WrongPassword];
 
 const UserSettingsPage = () => {
   const { t } = useTranslation([
@@ -48,7 +46,7 @@ const UserSettingsPage = () => {
   const [success, setSuccess] = useState(false);
 
   useEffect(() => {
-    if (error !== ErrorCode.IncorrectEmail && !password && !confirmPassword && !oldPassword)
+    if (error !== ErrorCode.EmailValidation && !password && !confirmPassword && !oldPassword)
       setError(undefined);
   }, [oldPassword, password, confirmPassword]);
 
@@ -61,7 +59,7 @@ const UserSettingsPage = () => {
 
   const onEmailBlur = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     if (e.target.validationMessage) {
-      setError(ErrorCode.IncorrectEmail);
+      setError(ErrorCode.EmailValidation);
     }
   };
 
@@ -96,18 +94,19 @@ const UserSettingsPage = () => {
         email,
         username,
         id,
-        password,
+        password: password === '' ? undefined : password,
         currentPassword: oldPassword,
       });
       setUser(data);
 
       setSuccess(true);
+      setTimeout(() => setSuccess(false), 5000);
     } catch (e) {
-      if (e instanceof AxiosError && e.response) setError(e.response.data.code);
+      handleError(e, setError);
     }
   };
 
-  const isRegisterDisabled = (): boolean => {
+  const isConfirmDisabled = (): boolean => {
     return (
       !!error ||
       (!!password && !confirmPassword) ||
@@ -193,7 +192,7 @@ const UserSettingsPage = () => {
           <TextField
             margin="dense"
             label={t('oldPassword')}
-            error={error && PASSWORD_ERRORS.includes(error)}
+            error={error === ErrorCode.WrongPassword}
             type="password"
             variant="standard"
             onChange={(e) => setOldPassword(e.target.value)}
@@ -232,16 +231,19 @@ const UserSettingsPage = () => {
             color="error"
           >
             {error && (
-              <Typography color="error">
-                {t(error, { ns: LocalizationNamespace.VALIDATIONS })}
-              </Typography>
+              <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                {<ErrorOutlineIcon color="error" />}
+                <Typography color="error" sx={{ fontWeight: 'light', ml: 0.5, maxWidth: 400 }}>
+                  {t(error, { ns: LocalizationNamespace.VALIDATIONS })}
+                </Typography>
+              </Box>
             )}
             {success && !error && <Typography color="green"> {t('success')}</Typography>}
           </Box>
           <Button
             sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}
-            variant="outlined"
-            disabled={isRegisterDisabled()}
+            variant="contained"
+            disabled={isConfirmDisabled()}
             onClick={confirmChanges}
           >
             {t('confirm')}
