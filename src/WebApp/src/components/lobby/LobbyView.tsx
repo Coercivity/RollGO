@@ -28,7 +28,7 @@ const LobbyView: FC<LobbyViewProps> = ({ remove, lobby }) => {
       >
         {lobby.name}
       </Link>
-      <Button variant="outlined" color="secondary" onClick={() => remove()}>
+      <Button variant="outlined" color="error" onClick={() => remove()}>
         {t('delete')}
       </Button>
     </Paper>

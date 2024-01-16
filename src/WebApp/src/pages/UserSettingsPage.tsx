@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import { Avatar, Box, Button, Card, Stack, TextField, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { AxiosError } from 'axios';
 
 import { userService } from '@api/userService';
-import { ErrorCode } from '@enums/ErrorCode';
+import { EMAIL_ERRORS, ErrorCode, PASSWORD_ERRORS, USERNAME_ERRORS } from '@enums/ErrorCode';
 import { LocalizationNamespace } from '@enums/LocalizationNamespace';
 import { useUserStore } from '@store/userStore';
 
@@ -21,10 +22,6 @@ const VisuallyHiddenInput = styled('input')({
   whiteSpace: 'nowrap',
   width: 1,
 });
-
-const EMAIL_ERRORS = [ErrorCode.EmailExists, ErrorCode.IncorrectEmail];
-const USERNAME_ERRORS = [ErrorCode.UsernameExists];
-const PASSWORD_ERRORS = [ErrorCode.PasswordsNotMatch, ErrorCode.WrongPassword];
 
 const UserSettingsPage = () => {
   const { t } = useTranslation([
@@ -107,7 +104,7 @@ const UserSettingsPage = () => {
     }
   };
 
-  const isRegisterDisabled = (): boolean => {
+  const isConfirmDisabled = (): boolean => {
     return (
       !!error ||
       (!!password && !confirmPassword) ||
@@ -193,7 +190,7 @@ const UserSettingsPage = () => {
           <TextField
             margin="dense"
             label={t('oldPassword')}
-            error={error && PASSWORD_ERRORS.includes(error)}
+            error={error === ErrorCode.WrongPasswordOrUsername}
             type="password"
             variant="standard"
             onChange={(e) => setOldPassword(e.target.value)}
@@ -232,16 +229,25 @@ const UserSettingsPage = () => {
             color="error"
           >
             {error && (
-              <Typography color="error">
-                {t(error, { ns: LocalizationNamespace.VALIDATIONS })}
-              </Typography>
+              <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                {<ErrorOutlineIcon color="error" />}
+                {error !== ErrorCode.WrongPasswordOrUsername ? (
+                  <Typography color="error" sx={{ fontWeight: 'light', ml: 0.5 }}>
+                    {t(error, { ns: LocalizationNamespace.VALIDATIONS })}
+                  </Typography>
+                ) : (
+                  <Typography color="error" sx={{ fontWeight: 'light', ml: 0.5 }}>
+                    {t('WrongPassword')}
+                  </Typography>
+                )}
+              </Box>
             )}
             {success && !error && <Typography color="green"> {t('success')}</Typography>}
           </Box>
           <Button
             sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}
-            variant="outlined"
-            disabled={isRegisterDisabled()}
+            variant="contained"
+            disabled={isConfirmDisabled()}
             onClick={confirmChanges}
           >
             {t('confirm')}

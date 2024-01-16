@@ -47,8 +47,8 @@ const Navbar: FC = () => {
   };
 
   const goSettings = () => {
-    navigate(Route.USER_SETTINGS);
     setOpen(false);
+    navigate(Route.USER_SETTINGS);
   };
 
   const signUp = () => {
