@@ -20,17 +20,17 @@ export default defineConfig({
   },
   server: {
     proxy: {
-      '^/api/(auth|user)' : {
-        target: 'https://localhost:5282',
+      '^/api/(auth|user)': {
+        target: 'https://194.87.101.114:5282',
         changeOrigin: true,
         secure: false,
       },
-      '^(/lobbyHub|/api/lobbies)' : {
-        target: 'https://localhost:5228',
+      '^(/lobbyHub|/api/lobbies)': {
+        target: 'https://194.87.101.114:5228',
         changeOrigin: true,
         secure: false,
         ws: true,
       },
     },
-  }
+  },
 });

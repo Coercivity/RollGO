@@ -99,7 +99,7 @@ const UserSettingsPage = () => {
         password,
         currentPassword: oldPassword,
       });
-      setUser(data, false);
+      setUser(data);
 
       setSuccess(true);
     } catch (e) {

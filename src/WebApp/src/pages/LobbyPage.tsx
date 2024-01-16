@@ -19,7 +19,7 @@ import {
 import lobbyHubService from '@api/lobbyHubService';
 import LobbyHistory from '@components/lobby/LobbyHistory';
 import LobbyNicknameModal from '@components/lobby/LobbyNicknameModal';
-import LobbySettings from '@components/lobby/LobbySettings';
+import LobbySettingsModal from '@components/lobby/LobbySettingsModal';
 import MovieList from '@components/lobby/movie/MovieList';
 import MovieSearch from '@components/lobby/movie/MovieSearch';
 import SpinningWheel from '@components/lobby/SpiningWheel';
@@ -39,11 +39,7 @@ const LobbyPage = () => {
   const [isWheelVisible, setIsWheelVisible] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
-  const [isAnonymous, setUser, username] = useUserStore((state) => [
-    state.isAnonymous,
-    state.setUser,
-    state.username,
-  ]);
+  const [isAnonymous, username] = useUserStore((state) => [state.isAnonymous, state.username]);
   const [maxHeight, setMaxHeight] = useState(window.innerHeight);
 
   const movieListContainer = useRef<HTMLElement>();
@@ -64,7 +60,7 @@ const LobbyPage = () => {
   }, [movies]);
 
   useEffect(() => {
-    if (!isAnonymous) setOpenModal(true); // выставил ! что б не вылазило при каждом сохранении
+    if (isAnonymous) setOpenModal(true); // можно поставить ! что б не вылазило при каждом сохранении
   }, [isAnonymous]);
 
   useEffect(() => {
@@ -76,7 +72,6 @@ const LobbyPage = () => {
 
   const navigate = useNavigate();
   const exitLobby = () => {
-    setUser({ id: '', username: 'Anon', isOnline: false }, true);
     navigate(Route.ROOT);
   };
 
@@ -132,7 +127,7 @@ const LobbyPage = () => {
             <Button fullWidth variant="contained" onClick={() => setSettingsOpen(true)}>
               {<SettingsIcon />} {t('lobbySettings')}
             </Button>
-            <LobbySettings
+            <LobbySettingsModal
               lobbyName={lobby.name}
               settingsOpen={settingsOpen}
               setSettingsOpen={setSettingsOpen}
