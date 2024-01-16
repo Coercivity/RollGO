@@ -3,12 +3,13 @@ import { useTranslation } from 'react-i18next';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { Avatar, Box, Button, Card, Stack, TextField, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { AxiosError } from 'axios';
 
 import { userService } from '@api/userService';
 import { ErrorCode } from '@enums/ErrorCode';
 import { LocalizationNamespace } from '@enums/LocalizationNamespace';
 import { useUserStore } from '@store/userStore';
+
+import { handleError } from '../utils/validationUtils';
 
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
@@ -102,8 +103,9 @@ const UserSettingsPage = () => {
       setUser(data, false);
 
       setSuccess(true);
+      setTimeout(() => setSuccess(false), 5000);
     } catch (e) {
-      if (e instanceof AxiosError && e.response) setError(e.response.data.code);
+      handleError(e, setError);
     }
   };
 

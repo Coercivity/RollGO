@@ -4,4 +4,6 @@ export enum ErrorCode {
   IncorrectEmail = 'IncorrectEmail',
   UsernameExists = 'UsernameExists',
   WrongPassword = 'WrongPassword',
+  PasswordValidation = 'PasswordValidation',
+  EmailValidation = 'EmailValidation',
 }
