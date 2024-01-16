@@ -9,7 +9,6 @@ public static class DatabaseServiceCollectionExtension
 {
     public static IServiceCollection AddDatabaseRepositories(this IServiceCollection services, string connectionString)
     {
-
         services.AddDbContext<UserDbContext>(options => options
             .UseNpgsql(connectionString));
 
