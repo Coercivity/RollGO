@@ -3,16 +3,15 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import { Box, Button, Card, Link, TextField, Typography } from '@mui/material';
-import { AxiosError } from 'axios';
 
 import { authService } from '@api/authService';
-import { ErrorCode, PASSWORD_ERRORS } from '@enums/ErrorCode';
+import { EMAIL_ERRORS, ErrorCode, PASSWORD_ERRORS } from '@enums/ErrorCode';
 import { LocalizationNamespace } from '@enums/LocalizationNamespace';
 import { Route } from '@enums/Route';
 import { useAuthStore } from '@store/authStore';
 import { useUserStore } from '@store/userStore';
 
-const EMAIL_ERRORS = [ErrorCode.EmailExists, ErrorCode.IncorrectEmail];
+import { handleError } from '../utils/validationUtils';
 
 const RegistrationPage = () => {
   const { t } = useTranslation([LocalizationNamespace.AUTH, LocalizationNamespace.VALIDATIONS]);
@@ -36,7 +35,7 @@ const RegistrationPage = () => {
 
   const onEmailBlur = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     if (e.target.validationMessage) {
-      setError(ErrorCode.IncorrectEmail);
+      setError(ErrorCode.EmailValidation);
     }
   };
 
@@ -69,7 +68,7 @@ const RegistrationPage = () => {
       setUser(data.user, false);
       navigate(Route.ROOT);
     } catch (e) {
-      if (e instanceof AxiosError && e.response) setError(e.response.data.code);
+      handleError(e, setError);
     }
   };
 

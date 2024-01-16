@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import { Box, Button, Card, Link, TextField, Typography } from '@mui/material';
-import { AxiosError } from 'axios';
 
 import { authService } from '@api/authService';
 import { ErrorCode } from '@enums/ErrorCode';
@@ -11,6 +10,8 @@ import { LocalizationNamespace } from '@enums/LocalizationNamespace';
 import { Route } from '@enums/Route';
 import { useAuthStore } from '@store/authStore';
 import { useUserStore } from '@store/userStore';
+
+import { handleError } from '../utils/validationUtils';
 
 const LoginPage = () => {
   const { t } = useTranslation([LocalizationNamespace.AUTH, LocalizationNamespace.VALIDATIONS]);
@@ -33,7 +34,7 @@ const LoginPage = () => {
       setUser(data.user, false);
       navigate(Route.ROOT);
     } catch (e) {
-      if (e instanceof AxiosError && e.response) setError(ErrorCode.WrongPasswordOrUsername);
+      handleError(e, setError);
     }
   };
 
@@ -62,7 +63,7 @@ const LoginPage = () => {
           label={t('enterLogin')}
           variant="standard"
           onChange={(e) => setUsername(e.target.value)}
-          error={error === ErrorCode.WrongPasswordOrUsername}
+          error={error === ErrorCode.WrongUsernameOrPassword}
         />
         <TextField
           margin="dense"
@@ -70,7 +71,7 @@ const LoginPage = () => {
           label={t('enterPassword')}
           variant="standard"
           onChange={(e) => setPassword(e.target.value)}
-          error={error === ErrorCode.WrongPasswordOrUsername}
+          error={error === ErrorCode.WrongUsernameOrPassword}
         />
         {error && (
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
