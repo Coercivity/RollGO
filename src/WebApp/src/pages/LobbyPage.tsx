@@ -60,7 +60,7 @@ const LobbyPage = () => {
   }, [movies]);
 
   useEffect(() => {
-    if (isAnonymous) setOpenModal(true); // можно поставить ! что б не вылазило при каждом сохранении
+    if (isAnonymous) setOpenModal(true); // выставил ! что б не вылазило при каждом сохранении
   }, [isAnonymous]);
 
   useEffect(() => {

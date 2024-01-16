@@ -1,6 +1,7 @@
 using AutoMapper;
 using Domain.Entities;
 using Domain.Repositories;
+using Microsoft.IdentityModel.Tokens;
 using UserAPI.DTOs;
 using UserAPI.Exceptions;
 
@@ -37,7 +38,9 @@ public class UserService(IUserRepository userRepository, IMapper mapper) : IUser
 
     public async Task<UserDto> CreateUser(CreateUserRequestDto dto)
     {
-        await CredentialsExists(dto.Username, dto.Email);
+        await UsernameExists(dto.Username);
+
+        await EmailExists(dto.Email);
 
         var passwordHash = BCrypt.Net.BCrypt.HashPassword(dto.Password);
 
@@ -67,40 +70,50 @@ public class UserService(IUserRepository userRepository, IMapper mapper) : IUser
     {
         var user = await _userRepository.GetByIdAsync(dto.Id) ?? throw new UserNotFoundException(ErrorCode.UserNotFound);
 
-        if (dto.Password != null && !BCrypt.Net.BCrypt.Verify(dto.CurrentPassword, user.Password))
+        if (!dto.Password.IsNullOrEmpty())
         {
-            throw new UserConflictException(ErrorCode.WrongPassword);
+            dto.Password = BCrypt.Net.BCrypt.HashPassword(dto.Password);
+
+            if (!BCrypt.Net.BCrypt.Verify(dto.CurrentPassword, user.Password))
+            {
+                throw new UserConflictException(ErrorCode.WrongPassword);
+            }
         }
 
-        if ((dto.Email != user.Email || dto.Username != user.Username) && (dto.Username != null || dto.Email != null))
+        if (dto.Email != user.Email)
         {
-            await CredentialsExists(dto.Username, dto.Email);
+            await EmailExists(dto.Email);
         }
 
-        dto.Password = BCrypt.Net.BCrypt.HashPassword(dto.Password);
+        if (dto.Username != user.Username)
+        {
+            await UsernameExists(dto.Username);
+        }
 
         var updatedUser = await _userRepository.UpdateAsync(_mapper.Map<User>(dto)) ?? throw new UserNotFoundException(ErrorCode.UserNotFound);
+        updatedUser.Password = null;
 
         return _mapper.Map<UserDto>(updatedUser);
     }
 
-    private async Task CredentialsExists(string? username, string? email)
+    private async Task EmailExists(string email)
     {
-        if (username != null)
+        var user = await _userRepository.GetByEmailAsync(email);
+
+        if (user != null)
         {
-            var user = await _userRepository.GetByUsernameAsync(username);
-            if (user != null)
-            {
-                throw new UserConflictException(ErrorCode.UsernameExists);
-            }
-        }
-        if (email != null)
-        {
-            var user = await _userRepository.GetByEmailAsync(email);
-            if (user != null)
-            {
-                throw new UserConflictException(ErrorCode.EmailExists);
-            }
+            throw new UserConflictException(ErrorCode.EmailExists);
         }
     }
+
+    private async Task UsernameExists(string username)
+    {
+        var user = await _userRepository.GetByUsernameAsync(username);
+
+        if (user != null)
+        {
+            throw new UserConflictException(ErrorCode.UsernameExists);
+        }
+    }
+
 }
