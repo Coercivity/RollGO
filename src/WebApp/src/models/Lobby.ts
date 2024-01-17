@@ -3,3 +3,23 @@ export interface Lobby {
   name: string;
   adminId: string;
 }
+
+export enum LobbyAction {
+  JoinLobby = 'JoinLobby',
+  JoinLobbyAnonymous = 'JoinLobbyAnonymous',
+  Ready = 'Ready',
+  StartRoll = 'StartRoll',
+  StartRound = 'StartRound',
+  AddMovie = 'AddMovie',
+  RemoveMovie = 'RemoveMovie',
+}
+
+export enum LobbyEvent {
+  Joined = 'Joined',
+  UserJoined = 'UserJoined',
+  UserLeft = 'UserLeft',
+  MoviesChanged = 'MoviesChanged',
+  RollStarted = 'RollStarted',
+  RoundStarted = 'RoundStarted',
+  RollFinished = 'RollFinished',
+}

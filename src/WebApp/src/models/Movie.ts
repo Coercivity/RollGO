@@ -10,6 +10,7 @@ export interface Movie {
   filmLength: number;
   webUrl: string;
   imdbId: string;
+  isRemoved?: boolean;
 }
 
 export interface MovieGenre {
