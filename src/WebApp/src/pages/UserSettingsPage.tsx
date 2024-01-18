@@ -121,7 +121,8 @@ const UserSettingsPage = () => {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        mt: 8,
+        height: `calc(100vh - 64px)`,
+        overflow: 'auto',
       }}
     >
       <Card

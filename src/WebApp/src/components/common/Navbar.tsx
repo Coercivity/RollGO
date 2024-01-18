@@ -81,35 +81,37 @@ const Navbar: FC = () => {
           </ButtonGroup>
         ) : (
           <Box>
-            <Popover
-              sx={{ width: '100%' }}
-              open={open}
-              anchorEl={anchorEl.current}
-              onClose={() => setOpen(false)}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
-              }}
-            >
-              <List>
-                <ListItem disablePadding>
-                  <ListItemButton onClick={goSettings}>
-                    <ListItemIcon>
-                      <SettingsIcon />
-                    </ListItemIcon>
-                    <ListItemText primary={t('profileSettings')} />
-                  </ListItemButton>
-                </ListItem>
-                <ListItem disablePadding>
-                  <ListItemButton onClick={onLogout}>
-                    <ListItemIcon>
-                      <LogoutIcon />
-                    </ListItemIcon>
-                    <ListItemText primary={t('logout')} />
-                  </ListItemButton>
-                </ListItem>
-              </List>
-            </Popover>
+            {!open ? null : (
+              <Popover
+                sx={{ width: '100%' }}
+                open={open}
+                anchorEl={anchorEl.current}
+                onClose={() => setOpen(false)}
+                anchorOrigin={{
+                  vertical: 'bottom',
+                  horizontal: 'left',
+                }}
+              >
+                <List>
+                  <ListItem disablePadding>
+                    <ListItemButton onClick={goSettings}>
+                      <ListItemIcon>
+                        <SettingsIcon />
+                      </ListItemIcon>
+                      <ListItemText primary={t('profileSettings')} />
+                    </ListItemButton>
+                  </ListItem>
+                  <ListItem disablePadding>
+                    <ListItemButton onClick={onLogout}>
+                      <ListItemIcon>
+                        <LogoutIcon />
+                      </ListItemIcon>
+                      <ListItemText primary={t('logout')} />
+                    </ListItemButton>
+                  </ListItem>
+                </List>
+              </Popover>
+            )}
 
             <UserView
               ref={anchorEl}
