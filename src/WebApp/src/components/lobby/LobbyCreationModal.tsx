@@ -1,47 +1,46 @@
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Close } from '@mui/icons-material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Box,
   Button,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
+  FormControl,
   IconButton,
   TextField,
-  FormControl,
-  FormLabel,
-  FormControlLabel,
-  Radio,
-  RadioGroup,
-  Box,
+  Typography,
 } from '@mui/material';
-import LobbySettings from './LobbySettings';
+
 import { LocalizationNamespace } from '@enums/LocalizationNamespace';
+
+import { useLobbySettings } from '../../hooks/useLobbySettings';
+
+import LobbySettings from './LobbySettings';
 
 interface LobbyCreationModalProps {
   setOpen: (value: boolean) => void;
   addNewLobby: (lobby: string) => void;
   open: boolean;
 }
+const INITIAL_SETTINGS = { spinCount: 1, rating: 5, lobbyName: '' };
 
 const LobbyCreationModal: FC<LobbyCreationModalProps> = ({ setOpen, addNewLobby, open }) => {
   const { t } = useTranslation(LocalizationNamespace.LOBBY);
-  const [lobby, setLobby] = useState<string>('');
 
-  const [radioValue, setRadioValue] = useState<string>('');
-
-  const [spinCount, setSpinCount] = useState(1);
-  const [rating, setRating] = useState<number | null>(6);
+  const [lobbyName, spinCount, rating, setLobbyName, setSpinCount, setRating] =
+    useLobbySettings(INITIAL_SETTINGS);
 
   const onCreate = () => {
-    addNewLobby(lobby);
-    setLobby('');
+    addNewLobby(lobbyName);
+    setLobbyName('');
     setOpen(false);
-  };
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setRadioValue((event.target as HTMLInputElement).value);
   };
 
   return (
@@ -49,13 +48,14 @@ const LobbyCreationModal: FC<LobbyCreationModalProps> = ({ setOpen, addNewLobby,
       <DialogTitle sx={{ mt: 1 }}>{t('createLobby')}</DialogTitle>
       <DialogContent>
         <TextField
+          sx={{ color: 'grey.800' }}
           autoFocus
           margin="dense"
           id="name"
           label={t('lobbyName')}
           fullWidth
           variant="standard"
-          onChange={(e) => setLobby(e.target.value)}
+          onChange={(e) => setLobbyName(e.target.value)}
         />
 
         <IconButton
@@ -71,32 +71,38 @@ const LobbyCreationModal: FC<LobbyCreationModalProps> = ({ setOpen, addNewLobby,
           <Close />
         </IconButton>
         <Box sx={{ mt: 3 }}>
-          <FormControl>
-            <FormLabel>{t('lobbySettings')}</FormLabel>
-            <RadioGroup row defaultValue="default" onChange={handleChange}>
-              <FormControlLabel value="default" control={<Radio />} label={t('default')} />
-              <FormControlLabel value="custom" control={<Radio />} label={t('custom')} />
-            </RadioGroup>
+          <FormControl sx={{ width: '100%' }}>
+            <Accordion>
+              <AccordionSummary
+                sx={{ width: '100%' }}
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel1-content"
+                id="panel1-header"
+              >
+                <Typography>{t('custom')}</Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <Box>
+                  <LobbySettings
+                    lobbyName={lobbyName}
+                    setLobbyName={setLobbyName}
+                    spinCount={spinCount}
+                    rating={rating}
+                    setRating={setRating}
+                    setSpinCount={setSpinCount}
+                    withName={false}
+                  />
+                </Box>
+              </AccordionDetails>
+            </Accordion>
           </FormControl>
-          {!!(radioValue === 'custom') && (
-            <Box sx={{ mt: 1, border: 0.5, borderRadius: 3, p: 3, borderColor: 'grey.500' }}>
-              <LobbySettings
-                lobbyName={lobby}
-                setLobbyName={setLobby}
-                spinCount={spinCount}
-                rating={rating}
-                setRating={setRating}
-                setSpinCount={setSpinCount}
-              />
-            </Box>
-          )}
         </Box>
       </DialogContent>
       <DialogActions>
         <Button sx={{ mr: 1, mb: 2 }} variant="text" onClick={() => setOpen(false)}>
           {t('cancel')}
         </Button>
-        <Button sx={{ mr: 2, mb: 2 }} disabled={!lobby} variant="contained" onClick={onCreate}>
+        <Button sx={{ mr: 2, mb: 2 }} disabled={!lobbyName} variant="contained" onClick={onCreate}>
           {t('create')}
         </Button>
       </DialogActions>

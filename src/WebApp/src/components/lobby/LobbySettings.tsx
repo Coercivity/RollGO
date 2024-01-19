@@ -16,10 +16,11 @@ import { LocalizationNamespace } from '@enums/LocalizationNamespace';
 
 interface LobbySettingsProps {
   lobbyName: string | undefined;
-  setLobbyName: (lobbyName: string) => void;
-  rating: number | null;
-  setRating: (rating: number | null) => void;
+  rating: number;
   spinCount: number;
+  withName?: boolean;
+  setLobbyName: (lobbyName: string) => void;
+  setRating: (rating: number) => void;
   setSpinCount: (spinCount: number) => void;
 }
 
@@ -30,6 +31,7 @@ const LobbySettings: FC<LobbySettingsProps> = ({
   setSpinCount,
   rating,
   setRating,
+  withName = false,
 }) => {
   const { t } = useTranslation(LocalizationNamespace.LOBBY);
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
@@ -58,7 +60,7 @@ const LobbySettings: FC<LobbySettingsProps> = ({
   return (
     <Stack>
       <Grid container spacing={1} sx={{ mb: 2 }}>
-        {lobbyName && (
+        {withName && (
           <Grid item xs={7}>
             <TextField
               fullWidth
@@ -95,10 +97,7 @@ const LobbySettings: FC<LobbySettingsProps> = ({
           name="simple-controlled"
           value={rating}
           precision={0.5}
-          onChange={(event, newValue) => {
-            event.preventDefault();
-            setRating(newValue);
-          }}
+          onChange={(_, newValue) => setRating(newValue ?? 0)}
         />
       </Box>
       <Grid spacing={1}>

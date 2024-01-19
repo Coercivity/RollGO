@@ -45,7 +45,7 @@ const LoginPage = () => {
         justifyContent: 'center',
         alignContent: 'center',
         alignItems: 'center',
-        height: '100%',
+        height: '89%',
       }}
     >
       <Card
