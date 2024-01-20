@@ -4,7 +4,6 @@ import { Container } from '@mui/material';
 
 import lobbyService from '@api/lobbyService';
 import Navbar from '@components/common/Navbar';
-import TermsOfUse from '@components/common/TermsOfUse';
 import { Route } from '@enums/Route';
 import UserSettingsPage from '@pages/UserSettingsPage';
 
@@ -61,10 +60,6 @@ export const router = createBrowserRouter([
           {
             path: Route.REGISTRATION,
             element: <RegistrationPage />,
-          },
-          {
-            path: Route.RULES,
-            element: <TermsOfUse />,
           },
         ],
       },

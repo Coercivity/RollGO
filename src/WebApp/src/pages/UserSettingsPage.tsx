@@ -29,11 +29,11 @@ const UserSettingsPage = () => {
     LocalizationNamespace.USER_SETTINGS,
     LocalizationNamespace.VALIDATIONS,
   ]);
-  const [previousUsername, mail, setUser, id] = useUserStore((state) => [
+  const [previousUsername, mail, id, setUser] = useUserStore((state) => [
     state.username,
     state.email,
-    state.setUser,
     state.id,
+    state.setUser,
   ]);
 
   const [email, setEmail] = useState(mail);
@@ -63,22 +63,19 @@ const UserSettingsPage = () => {
     }
   };
 
-  const onUsernameChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const onUsernameChange = (value: string) => {
     if (error && USERNAME_ERRORS.includes(error)) {
       setError(undefined);
     }
-    setUsername(e.target.value);
+    setUsername(value);
   };
 
-  const onPasswordChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    callback: (value: string) => void
-  ) => {
-    callback(e.target.value);
+  const onPasswordChange = (value: string, callback: (value: string) => void) => {
+    callback(value);
     if (
       error &&
       PASSWORD_ERRORS.includes(error) &&
-      (password === e.target.value || confirmPassword === e.target.value)
+      (password === value || confirmPassword === value)
     ) {
       setError(undefined);
     }
@@ -121,7 +118,8 @@ const UserSettingsPage = () => {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        mt: 8,
+        height: `calc(100vh - 64px)`,
+        overflow: 'auto',
       }}
     >
       <Card
@@ -174,7 +172,7 @@ const UserSettingsPage = () => {
             value={username}
             required
             error={error && USERNAME_ERRORS.includes(error)}
-            onChange={onUsernameChange}
+            onChange={(e) => onUsernameChange(e.target.value)}
           />
         </Box>
         <Box
@@ -204,7 +202,7 @@ const UserSettingsPage = () => {
             error={error && PASSWORD_ERRORS.includes(error)}
             type="password"
             variant="standard"
-            onChange={(e) => onPasswordChange(e, setPassword)}
+            onChange={(e) => onPasswordChange(e.target.value, setPassword)}
             onBlur={(e) => onPasswordBlur(e.target.value)}
           />
           <TextField
@@ -214,7 +212,7 @@ const UserSettingsPage = () => {
             error={error && PASSWORD_ERRORS.includes(error)}
             type="password"
             variant="standard"
-            onChange={(e) => onPasswordChange(e, setConfirmPassword)}
+            onChange={(e) => onPasswordChange(e.target.value, setConfirmPassword)}
             onBlur={(e) => onPasswordBlur(e.target.value)}
           />
         </Box>

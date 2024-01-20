@@ -39,16 +39,9 @@ const RegistrationPage = () => {
     }
   };
 
-  const onPasswordChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    callback: (value: string) => void
-  ) => {
-    callback(e.target.value);
-    if (
-      error &&
-      ErrorCode.PasswordsNotMatch &&
-      (password === e.target.value || confirmPassword === e.target.value)
-    ) {
+  const onPasswordChange = (value: string, callback: (value: string) => void) => {
+    callback(value);
+    if (error && ErrorCode.PasswordsNotMatch && (password === value || confirmPassword === value)) {
       setError(undefined);
     }
   };
@@ -118,7 +111,7 @@ const RegistrationPage = () => {
           error={error && PASSWORD_ERRORS.includes(error)}
           type="password"
           variant="standard"
-          onChange={(e) => onPasswordChange(e, setPassword)}
+          onChange={(e) => onPasswordChange(e.target.value, setPassword)}
           onBlur={(e) => onPasswordBlur(e.target.value)}
         />
         <TextField
@@ -127,7 +120,7 @@ const RegistrationPage = () => {
           error={error && PASSWORD_ERRORS.includes(error)}
           type="password"
           variant="standard"
-          onChange={(e) => onPasswordChange(e, setConfirmPassword)}
+          onChange={(e) => onPasswordChange(e.target.value, setConfirmPassword)}
           onBlur={(e) => onPasswordBlur(e.target.value)}
         />
         {error && (

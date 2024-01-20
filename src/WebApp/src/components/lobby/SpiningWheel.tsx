@@ -3,7 +3,7 @@ import { Wheel } from 'react-custom-roulette';
 import { useTranslation } from 'react-i18next';
 import { Box, TextField, ToggleButton, ToggleButtonGroup } from '@mui/material';
 
-import WinModal from '@components/lobby/WinMovieModal';
+import WinnerModal from '@components/lobby/WinnerModal';
 import { LocalizationNamespace } from '@enums/LocalizationNamespace';
 import { Movie } from '@models/Movie';
 
@@ -135,7 +135,13 @@ const SpinningWheel: FC<WheelProps> = ({ movies }) => {
         />
       </Box>
 
-      <WinModal wheelData={wheelData} modal={modal} prizeNumber={prizeNumber} setModal={setModal} />
+      <WinnerModal
+        username={'Yaroslav'}
+        wheelData={wheelData}
+        modal={modal}
+        prizeNumber={prizeNumber}
+        setOpen={setModal}
+      />
     </Box>
   );
 };

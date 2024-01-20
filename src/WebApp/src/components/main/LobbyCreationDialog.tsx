@@ -19,19 +19,18 @@ import {
 } from '@mui/material';
 
 import { LocalizationNamespace } from '@enums/LocalizationNamespace';
+import { useLobbySettings } from '@hooks/useLobbySettings';
 
-import { useLobbySettings } from '../../hooks/useLobbySettings';
+import LobbySettings from '../common/LobbySettings';
 
-import LobbySettings from './LobbySettings';
-
-interface LobbyCreationModalProps {
+interface LobbyCreationDialogProps {
   setOpen: (value: boolean) => void;
   addNewLobby: (lobby: string) => void;
   open: boolean;
 }
 const INITIAL_SETTINGS = { spinCount: 1, rating: 5, lobbyName: '' };
 
-const LobbyCreationModal: FC<LobbyCreationModalProps> = ({ setOpen, addNewLobby, open }) => {
+const LobbyCreationDialog: FC<LobbyCreationDialogProps> = ({ setOpen, addNewLobby, open }) => {
   const { t } = useTranslation(LocalizationNamespace.LOBBY);
 
   const [lobbyName, spinCount, rating, setLobbyName, setSpinCount, setRating] =
@@ -110,4 +109,4 @@ const LobbyCreationModal: FC<LobbyCreationModalProps> = ({ setOpen, addNewLobby,
   );
 };
 
-export default LobbyCreationModal;
+export default LobbyCreationDialog;

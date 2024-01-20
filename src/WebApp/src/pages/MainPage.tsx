@@ -4,8 +4,7 @@ import { useLoaderData, useNavigate } from 'react-router-dom';
 import { Box, Button, Container } from '@mui/material';
 
 import lobbyService from '@api/lobbyService';
-import LobbyCreationModal from '@components/lobby/LobbyCreationModal';
-import LobbyList from '@components/lobby/LobbyList';
+import { LobbyCreationDialog, LobbyList } from '@components/main';
 import { Route } from '@enums/Route';
 import { Lobby } from '@models/Lobby';
 
@@ -34,7 +33,7 @@ const MainPage = () => {
         </Button>
       </Box>
       <LobbyList remove={remove} lobbies={lobbies} />
-      <LobbyCreationModal open={open} setOpen={setOpen} addNewLobby={addNewLobby} />
+      <LobbyCreationDialog open={open} setOpen={setOpen} addNewLobby={addNewLobby} />
     </Container>
   );
 };

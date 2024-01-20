@@ -2,24 +2,18 @@ import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 
-//import LobbySettings from './LobbySettings';
 import { LocalizationNamespace } from '@enums/LocalizationNamespace';
+import { useLobbySettings } from '@hooks/useLobbySettings';
 
-import { useLobbySettings } from '../../hooks/useLobbySettings';
+import LobbySettings from '../common/LobbySettings';
 
-import LobbySettings from './LobbySettings';
-
-interface LobbySettingsProps {
+interface LobbySettingsDialogProps {
   setSettingsOpen: (x: boolean) => void;
   settingsOpen: boolean;
   lobbyName: string | undefined;
 }
 
-const LobbySettingsModal: FC<LobbySettingsProps> = ({
-  settingsOpen,
-  setSettingsOpen,
-  //lobbyName,
-}) => {
+const LobbySettingsDialog: FC<LobbySettingsDialogProps> = ({ settingsOpen, setSettingsOpen }) => {
   const { t } = useTranslation(LocalizationNamespace.LOBBY);
 
   const saveSettings = () => {
@@ -58,4 +52,4 @@ const LobbySettingsModal: FC<LobbySettingsProps> = ({
   );
 };
 
-export default LobbySettingsModal;
+export default LobbySettingsDialog;

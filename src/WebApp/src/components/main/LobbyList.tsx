@@ -5,7 +5,7 @@ import { Box, Paper, Typography } from '@mui/material';
 import { LocalizationNamespace } from '@enums/LocalizationNamespace';
 import { Lobby } from '@models/Lobby';
 
-import LobbyView from './LobbyView';
+import LobbyView from '../lobby/LobbyView';
 
 interface LobbyListProps {
   lobbies: Lobby[];

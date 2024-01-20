@@ -26,10 +26,10 @@ interface LobbySettingsProps {
 
 const LobbySettings: FC<LobbySettingsProps> = ({
   lobbyName,
-  setLobbyName,
   spinCount,
-  setSpinCount,
   rating,
+  setLobbyName,
+  setSpinCount,
   setRating,
   withName = false,
 }) => {
@@ -100,7 +100,7 @@ const LobbySettings: FC<LobbySettingsProps> = ({
           onChange={(_, newValue) => setRating(newValue ?? 0)}
         />
       </Box>
-      <Grid spacing={1}>
+      <Grid container spacing={1}>
         <Box
           sx={{
             display: 'flex',
