@@ -25,7 +25,7 @@ const LobbyNicknameModal: FC<LobbyNicknameModalProps> = ({ setOpen, open }) => {
 
   const onCreate = () => {
     setOpen(false);
-    setUser({ id: name, username: name, isOnline: true }, true);
+    setUser({ id: name, username: name, isOnline: true, isAnonymous: true });
   };
 
   return (
@@ -45,7 +45,7 @@ const LobbyNicknameModal: FC<LobbyNicknameModalProps> = ({ setOpen, open }) => {
       </DialogContent>
 
       <DialogActions>
-        <Button sx={{ mr: 2, mb: 2 }} variant="outlined" disabled={!name} onClick={onCreate}>
+        <Button sx={{ mr: 2, mb: 2 }} variant="contained" disabled={!name} onClick={onCreate}>
           {t('apply')}
         </Button>
       </DialogActions>
