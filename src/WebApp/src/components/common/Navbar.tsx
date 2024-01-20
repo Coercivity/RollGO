@@ -1,4 +1,4 @@
-import { FC, forwardRef, useRef, useState } from 'react';
+import { FC, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import LogoutIcon from '@mui/icons-material/Logout';
@@ -26,13 +26,10 @@ import { useUserStore } from '@store/userStore';
 
 import UserView from './UserView';
 
-const Navbar: FC = forwardRef<HTMLElement>((_, ref) => {
+const Navbar: FC = () => {
   const { t } = useTranslation(LocalizationNamespace.NAVBAR);
-
   const setTokenPair = useAuthStore((state) => state.setTokenPair);
-
   const anchorEl = useRef<HTMLButtonElement | null>(null);
-
   const [open, setOpen] = useState(false);
   const [username, isAnonymous, setAnonymous] = useUserStore((state) => [
     state.username,
@@ -63,10 +60,10 @@ const Navbar: FC = forwardRef<HTMLElement>((_, ref) => {
   };
 
   return (
-    <AppBar position="static" ref={ref}>
+    <AppBar position="static">
       <Toolbar>
         <Typography
-          variant="h6"
+          variant="h5"
           noWrap
           flexGrow={1}
           sx={{
@@ -115,6 +112,7 @@ const Navbar: FC = forwardRef<HTMLElement>((_, ref) => {
             </Popover>
 
             <UserView
+              isInNavbar={true}
               ref={anchorEl}
               nickname={username}
               onClick={() => setOpen(true)}
@@ -125,6 +123,6 @@ const Navbar: FC = forwardRef<HTMLElement>((_, ref) => {
       </Toolbar>
     </AppBar>
   );
-});
+};
 
 export default Navbar;

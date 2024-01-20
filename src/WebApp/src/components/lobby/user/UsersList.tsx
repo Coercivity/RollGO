@@ -1,6 +1,6 @@
 import { FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Box, Card, Typography } from '@mui/material';
+import { Card, Grid, Typography } from '@mui/material';
 
 import UserView from '@components/common/UserView';
 import { LocalizationNamespace } from '@enums/LocalizationNamespace';
@@ -21,14 +21,16 @@ const UsersList: FC = () => {
   return (
     <Card sx={{ p: 1 }}>
       <Typography variant="h6" color="white">
-        {t('playersInTheLobby')} {users.filter((x) => x.isOnline === true).length}/{users.length}{' '}
+        {t('playersInTheLobby')}: {users.filter((x) => x.isOnline === true).length}/{users.length}{' '}
       </Typography>
       <UsersFilter filter={filter} setFilter={setFilter} users={users} setUsers={setUsers} />
-      <Box>
+      <Grid container rowSpacing={1} columns={{ md: 12 }} sx={{ mt: 1 }}>
         {users.map(({ id, username, isOnline }) => (
-          <UserView key={id} nickname={username} isOnline={isOnline} />
+          <Grid key={id} md={6}>
+            <UserView nickname={username} isOnline={isOnline} isInNavbar={false} />
+          </Grid>
         ))}
-      </Box>
+      </Grid>
     </Card>
   );
 };
