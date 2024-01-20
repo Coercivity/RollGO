@@ -1,5 +1,5 @@
 import { forwardRef } from 'react';
-import { Avatar, IconButton, Typography, Box } from '@mui/material';
+import { Avatar, Box, IconButton, Typography } from '@mui/material';
 import Badge from '@mui/material/Badge';
 import { styled } from '@mui/material/styles';
 
