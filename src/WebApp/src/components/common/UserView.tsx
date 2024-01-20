@@ -1,5 +1,5 @@
 import { forwardRef } from 'react';
-import { Avatar, IconButton, Typography } from '@mui/material';
+import { Avatar, Box, IconButton, Typography } from '@mui/material';
 import Badge from '@mui/material/Badge';
 import { styled } from '@mui/material/styles';
 
@@ -7,6 +7,7 @@ interface UserViewProps {
   nickname: string;
   onClick?: (event: React.MouseEvent<HTMLButtonElement | null>) => void;
   isOnline?: boolean;
+  isInNavbar: boolean;
 }
 
 const StyledBadgeOnline = styled(Badge)(({ theme }) => ({
@@ -16,8 +17,8 @@ const StyledBadgeOnline = styled(Badge)(({ theme }) => ({
     boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
     '&::after': {
       position: 'absolute',
-      top: 0,
-      left: 0,
+      top: -1,
+      left: -1,
       width: '100%',
       height: '100%',
       borderRadius: '50%',
@@ -57,28 +58,57 @@ const ButtonStyle = {
 };
 
 const UserView = forwardRef<HTMLButtonElement, UserViewProps>(
-  ({ nickname, isOnline = true, onClick }, ref) => {
+  ({ nickname, isOnline = true, onClick, isInNavbar }, ref) => {
     return (
-      <IconButton sx={ButtonStyle} onClick={onClick} ref={ref}>
-        {isOnline ? (
-          <StyledBadgeOnline
-            overlap="circular"
-            anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-            variant="dot"
-          >
-            <Avatar />
-          </StyledBadgeOnline>
+      <Box>
+        {isInNavbar ? (
+          <IconButton sx={ButtonStyle} onClick={onClick} ref={ref}>
+            {isOnline ? (
+              <StyledBadgeOnline
+                overlap="circular"
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                variant="dot"
+              >
+                <Avatar />
+              </StyledBadgeOnline>
+            ) : (
+              <StyledBadgeOffline
+                overlap="circular"
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                variant="dot"
+              >
+                <Avatar />
+              </StyledBadgeOffline>
+            )}
+            <Typography variant="h6" noWrap sx={{ m: 0.5, ml: 1 }}>
+              {nickname}
+            </Typography>
+          </IconButton>
         ) : (
-          <StyledBadgeOffline
-            overlap="circular"
-            anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-            variant="dot"
-          >
-            <Avatar />
-          </StyledBadgeOffline>
+          <Box sx={{ display: 'flex', m: 1, alignItems: 'center' }}>
+            {isOnline ? (
+              <StyledBadgeOnline
+                overlap="circular"
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                variant="dot"
+              >
+                <Avatar sx={{ width: 34, height: 34 }} />
+              </StyledBadgeOnline>
+            ) : (
+              <StyledBadgeOffline
+                overlap="circular"
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                variant="dot"
+              >
+                <Avatar sx={{ width: 34, height: 34 }} />
+              </StyledBadgeOffline>
+            )}
+            <Typography noWrap sx={{ m: 0.5, ml: 1 }}>
+              {nickname}
+            </Typography>
+          </Box>
         )}
-        <Typography sx={{ m: 0.5 }}>{nickname}</Typography>
-      </IconButton>
+      </Box>
     );
   }
 );
