@@ -4,7 +4,8 @@ import { persist } from 'zustand/middleware';
 import { User } from '@models/User';
 
 type UserStoreState = User & {
-  setUser: (user: User, isAnonymous: boolean) => void;
+  setUser: (user: User) => void;
+  setAnonymous: () => void;
 };
 
 export const useUserStore = create(
@@ -15,13 +16,22 @@ export const useUserStore = create(
       id: '',
       isOnline: true,
       email: '',
-      setUser: (user, isAnonymous = false) => {
+      setUser: (user) => {
         return set({
           id: user.id,
           username: user.username,
           email: user.email,
           isOnline: true,
-          isAnonymous,
+          isAnonymous: false || true,
+        });
+      },
+      setAnonymous: () => {
+        return set({
+          id: '',
+          username: 'Anon',
+          email: '',
+          isOnline: true,
+          isAnonymous: true,
         });
       },
     }),

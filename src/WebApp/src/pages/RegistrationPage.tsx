@@ -65,7 +65,7 @@ const RegistrationPage = () => {
         password,
       });
       setTokenPair({ accessToken: data.accessToken, refreshToken: data.refreshToken });
-      setUser(data.user, false);
+      setUser(data.user);
       navigate(Route.ROOT);
     } catch (e) {
       handleError(e, setError);
@@ -82,7 +82,7 @@ const RegistrationPage = () => {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        height: '100%',
+        height: '89%',
       }}
     >
       <Card

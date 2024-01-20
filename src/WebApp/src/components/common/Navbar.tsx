@@ -1,4 +1,4 @@
-import { FC, useRef, useState } from 'react';
+import { FC, forwardRef, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import LogoutIcon from '@mui/icons-material/Logout';
@@ -26,22 +26,25 @@ import { useUserStore } from '@store/userStore';
 
 import UserView from './UserView';
 
-const Navbar: FC = () => {
+const Navbar: FC = forwardRef<HTMLElement>((_, ref) => {
   const { t } = useTranslation(LocalizationNamespace.NAVBAR);
+
   const setTokenPair = useAuthStore((state) => state.setTokenPair);
+
   const anchorEl = useRef<HTMLButtonElement | null>(null);
+
   const [open, setOpen] = useState(false);
-  const [username, isAnonymous, setUser] = useUserStore((state) => [
+  const [username, isAnonymous, setAnonymous] = useUserStore((state) => [
     state.username,
     state.isAnonymous,
-    state.setUser,
+    state.setAnonymous,
   ]);
 
   const navigate = useNavigate();
 
   const onLogout = async () => {
     setTokenPair({ accessToken: '', refreshToken: '' });
-    setUser({ id: '', username: 'Anon', isOnline: false }, true);
+    setAnonymous();
     navigate(Route.ROOT);
     setOpen(false);
   };
@@ -60,7 +63,7 @@ const Navbar: FC = () => {
   };
 
   return (
-    <AppBar position="static">
+    <AppBar position="static" ref={ref}>
       <Toolbar>
         <Typography
           variant="h6"
@@ -75,7 +78,7 @@ const Navbar: FC = () => {
           </Link>
         </Typography>
         {isAnonymous ? (
-          <ButtonGroup disableElevation variant="text" aria-label="Disabled elevation buttons">
+          <ButtonGroup disableElevation variant="text">
             <Button onClick={logIn}>{t('login')}</Button>
             <Button onClick={signUp}>{t('registration')}</Button>
           </ButtonGroup>
@@ -122,6 +125,6 @@ const Navbar: FC = () => {
       </Toolbar>
     </AppBar>
   );
-};
+});
 
 export default Navbar;

@@ -24,12 +24,10 @@ const SuspenseWrapper = () => {
 // eslint-disable-next-line react-refresh/only-export-components
 const NavbarWrapper = () => {
   return (
-    <>
-      <Container maxWidth={false} disableGutters>
-        <Navbar />
-        <Outlet />
-      </Container>
-    </>
+    <Container maxWidth={false} disableGutters sx={{ height: '100%' }}>
+      <Navbar />
+      <Outlet />
+    </Container>
   );
 };
 
@@ -56,19 +54,19 @@ export const router = createBrowserRouter([
             path: Route.USER_SETTINGS,
             element: <UserSettingsPage />,
           },
+          {
+            path: Route.LOGIN,
+            element: <LoginPage />,
+          },
+          {
+            path: Route.REGISTRATION,
+            element: <RegistrationPage />,
+          },
+          {
+            path: Route.RULES,
+            element: <TermsOfUse />,
+          },
         ],
-      },
-      {
-        path: Route.LOGIN,
-        element: <LoginPage />,
-      },
-      {
-        path: Route.REGISTRATION,
-        element: <RegistrationPage />,
-      },
-      {
-        path: Route.RULES,
-        element: <TermsOfUse />,
       },
     ],
   },
