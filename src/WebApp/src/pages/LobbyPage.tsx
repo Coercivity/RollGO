@@ -17,13 +17,15 @@ import {
 } from '@mui/material';
 
 import lobbyHubService from '@api/lobbyHubService';
-import LobbyHistory from '@components/lobby/LobbyHistory';
-import LobbyNicknameModal from '@components/lobby/LobbyNicknameModal';
-import LobbySettingsModal from '@components/lobby/LobbySettingsModal';
-import MovieList from '@components/lobby/movie/MovieList';
-import MovieSearch from '@components/lobby/movie/MovieSearch';
-import SpinningWheel from '@components/lobby/SpiningWheel';
-import UsersList from '@components/lobby/user/UsersList';
+import {
+  LobbyHistory,
+  LobbyNicknameDialog,
+  LobbySettingsDialog,
+  MovieList,
+  MovieSearch,
+  SpinningWheel,
+  UsersList,
+} from '@components/lobby';
 import { LocalizationNamespace } from '@enums/LocalizationNamespace';
 import { Route } from '@enums/Route';
 import { Lobby } from '@models/Lobby';
@@ -127,7 +129,7 @@ const LobbyPage = () => {
             <Button fullWidth variant="contained" onClick={() => setSettingsOpen(true)}>
               {<SettingsIcon />} {t('lobbySettings')}
             </Button>
-            <LobbySettingsModal
+            <LobbySettingsDialog
               lobbyName={lobby.name}
               settingsOpen={settingsOpen}
               setSettingsOpen={setSettingsOpen}
@@ -136,7 +138,7 @@ const LobbyPage = () => {
           </Box>
         </Grid>
       </Grid>
-      <LobbyNicknameModal open={openModal} setOpen={setOpenModal} />
+      <LobbyNicknameDialog open={openModal} setOpen={setOpenModal} />
     </Container>
   );
 };

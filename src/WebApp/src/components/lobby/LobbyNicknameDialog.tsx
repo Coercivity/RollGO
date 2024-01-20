@@ -13,12 +13,12 @@ import {
 import { LocalizationNamespace } from '@enums/LocalizationNamespace';
 import { useUserStore } from '@store/userStore';
 
-interface LobbyNicknameModalProps {
+interface LobbyNicknameDialogProps {
   setOpen: (x: boolean) => void;
   open: boolean;
 }
 
-const LobbyNicknameModal: FC<LobbyNicknameModalProps> = ({ setOpen, open }) => {
+const LobbyNicknameDialog: FC<LobbyNicknameDialogProps> = ({ setOpen, open }) => {
   const { t } = useTranslation(LocalizationNamespace.LOBBY);
   const [name, setName] = useState<string>('');
   const setUser = useUserStore((state) => state.setUser);
@@ -53,4 +53,4 @@ const LobbyNicknameModal: FC<LobbyNicknameModalProps> = ({ setOpen, open }) => {
   );
 };
 
-export default LobbyNicknameModal;
+export default LobbyNicknameDialog;

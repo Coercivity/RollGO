@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import HistoryIcon from '@mui/icons-material/History';
 import { Box, Button, Drawer, List, Typography } from '@mui/material';
 
 import { LocalizationNamespace } from '@enums/LocalizationNamespace';
 
-export default function TemporaryDrawer() {
+const LobbyHistory: FC = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const { t } = useTranslation(LocalizationNamespace.LOBBY);
 
@@ -31,4 +31,6 @@ export default function TemporaryDrawer() {
       </Drawer>
     </React.Fragment>
   );
-}
+};
+
+export default LobbyHistory;

@@ -54,7 +54,7 @@ module.exports = {
       {
         groups: [
           ['^react', '^@?\\w'],
-          ['^(@components|@enums|@models|@pages|@api|@store)(/.*|$)'],
+          ['^(@components|@enums|@models|@pages|@api|@store|@hooks)(/.*|$)'],
           ['^\\u0000'],
           ['^\\.\\.(?!/?$)', '^\\.\\./?$'],
           ['^\\./(?=.*/)(?!/?$)', '^\\.(?!/?$)', '^\\./?$'],
