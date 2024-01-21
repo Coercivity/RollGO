@@ -1,17 +1,23 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLoaderData, useNavigate } from 'react-router-dom';
 import { Box, Button, Container } from '@mui/material';
+import Popover from '@mui/material/Popover';
 
 import lobbyService from '@api/lobbyService';
 import { LobbyCreationDialog, LobbyList } from '@components/main';
+import { LocalizationNamespace } from '@enums/LocalizationNamespace';
 import { Route } from '@enums/Route';
 import { Lobby } from '@models/Lobby';
 
 const MainPage = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation(LocalizationNamespace.MAIN_PAGE);
   const [open, setOpen] = useState(false);
+  const [popoverOpen, setPopoverOpen] = useState(false);
   const [lobbies, setLobbies] = useState<Lobby[]>(useLoaderData() as Lobby[]);
+
+  const anchorEl = useRef<HTMLButtonElement | null>(null);
+
   const navigate = useNavigate();
 
   const addNewLobby = async (lobbyName: string) => {
@@ -31,8 +37,32 @@ const MainPage = () => {
         <Button onClick={() => setOpen(true)} variant="contained" size="large">
           {t('createLobby')}
         </Button>
+        <Button
+          sx={{ ml: 3 }}
+          ref={anchorEl}
+          onClick={() => setPopoverOpen(true)}
+          variant="contained"
+          size="large"
+        >
+          {t('myLobbies')}
+        </Button>
       </Box>
-      <LobbyList remove={remove} lobbies={lobbies} />
+      <Box>
+        {!popoverOpen ? null : (
+          <Popover
+            sx={{ width: '100%' }}
+            open={popoverOpen}
+            anchorEl={anchorEl.current}
+            onClose={() => setPopoverOpen(false)}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'right',
+            }}
+          >
+            <LobbyList remove={remove} lobbies={lobbies} />
+          </Popover>
+        )}
+      </Box>
       <LobbyCreationDialog open={open} setOpen={setOpen} addNewLobby={addNewLobby} />
     </Container>
   );

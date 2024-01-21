@@ -39,7 +39,7 @@ const LobbySettings: FC<LobbySettingsProps> = ({
   const spinCountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
     const newValue = Number(event.target.value);
-    setSpinCount(newValue < 0 ? 0 : newValue);
+    setSpinCount(newValue < 1 ? 1 : newValue);
   };
 
   const lobbyIdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -68,6 +68,7 @@ const LobbySettings: FC<LobbySettingsProps> = ({
               variant="standard"
               value={lobbyName ?? ''}
               onChange={lobbyIdChange}
+              error={lobbyName.length > 15}
             />
           </Grid>
         )}

@@ -31,7 +31,7 @@ const LoginPage = () => {
         password,
       });
       setTokenPair({ accessToken: data.accessToken, refreshToken: data.refreshToken });
-      setUser(data.user);
+      setUser(data.user, false);
       navigate(Route.ROOT);
     } catch (e) {
       handleError(e, setError);

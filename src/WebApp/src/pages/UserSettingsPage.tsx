@@ -95,7 +95,6 @@ const UserSettingsPage = () => {
         currentPassword: oldPassword,
       });
       setUser(data);
-
       setSuccess(true);
       setTimeout(() => setSuccess(false), 5000);
     } catch (e) {

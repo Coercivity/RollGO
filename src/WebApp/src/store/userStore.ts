@@ -16,13 +16,13 @@ export const useUserStore = create(
       id: '',
       isOnline: true,
       email: '',
-      setUser: (user) => {
+      setUser: (user, status: boolean) => {
         return set({
           id: user.id,
           username: user.username,
           email: user.email,
           isOnline: true,
-          isAnonymous: false || true,
+          isAnonymous: status,
         });
       },
       setAnonymous: () => {

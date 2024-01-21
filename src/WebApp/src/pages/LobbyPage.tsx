@@ -63,7 +63,7 @@ const LobbyPage = () => {
 
   useEffect(() => {
     if (isAnonymous) setOpenModal(true); // выставил ! что б не вылазило при каждом сохранении
-  }, [isAnonymous]);
+  }, []);
 
   useEffect(() => {
     lobbyHubService.joinLobbyAnonymous(lobby.id, username).catch(console.error);

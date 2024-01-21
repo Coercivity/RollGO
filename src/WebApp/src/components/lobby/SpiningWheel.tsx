@@ -78,7 +78,8 @@ const SpinningWheel: FC<WheelProps> = ({ movies }) => {
 
   const speedChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
-    setSpinDuration(Number(event.target.value));
+    const newValue = Number(event.target.value);
+    setSpinDuration(newValue < 1 ? 1 : newValue);
   };
 
   const onStopSpinning = () => {
