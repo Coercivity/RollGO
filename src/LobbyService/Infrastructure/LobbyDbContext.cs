@@ -11,6 +11,7 @@ namespace Infrastructure
         public DbSet<EntertainmentEntity> EntertainmentEntities { get; set; } = null!;
         public DbSet<Meeting> Meetings { get; set; } = null!;
         public DbSet<LobbyUser> LobbyUsers { get; set; } = null!;
+        public DbSet<LobbySettings> LobbySettings { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -20,6 +21,7 @@ namespace Infrastructure
             modelBuilder.ApplyConfiguration(new UserWeightMapping());
             modelBuilder.ApplyConfiguration(new LobbyMapping());
             modelBuilder.ApplyConfiguration(new LobbyUserMapping());
+            modelBuilder.ApplyConfiguration(new LobbySettingsMapping());
             DatabaseSeeder.Seed(modelBuilder);
         }
     }

@@ -10,6 +10,7 @@ namespace LobbyAPI.Controllers.Dtos
             Id = lobby.Id;
             Name = lobby.Name;
             CreatedDateTime = lobby.CreatedDateTime;
+            LobbySettings = new LobbySettingsDto(lobby.LobbySettings);
         }
 
         public LobbyDto(Guid id, DateTime createdDateTime, string name)
@@ -22,5 +23,6 @@ namespace LobbyAPI.Controllers.Dtos
         public Guid Id { get; set; }
         public DateTime CreatedDateTime { get; set; }
         public string Name { get; set; }
+        public LobbySettingsDto LobbySettings { get; set; }
     }
 }
