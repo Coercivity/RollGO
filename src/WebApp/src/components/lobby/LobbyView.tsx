@@ -31,7 +31,7 @@ const LobbyView: FC<LobbyViewProps> = ({ remove, lobby }) => {
           {lobby.name}
         </Typography>
       </Link>
-      <IconButton variant="outlined" color="error" onClick={() => remove()}>
+      <IconButton color="error" onClick={() => remove()}>
         <DeleteOutlineIcon />
       </IconButton>
     </Paper>

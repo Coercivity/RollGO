@@ -68,7 +68,6 @@ const LobbySettings: FC<LobbySettingsProps> = ({
               variant="standard"
               value={lobbyName ?? ''}
               onChange={lobbyIdChange}
-              error={lobbyName.length > 15}
             />
           </Grid>
         )}

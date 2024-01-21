@@ -25,7 +25,7 @@ const LobbyNicknameDialog: FC<LobbyNicknameDialogProps> = ({ setOpen, open }) =>
 
   const onCreate = () => {
     setOpen(false);
-    setUser({ id: name, username: name, isOnline: true }, true);
+    setUser({ id: name, username: name, isOnline: true, isAnonymous: true });
   };
 
   return (
