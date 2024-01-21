@@ -54,6 +54,7 @@ const LobbyCreationDialog: FC<LobbyCreationDialogProps> = ({ setOpen, addNewLobb
           label={t('lobbyName')}
           fullWidth
           variant="standard"
+          inputProps={{ maxLength: '20' }}
           onChange={(e) => setLobbyName(e.target.value)}
         />
 
