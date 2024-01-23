@@ -12,8 +12,21 @@ namespace Infrastructure
             GamerTagGenerator Generator = new();
 
             for (int i = 0; i < 3; i++)
-                lobbies.Add(new Lobby { Name = Generator.Generate(), AdminId = Guid.NewGuid() });
+                lobbies.Add(new Lobby { Id = Guid.NewGuid(), Name = Generator.Generate(), AdminId = Guid.NewGuid() });
             modelBuilder.Entity<Lobby>().HasData(lobbies);
+
+            List<LobbySettings> lobbySettings = [];
+            foreach (Lobby lobby in lobbies)
+            {
+                lobbySettings.Add(new LobbySettings()
+                {
+                    LobbyId = lobby.Id,
+                    MinimalRating = 7.5f,
+                    MoviesPerUser = 2,
+                    WithKoefficient = true
+                });
+            }
+            modelBuilder.Entity<LobbySettings>().HasData(lobbySettings);
         }
     }
 }

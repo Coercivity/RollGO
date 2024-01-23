@@ -7,5 +7,6 @@ namespace LobbyAPI.Controllers.Dtos
     {
         public required string Name { get; set; }
         public Guid AdminId { get; internal set; }
+        public LobbySettingsDto Settings { get; set; }
     }
 }
