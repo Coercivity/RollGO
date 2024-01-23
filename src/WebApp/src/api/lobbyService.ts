@@ -22,7 +22,7 @@ class LobbyService {
   async updateLobby(lobby: Lobby): Promise<Lobby> {
     return axios.put<Lobby, Lobby>(`/api/lobbies/${lobby.id}`, {
       name: lobby.name,
-      settings: lobby.lobbySettings,
+      settings: lobby.settings,
     });
   }
 }

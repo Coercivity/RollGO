@@ -8,7 +8,7 @@ export interface Lobby {
   id: string;
   name: string;
   adminId: string;
-  lobbySettings: LobbySettings;
+  settings: LobbySettings;
 }
 
 export enum LobbyAction {
