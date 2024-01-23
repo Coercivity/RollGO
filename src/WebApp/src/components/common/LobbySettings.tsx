@@ -17,29 +17,29 @@ import { LocalizationNamespace } from '@enums/LocalizationNamespace';
 interface LobbySettingsProps {
   lobbyName: string | undefined;
   rating: number;
-  spinCount: number;
+  numberOfSpins: number;
   withName?: boolean;
   setLobbyName: (lobbyName: string) => void;
   setRating: (rating: number) => void;
-  setSpinCount: (spinCount: number) => void;
+  setNumberOfSpins: (numberOfSpins: number) => void;
 }
 
 const LobbySettings: FC<LobbySettingsProps> = ({
   lobbyName,
-  spinCount,
+  numberOfSpins,
   rating,
   setLobbyName,
-  setSpinCount,
+  setnNmberOfSpins,
   setRating,
   withName = false,
 }) => {
   const { t } = useTranslation(LocalizationNamespace.LOBBY);
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
-  const spinCountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const numberOfSpinsChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
     const newValue = Number(event.target.value);
-    setSpinCount(newValue < 1 ? 1 : newValue);
+    setNumberOfSpins(newValue < 1 ? 1 : newValue);
   };
 
   const lobbyIdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -68,7 +68,7 @@ const LobbySettings: FC<LobbySettingsProps> = ({
               variant="standard"
               value={lobbyName ?? ''}
               onChange={lobbyIdChange}
-              inputProps={{ maxLength: '20' }}
+              inputProps={{ maxLength: 20 }}
             />
           </Grid>
         )}
@@ -79,8 +79,8 @@ const LobbySettings: FC<LobbySettingsProps> = ({
             variant="standard"
             label={t('moviesQuantity')}
             type="number"
-            value={spinCount}
-            onChange={spinCountChange}
+            value={numberOfSpins}
+            onChange={numberOfSpinsChange}
           />
         </Grid>
       </Grid>

@@ -19,11 +19,12 @@ const LobbySettingsDialog: FC<LobbySettingsDialogProps> = ({ settingsOpen, setSe
   const saveSettings = () => {
     setSettingsOpen(false);
   };
-  const [lobbyName, spinCount, rating, setLobbyName, setSpinCount, setRating] = useLobbySettings({
-    spinCount: 1,
-    rating: 5,
-    lobbyName: '',
-  });
+  const [lobbyName, numberOfSpins, rating, setLobbyName, setNumberOfSpins, setRating] =
+    useLobbySettings({
+      numberOfSpins: 1,
+      rating: 5,
+      lobbyName: '',
+    });
 
   return (
     <Dialog open={settingsOpen} onClose={() => setSettingsOpen(false)} keepMounted fullWidth={true}>
@@ -32,10 +33,10 @@ const LobbySettingsDialog: FC<LobbySettingsDialogProps> = ({ settingsOpen, setSe
         <LobbySettings
           lobbyName={lobbyName}
           setLobbyName={setLobbyName}
-          spinCount={spinCount}
+          numberOfSpins={numberOfSpins}
           rating={rating}
           setRating={setRating}
-          setSpinCount={setSpinCount}
+          setNumberOfSpins={setNumberOfSpins}
           withName={true}
         />
       </DialogContent>

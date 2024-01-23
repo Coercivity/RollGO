@@ -28,12 +28,12 @@ interface LobbyCreationDialogProps {
   addNewLobby: (lobby: string) => void;
   open: boolean;
 }
-const INITIAL_SETTINGS = { spinCount: 1, rating: 5, lobbyName: '' };
+const INITIAL_SETTINGS = { numberOfSpins: 1, rating: 5, lobbyName: '' };
 
 const LobbyCreationDialog: FC<LobbyCreationDialogProps> = ({ setOpen, addNewLobby, open }) => {
   const { t } = useTranslation(LocalizationNamespace.LOBBY);
 
-  const [lobbyName, spinCount, rating, setLobbyName, setSpinCount, setRating] =
+  const [lobbyName, numberOfSpins, rating, setLobbyName, setNumberOfSpins, setRating] =
     useLobbySettings(INITIAL_SETTINGS);
 
   const onCreate = () => {
@@ -54,7 +54,7 @@ const LobbyCreationDialog: FC<LobbyCreationDialogProps> = ({ setOpen, addNewLobb
           label={t('lobbyName')}
           fullWidth
           variant="standard"
-          inputProps={{ maxLength: '20' }}
+          inputProps={{ maxLength: 20 }}
           onChange={(e) => setLobbyName(e.target.value)}
         />
 
@@ -86,10 +86,10 @@ const LobbyCreationDialog: FC<LobbyCreationDialogProps> = ({ setOpen, addNewLobb
                   <LobbySettings
                     lobbyName={lobbyName}
                     setLobbyName={setLobbyName}
-                    spinCount={spinCount}
+                    numberOfSpins={numberOfSpins}
                     rating={rating}
                     setRating={setRating}
-                    setSpinCount={setSpinCount}
+                    setNumberOfSpins={setNumberOfSpins}
                     withName={false}
                   />
                 </Box>
