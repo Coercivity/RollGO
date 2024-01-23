@@ -2,29 +2,57 @@ import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 
+import lobbyService from '@api/lobbyService';
 import { LocalizationNamespace } from '@enums/LocalizationNamespace';
 import { useLobbySettings } from '@hooks/useLobbySettings';
+import { Lobby } from '@models/Lobby';
 
 import LobbySettings from '../common/LobbySettings';
 
 interface LobbySettingsDialogProps {
   setSettingsOpen: (x: boolean) => void;
   settingsOpen: boolean;
-  lobbyName: string | undefined;
+  lobby: Lobby;
+  setLobby: (lobby: Lobby) => void;
 }
 
-const LobbySettingsDialog: FC<LobbySettingsDialogProps> = ({ settingsOpen, setSettingsOpen }) => {
+const LobbySettingsDialog: FC<LobbySettingsDialogProps> = ({
+  settingsOpen,
+  setSettingsOpen,
+  lobby,
+  setLobby,
+}) => {
   const { t } = useTranslation(LocalizationNamespace.LOBBY);
 
-  const saveSettings = () => {
-    setSettingsOpen(false);
+  const [
+    lobbyName,
+    moviesPerUser,
+    rating,
+    withKoefficient,
+    setLobbyName,
+    setMoviesPerUser,
+    setRating,
+    setWithKoefficient,
+  ] = useLobbySettings({
+    moviesPerUser: lobby.lobbySettings.moviesPerUser,
+    minimalRating: lobby.lobbySettings.minimalRating,
+    lobbyName: lobby.name,
+    withKoefficient: lobby.lobbySettings.withKoefficient,
+  });
+
+  const onSettignsSave = async () => {
+    try {
+      const lobbyResponse = await lobbyService.updateLobby({
+        ...lobby,
+        name: lobbyName,
+        lobbySettings: { moviesPerUser, minimalRating: rating, withKoefficient },
+      });
+      setLobby(lobbyResponse);
+      setSettingsOpen(false);
+    } catch {
+      console.error('Failed to save lobby settings');
+    }
   };
-  const [lobbyName, numberOfSpins, rating, setLobbyName, setNumberOfSpins, setRating] =
-    useLobbySettings({
-      numberOfSpins: 1,
-      rating: 5,
-      lobbyName: '',
-    });
 
   return (
     <Dialog open={settingsOpen} onClose={() => setSettingsOpen(false)} keepMounted fullWidth={true}>
@@ -32,11 +60,13 @@ const LobbySettingsDialog: FC<LobbySettingsDialogProps> = ({ settingsOpen, setSe
       <DialogContent>
         <LobbySettings
           lobbyName={lobbyName}
-          setLobbyName={setLobbyName}
-          numberOfSpins={numberOfSpins}
+          moviesPerUser={moviesPerUser}
           rating={rating}
+          withKoefficient={withKoefficient}
+          setLobbyName={setLobbyName}
           setRating={setRating}
-          setNumberOfSpins={setNumberOfSpins}
+          setMoviesPerUser={setMoviesPerUser}
+          setWithKoefficient={setWithKoefficient}
           withName={true}
         />
       </DialogContent>
@@ -45,7 +75,7 @@ const LobbySettingsDialog: FC<LobbySettingsDialogProps> = ({ settingsOpen, setSe
         <Button sx={{ mr: 1, mb: 2 }} variant="text" onClick={() => setSettingsOpen(false)}>
           {t('cancel')}
         </Button>
-        <Button sx={{ mr: 2, mb: 2 }} variant="contained" onClick={saveSettings}>
+        <Button sx={{ mr: 2, mb: 2 }} variant="contained" onClick={onSettignsSave}>
           {t('apply')}
         </Button>
       </DialogActions>

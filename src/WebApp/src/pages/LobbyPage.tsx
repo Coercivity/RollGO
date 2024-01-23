@@ -16,7 +16,6 @@ import {
   useTheme,
 } from '@mui/material';
 
-import lobbyHubService from '@api/lobbyHubService';
 import {
   LobbyHistory,
   LobbyNicknameDialog,
@@ -35,14 +34,16 @@ import { useUserStore } from '@store/userStore';
 const LobbyPage = () => {
   const { t } = useTranslation(LocalizationNamespace.LOBBY);
   const theme = useTheme();
-  const lobby = useLoaderData() as Lobby;
+  const lobbyData = useLoaderData() as Lobby;
 
+  const [lobby, setLobby] = useState<Lobby>(lobbyData);
   const [movies, setMovies] = useState<Movie[]>([]);
   const [isWheelVisible, setIsWheelVisible] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
-  const [isAnonymous, username] = useUserStore((state) => [state.isAnonymous, state.username]);
+  const [isAnonymous] = useUserStore((state) => [state.isAnonymous]);
   const [maxHeight, setMaxHeight] = useState(window.innerHeight);
+  const navigate = useNavigate();
 
   const movieListContainer = useRef<HTMLElement>();
 
@@ -65,14 +66,6 @@ const LobbyPage = () => {
     if (isAnonymous) setOpenModal(true); // выставил ! что б не вылазило при каждом сохранении
   }, []);
 
-  useEffect(() => {
-    lobbyHubService.joinLobbyAnonymous(lobby.id, username).catch(console.error);
-    return () => {
-      lobbyHubService.stopConnection();
-    };
-  }, []);
-
-  const navigate = useNavigate();
   const exitLobby = () => {
     navigate(Route.ROOT);
   };
@@ -130,9 +123,10 @@ const LobbyPage = () => {
               {<SettingsIcon />} {t('lobbySettings')}
             </Button>
             <LobbySettingsDialog
-              lobbyName={lobby.name}
+              lobby={lobby}
               settingsOpen={settingsOpen}
               setSettingsOpen={setSettingsOpen}
+              setLobby={setLobby}
             />
             <LobbyHistory />
           </Box>

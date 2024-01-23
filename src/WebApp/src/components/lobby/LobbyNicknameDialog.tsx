@@ -21,11 +21,11 @@ interface LobbyNicknameDialogProps {
 const LobbyNicknameDialog: FC<LobbyNicknameDialogProps> = ({ setOpen, open }) => {
   const { t } = useTranslation(LocalizationNamespace.LOBBY);
   const [name, setName] = useState<string>('');
-  const setUser = useUserStore((state) => state.setUser);
+  const setAnonymous = useUserStore((state) => state.setAnonymous);
 
   const onCreate = () => {
     setOpen(false);
-    setUser({ id: name, username: name, isOnline: true, isAnonymous: true });
+    setAnonymous(name);
   };
 
   return (

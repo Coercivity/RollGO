@@ -8,7 +8,7 @@ import lobbyService from '@api/lobbyService';
 import { LobbyCreationDialog, LobbyList } from '@components/main';
 import { LocalizationNamespace } from '@enums/LocalizationNamespace';
 import { Route } from '@enums/Route';
-import { Lobby } from '@models/Lobby';
+import { Lobby, LobbySettings } from '@models/Lobby';
 
 const MainPage = () => {
   const { t } = useTranslation(LocalizationNamespace.MAIN_PAGE);
@@ -20,8 +20,8 @@ const MainPage = () => {
 
   const navigate = useNavigate();
 
-  const addNewLobby = async (lobbyName: string) => {
-    const lobby = await lobbyService.createLobby(lobbyName);
+  const addNewLobby = async (lobbyName: string, settings: LobbySettings) => {
+    const lobby = await lobbyService.createLobby(lobbyName, settings);
     setOpen(false);
     navigate(`${Route.LOBBY}/${lobby.id}`);
   };

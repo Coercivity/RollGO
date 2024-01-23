@@ -17,29 +17,33 @@ import { LocalizationNamespace } from '@enums/LocalizationNamespace';
 interface LobbySettingsProps {
   lobbyName: string | undefined;
   rating: number;
-  numberOfSpins: number;
+  moviesPerUser: number;
   withName?: boolean;
+  withKoefficient?: boolean;
   setLobbyName: (lobbyName: string) => void;
   setRating: (rating: number) => void;
-  setNumberOfSpins: (numberOfSpins: number) => void;
+  setMoviesPerUser: (moviesPerUser: number) => void;
+  setWithKoefficient: (withKoefficient: boolean) => void;
 }
 
 const LobbySettings: FC<LobbySettingsProps> = ({
   lobbyName,
-  numberOfSpins,
+  moviesPerUser,
   rating,
+  withKoefficient,
   setLobbyName,
-  setnNmberOfSpins,
+  setMoviesPerUser,
   setRating,
+  setWithKoefficient,
   withName = false,
 }) => {
   const { t } = useTranslation(LocalizationNamespace.LOBBY);
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
-  const numberOfSpinsChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const moviesPerUserChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
     const newValue = Number(event.target.value);
-    setNumberOfSpins(newValue < 1 ? 1 : newValue);
+    setMoviesPerUser(newValue < 1 ? 1 : newValue);
   };
 
   const lobbyIdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -79,8 +83,8 @@ const LobbySettings: FC<LobbySettingsProps> = ({
             variant="standard"
             label={t('moviesQuantity')}
             type="number"
-            value={numberOfSpins}
-            onChange={numberOfSpinsChange}
+            value={moviesPerUser}
+            onChange={moviesPerUserChange}
           />
         </Grid>
       </Grid>
@@ -111,7 +115,13 @@ const LobbySettings: FC<LobbySettingsProps> = ({
         >
           <FormControlLabel
             labelPlacement="end"
-            control={<Switch defaultChecked />}
+            control={
+              <Switch
+                defaultChecked
+                value={withKoefficient}
+                onChange={() => setWithKoefficient(!withKoefficient)}
+              />
+            }
             label={t('complexCoefficient')}
           />
           <Typography
