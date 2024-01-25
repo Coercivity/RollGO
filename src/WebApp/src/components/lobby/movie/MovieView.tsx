@@ -2,7 +2,7 @@ import { FC, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import ClearIcon from '@mui/icons-material/Clear';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
-import { Box, Card, Grid, IconButton, Link, List, Skeleton, Typography } from '@mui/material';
+import { Box, CardMedia, Grid, IconButton, Link, List, Skeleton, Typography } from '@mui/material';
 import ImageListItem from '@mui/material/ImageListItem';
 
 import { LocalizationNamespace } from '@enums/LocalizationNamespace';
@@ -25,10 +25,15 @@ const MovieView: FC<MovieViewProps> = ({ remove, movie }) => {
   return (
     <>
       {data ? (
-        <Card>
-          <Grid container spacing={1}>
+        <Box sx={{ color: 'white' }}>
+          <Grid container spacing={1} sx={{ backgroundColor: 'grey.900' }}>
             <Grid item xs={2}>
-              <img width="100%" src={data.posterUrl} />
+              <CardMedia
+                component="img"
+                sx={{ width: '100%' }}
+                image={data.posterUrl}
+                alt="src image"
+              />
             </Grid>
             <Grid item xs={10}>
               <Grid container>
@@ -44,7 +49,7 @@ const MovieView: FC<MovieViewProps> = ({ remove, movie }) => {
                   </Link>
                 </Grid>
                 <Grid item xs={1}>
-                  <IconButton size="small" onClick={() => remove(data)} color="secondary">
+                  <IconButton size="small" onClick={() => remove(data)} color="error">
                     <ClearIcon />
                   </IconButton>
                 </Grid>
@@ -66,20 +71,20 @@ const MovieView: FC<MovieViewProps> = ({ remove, movie }) => {
                   <List>
                     <Typography sx={{ display: 'flex', alignItems: 'center' }}>
                       {t('ratingKinopoisk')}: {data ? data.ratingKinopoisk : ''}
-                      <StarBorderIcon />
+                      <StarBorderIcon sx={{ color: 'orange' }} />
                     </Typography>
                     <Typography sx={{ display: 'flex', alignItems: 'center' }}>
                       {t('ratingIMDb')}: {data ? data.ratingImdb : ''}
-                      <StarBorderIcon />
+                      <StarBorderIcon sx={{ color: 'orange' }} />
                     </Typography>
                   </List>
                 </Grid>
               </Grid>
             </Grid>
           </Grid>
-        </Card>
+        </Box>
       ) : (
-        <Card>
+        <Box>
           <Box flexGrow={1} sx={{ display: 'flex', flexDirection: 'row', gap: 35 }}>
             <Box sx={{ display: 'flex', flexDirection: 'row', m: 1 }}>
               <ImageListItem sx={{ maxWidth: 120 }}>
@@ -93,7 +98,7 @@ const MovieView: FC<MovieViewProps> = ({ remove, movie }) => {
               </List>
             </Box>
           </Box>
-        </Card>
+        </Box>
       )}
     </>
   );
