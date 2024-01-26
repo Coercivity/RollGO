@@ -12,6 +12,6 @@
 
         public List<LobbyUser>? LobbyUsers { get; set; }
 
-        public LobbySettings? LobbySettings { get; set; }
+        public LobbySettings? Settings { get; set; }
     }
 }

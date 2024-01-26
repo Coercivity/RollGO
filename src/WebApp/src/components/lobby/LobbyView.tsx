@@ -1,8 +1,7 @@
 import { FC } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Button, Link, Paper } from '@mui/material';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import { IconButton, Link, Paper, Typography } from '@mui/material';
 
-import { LocalizationNamespace } from '@enums/LocalizationNamespace';
 import { Route } from '@enums/Route';
 import { Lobby } from '@models/Lobby';
 
@@ -12,7 +11,6 @@ interface LobbyViewProps {
 }
 
 const LobbyView: FC<LobbyViewProps> = ({ remove, lobby }) => {
-  const { t } = useTranslation(LocalizationNamespace.LOBBY);
   return (
     <Paper
       sx={{
@@ -26,11 +24,16 @@ const LobbyView: FC<LobbyViewProps> = ({ remove, lobby }) => {
         sx={{ color: 'primary.contrastText', fontWeight: 700, textDecoration: 'none' }}
         href={`${Route.LOBBY}/${lobby.id}`}
       >
-        {lobby.name}
+        <Typography
+          sx={{ display: 'flex', alignItems: 'center', textAlign: 'center', ml: 2, mt: 1 }}
+          noWrap
+        >
+          {lobby.name}
+        </Typography>
       </Link>
-      <Button variant="outlined" color="error" onClick={() => remove()}>
-        {t('delete')}
-      </Button>
+      <IconButton color="error" onClick={() => remove()}>
+        <DeleteOutlineIcon />
+      </IconButton>
     </Paper>
   );
 };

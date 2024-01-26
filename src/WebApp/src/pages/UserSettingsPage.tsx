@@ -95,7 +95,6 @@ const UserSettingsPage = () => {
         currentPassword: oldPassword,
       });
       setUser(data);
-
       setSuccess(true);
       setTimeout(() => setSuccess(false), 5000);
     } catch (e) {
@@ -160,6 +159,7 @@ const UserSettingsPage = () => {
             label={t('changeEmail')}
             type="email"
             variant="standard"
+            autoComplete="off"
             error={error && EMAIL_ERRORS.includes(error)}
             onChange={onEmailChange}
             value={email}
@@ -170,6 +170,7 @@ const UserSettingsPage = () => {
             label={t('changeLogin')}
             variant="standard"
             value={username}
+            autoComplete="off"
             required
             error={error && USERNAME_ERRORS.includes(error)}
             onChange={(e) => onUsernameChange(e.target.value)}
@@ -193,6 +194,7 @@ const UserSettingsPage = () => {
             error={error === ErrorCode.WrongPassword}
             type="password"
             variant="standard"
+            autoComplete="new-password"
             onChange={(e) => setOldPassword(e.target.value)}
           />
           <TextField

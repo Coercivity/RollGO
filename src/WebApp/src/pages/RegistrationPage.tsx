@@ -94,6 +94,7 @@ const RegistrationPage = () => {
           label={t('enterEmail')}
           type="email"
           variant="standard"
+          autoComplete="off"
           error={error && EMAIL_ERRORS.includes(error)}
           onChange={onEmailChange}
           onBlur={onEmailBlur}
@@ -102,6 +103,7 @@ const RegistrationPage = () => {
           margin="dense"
           label={t('enterLogin')}
           variant="standard"
+          autoComplete="off"
           onChange={(e) => setUsername(e.target.value)}
           error={error === ErrorCode.UsernameExists}
         />
@@ -111,6 +113,7 @@ const RegistrationPage = () => {
           error={error && PASSWORD_ERRORS.includes(error)}
           type="password"
           variant="standard"
+          autoComplete="new-password"
           onChange={(e) => onPasswordChange(e.target.value, setPassword)}
           onBlur={(e) => onPasswordBlur(e.target.value)}
         />

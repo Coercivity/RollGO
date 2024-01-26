@@ -12,7 +12,7 @@ namespace Infrastructure.Repository.Implementation
 
         public override async Task<Lobby?> GetByIdAsync(Guid id)
         {
-            return await _context.Set<Lobby>().Include(x => x.LobbySettings).FirstOrDefaultAsync(x => x.Id == id);
+            return await _context.Set<Lobby>().Include(x => x.Settings).FirstOrDefaultAsync(x => x.Id == id);
         }
     }
 }

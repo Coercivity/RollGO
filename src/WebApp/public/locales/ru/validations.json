@@ -1,9 +1,13 @@
- {
-   "EmailExists": "Этот e-mail уже используется.",
-   "PasswordsNotMatch" : "Пароли не совпадают.",
-   "UsernameExists": "Это имя уже используется.",
-   "WrongUsernameOrPassword": "Неверное имя пользователя или пароль.",
-   "WrongPassword": "Неверный пароль.",
-   "PasswordValidation": "Пароль должен содержать буквы, цифры, специальные символы и не менее 8 символов.",
-   "EmailValidation": "Введите корректный e-mail."
- }
+{
+  "EmailExists": "Этот e-mail уже используется.",
+  "PasswordsNotMatch": "Пароли не совпадают.",
+  "UsernameExists": "Это имя уже используется.",
+  "WrongUsernameOrPassword": "Неверное имя пользователя или пароль.",
+  "WrongPassword": "Неверный пароль.",
+  "PasswordValidation": "Пароль должен содержать буквы, цифры, специальные символы и не менее 8 символов.",
+  "EmailValidation": "Введите корректный e-mail.",
+
+  "thisPageDoesNotExist": "Похоже, такой страницы не существует...",
+  "thisLobbyDoesNotExist": "Похоже, такого лобби не существует...",
+  "goMain": "На главную"
+}

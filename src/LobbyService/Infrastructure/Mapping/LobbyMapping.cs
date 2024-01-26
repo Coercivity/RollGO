@@ -25,7 +25,7 @@ namespace Infrastructure.Mapping
             builder.HasMany(l => l.LobbyUsers).WithOne(m => m.Lobby).IsRequired();
 
             builder
-                .HasOne(l => l.LobbySettings)
+                .HasOne(l => l.Settings)
                 .WithOne(m => m.Lobby)
                 .HasForeignKey<LobbySettings>("LobbyId")
                 .IsRequired();

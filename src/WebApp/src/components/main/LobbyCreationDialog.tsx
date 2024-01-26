@@ -19,25 +19,43 @@ import {
 } from '@mui/material';
 
 import { LocalizationNamespace } from '@enums/LocalizationNamespace';
-import { useLobbySettings } from '@hooks/useLobbySettings';
+import { SettingsProps, useLobbySettings } from '@hooks/useLobbySettings';
+import { LobbySettings as LobbySettingsType } from '@models/Lobby';
 
 import LobbySettings from '../common/LobbySettings';
 
 interface LobbyCreationDialogProps {
   setOpen: (value: boolean) => void;
-  addNewLobby: (lobby: string) => void;
+  addNewLobby: (lobby: string, settings: LobbySettingsType) => void;
   open: boolean;
 }
-const INITIAL_SETTINGS = { spinCount: 1, rating: 5, lobbyName: '' };
+const INITIAL_SETTINGS = {
+  moviesPerUser: 1,
+  minimalRating: 5,
+  lobbyName: '',
+  withKoefficient: true,
+} as SettingsProps;
 
 const LobbyCreationDialog: FC<LobbyCreationDialogProps> = ({ setOpen, addNewLobby, open }) => {
   const { t } = useTranslation(LocalizationNamespace.LOBBY);
 
-  const [lobbyName, spinCount, rating, setLobbyName, setSpinCount, setRating] =
-    useLobbySettings(INITIAL_SETTINGS);
+  const [
+    lobbyName,
+    moviesPerUser,
+    rating,
+    withKoefficient,
+    setLobbyName,
+    setMoviesPerUser,
+    setRating,
+    setWithKoefficient,
+  ] = useLobbySettings(INITIAL_SETTINGS);
 
   const onCreate = () => {
-    addNewLobby(lobbyName);
+    addNewLobby(lobbyName, {
+      moviesPerUser,
+      minimalRating: rating,
+      withKoefficient,
+    });
     setLobbyName('');
     setOpen(false);
   };
@@ -54,6 +72,7 @@ const LobbyCreationDialog: FC<LobbyCreationDialogProps> = ({ setOpen, addNewLobb
           label={t('lobbyName')}
           fullWidth
           variant="standard"
+          inputProps={{ maxLength: 20 }}
           onChange={(e) => setLobbyName(e.target.value)}
         />
 
@@ -84,11 +103,13 @@ const LobbyCreationDialog: FC<LobbyCreationDialogProps> = ({ setOpen, addNewLobb
                 <Box>
                   <LobbySettings
                     lobbyName={lobbyName}
-                    setLobbyName={setLobbyName}
-                    spinCount={spinCount}
+                    moviesPerUser={moviesPerUser}
                     rating={rating}
+                    withKoefficient={withKoefficient}
+                    setLobbyName={setLobbyName}
                     setRating={setRating}
-                    setSpinCount={setSpinCount}
+                    setMoviesPerUser={setMoviesPerUser}
+                    setWithKoefficient={setWithKoefficient}
                     withName={false}
                   />
                 </Box>

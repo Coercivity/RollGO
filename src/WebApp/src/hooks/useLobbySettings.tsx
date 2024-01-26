@@ -1,17 +1,36 @@
 import { useState } from 'react';
 
-export interface SettingsProps {
-  spinCount: number;
-  rating: number;
+import { LobbySettings } from '@models/Lobby';
+
+export type SettingsProps = LobbySettings & {
   lobbyName: string;
-}
+};
 
 export const useLobbySettings = (
   settings: SettingsProps
-): [string, number, number, (t: string) => void, (t: number) => void, (t: number) => void] => {
+): [
+  string,
+  number,
+  number,
+  boolean,
+  (t: string) => void,
+  (t: number) => void,
+  (t: number) => void,
+  (t: boolean) => void,
+] => {
   const [lobbyName, setLobbyName] = useState<string>(settings.lobbyName);
-  const [spinCount, setSpinCount] = useState<number>(settings.spinCount);
-  const [rating, setRating] = useState<number>(settings.rating);
+  const [moviesPerUser, setMoviesPerUser] = useState<number>(settings.moviesPerUser);
+  const [rating, setRating] = useState<number>(settings.minimalRating);
+  const [withKoefficient, setWithKoefficient] = useState<boolean>(settings.withKoefficient);
 
-  return [lobbyName, spinCount, rating, setLobbyName, setSpinCount, setRating];
+  return [
+    lobbyName,
+    moviesPerUser,
+    rating,
+    withKoefficient,
+    setLobbyName,
+    setMoviesPerUser,
+    setRating,
+    setWithKoefficient,
+  ];
 };
