@@ -1,6 +1,8 @@
 import { FC, KeyboardEvent } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Autocomplete, TextField } from '@mui/material';
 
+import { LocalizationNamespace } from '@enums/LocalizationNamespace';
 import { Movie } from '@models/Movie';
 
 import { MovieData } from '../../../mockAPI/MovieData';
@@ -11,6 +13,8 @@ interface SearchProps {
 }
 
 const SearchAppBar: FC<SearchProps> = ({ movies, setMovies }) => {
+  const { t } = useTranslation(LocalizationNamespace.MOVIE);
+
   const onKeyDown = (
     event: KeyboardEvent<HTMLDivElement> & { defaultMuiPrevented?: boolean | undefined }
   ) => {
@@ -25,7 +29,7 @@ const SearchAppBar: FC<SearchProps> = ({ movies, setMovies }) => {
       limitTags={3}
       sx={{ minWidth: 10 }}
       getOptionLabel={(option) => option.nameRu}
-      renderInput={(params) => <TextField {...params} label="Movie" />}
+      renderInput={(params) => <TextField {...params} label={t('movieSearch')} />}
       options={MovieData}
       onKeyDown={onKeyDown}
       value={movies}

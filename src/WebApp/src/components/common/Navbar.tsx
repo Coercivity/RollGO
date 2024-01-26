@@ -67,6 +67,7 @@ const Navbar: FC = () => {
           noWrap
           flexGrow={1}
           sx={{
+            p: 2.5,
             mr: 2,
           }}
         >
@@ -80,7 +81,7 @@ const Navbar: FC = () => {
             <Button onClick={signUp}>{t('registration')}</Button>
           </ButtonGroup>
         ) : (
-          <Box>
+          <Box sx={{ p: -1 }}>
             {!open ? null : (
               <Popover
                 sx={{ width: '100%' }}

@@ -7,4 +7,5 @@ export enum LocalizationNamespace {
   WHEEL = 'wheel',
   USER_SETTINGS = 'userSettings',
   VALIDATIONS = 'validations',
+  MAIN_PAGE = 'main',
 }

@@ -26,7 +26,7 @@ const UsersList: FC = () => {
       <UsersFilter filter={filter} setFilter={setFilter} users={users} setUsers={setUsers} />
       <Grid container rowSpacing={1} columns={{ md: 12 }} sx={{ mt: 1 }}>
         {users.map(({ id, username, isOnline }) => (
-          <Grid key={id} md={6}>
+          <Grid key={id} md={6} item>
             <UserView nickname={username} isOnline={isOnline} isInNavbar={false} />
           </Grid>
         ))}
