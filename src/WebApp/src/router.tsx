@@ -5,6 +5,8 @@ import { Container } from '@mui/material';
 import lobbyService from '@api/lobbyService';
 import { userService } from '@api/userService';
 import Navbar from '@components/common/Navbar';
+import PageNotFoundComponent from '@components/lobby/PageNotFoundComponent';
+import { NotFoundType } from '@enums/NotFoundType';
 import { Route } from '@enums/Route';
 import UserSettingsPage from '@pages/UserSettingsPage';
 import { useUserStore } from '@store/userStore';
@@ -13,7 +15,7 @@ import LobbyPage from './pages/LobbyPage';
 import LoginPage from './pages/LoginPage';
 import MainPage from './pages/MainPage';
 import RegistrationPage from './pages/RegistrationPage';
-// eslint-disable-next-line react-refresh/only-export-components
+
 const SuspenseWrapper = () => {
   return (
     <Suspense>
@@ -36,6 +38,7 @@ export const router = createBrowserRouter([
   {
     path: Route.ROOT,
     element: <SuspenseWrapper />,
+    errorElement: <PageNotFoundComponent errorType={NotFoundType.GENERAL} />,
     children: [
       {
         path: Route.ROOT,
@@ -64,6 +67,7 @@ export const router = createBrowserRouter([
             path: `${Route.LOBBY}/:lobbyId`,
             element: <LobbyPage />,
             loader: async ({ params }) => lobbyService.getLobby(params.lobbyId ?? ''),
+            errorElement: <PageNotFoundComponent errorType={NotFoundType.LOBBY} />,
           },
           {
             path: Route.USER_SETTINGS,
