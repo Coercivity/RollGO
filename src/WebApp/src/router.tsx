@@ -3,9 +3,11 @@ import { createBrowserRouter, Outlet } from 'react-router-dom';
 import { Container } from '@mui/material';
 
 import lobbyService from '@api/lobbyService';
+import { userService } from '@api/userService';
 import Navbar from '@components/common/Navbar';
 import { Route } from '@enums/Route';
 import UserSettingsPage from '@pages/UserSettingsPage';
+import { useUserStore } from '@store/userStore';
 
 import LobbyPage from './pages/LobbyPage';
 import LoginPage from './pages/LoginPage';
@@ -38,6 +40,20 @@ export const router = createBrowserRouter([
       {
         path: Route.ROOT,
         element: <NavbarWrapper />,
+        loader: async () => {
+          const userState = useUserStore.getState();
+          if (!userState.id) {
+            return null;
+          }
+          try {
+            const user = await userService.get(userState.id);
+            userState.setUser(user);
+          } catch (e) {
+            console.error(e);
+          } finally {
+            return null;
+          }
+        },
         children: [
           {
             path: Route.ROOT,

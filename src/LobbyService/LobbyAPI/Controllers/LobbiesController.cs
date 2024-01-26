@@ -18,7 +18,7 @@ namespace LobbyAPI.Controllers
         public async Task<List<LobbyDto>> GetAllLobbies()
         {
             var lobbies = _lobbyRepository.GetAll();
-            List<LobbyDto> lobbyDtos = [.. lobbies.Include(x => x.LobbySettings).Select(x => new LobbyDto(x))];
+            List<LobbyDto> lobbyDtos = [.. lobbies.Include(x => x.Settings).Select(x => new LobbyDto(x))];
             return lobbyDtos;
         }
 
@@ -46,7 +46,7 @@ namespace LobbyAPI.Controllers
             );
             LobbyDto lobbyDto = new(lobby)
             {
-                LobbySettings = new LobbySettingsDto(lobbySettings)
+                Settings = new LobbySettingsDto(lobbySettings)
             };
             return lobbyDto;
         }
@@ -58,7 +58,7 @@ namespace LobbyAPI.Controllers
             lobby!.Name = saveLobbyDto.Name;
             await _lobbyRepository.UpdateAsync(lobby);
 
-            var lobbySettings = await _lobbySettingsRepository.GetByIdAsync(lobby.LobbySettings.Id);
+            var lobbySettings = await _lobbySettingsRepository.GetByIdAsync(lobby.Settings.Id);
             lobbySettings!.MinimalRating = saveLobbyDto.Settings.MinimalRating;
             lobbySettings!.MoviesPerUser = saveLobbyDto.Settings.MoviesPerUser;
             lobbySettings!.WithKoefficient = saveLobbyDto.Settings.WithKoefficient;
@@ -66,7 +66,7 @@ namespace LobbyAPI.Controllers
             
             LobbyDto lobbyDto = new(lobby)
             {
-                LobbySettings = new LobbySettingsDto(lobbySettings)
+                Settings = new LobbySettingsDto(lobbySettings)
             };
             return lobbyDto;
         }

@@ -5,7 +5,7 @@ import { User } from '@models/User';
 
 type UserStoreState = User & {
   setUser: (user: User) => void;
-  setAnonymous: () => void;
+  setAnonymous: (username?: string) => void;
 };
 
 export const useUserStore = create(
@@ -22,13 +22,13 @@ export const useUserStore = create(
           username: user.username,
           email: user.email,
           isOnline: true,
-          isAnonymous: false || true,
+          isAnonymous: false,
         });
       },
-      setAnonymous: () => {
+      setAnonymous: (username?: string) => {
         return set({
           id: '',
-          username: 'Anon',
+          username: username ?? 'Anon',
           email: '',
           isOnline: true,
           isAnonymous: true,
