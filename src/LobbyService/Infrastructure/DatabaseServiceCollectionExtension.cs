@@ -22,7 +22,6 @@ namespace Infrastructure
             services.AddTransient<IMeetingRepository, MeetingRepository>();
             services.AddTransient<IEntertainmentRepository, EntertainmentRepository>();
             services.AddTransient<IUserWeightRepository, UserWeightRepository>();
-            services.AddTransient<ILobbySettingsRepository, LobbySettingsRepository>();
             return services;
         }
     }

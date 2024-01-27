@@ -15,6 +15,8 @@ import LobbyPage from './pages/LobbyPage';
 import LoginPage from './pages/LoginPage';
 import MainPage from './pages/MainPage';
 import RegistrationPage from './pages/RegistrationPage';
+import lobbyHubService from '@api/lobbyHubService';
+import { useAuthStore } from '@store/authStore';
 
 const SuspenseWrapper = () => {
   return (
@@ -51,6 +53,8 @@ export const router = createBrowserRouter([
           try {
             const user = await userService.get(userState.id);
             userState.setUser(user);
+            const authState = useAuthStore.getState();
+            lobbyHubService.setToken(authState.accessToken);
           } catch (e) {
             console.error(e);
           } finally {

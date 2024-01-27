@@ -28,16 +28,16 @@ const LobbySettingsDialog: FC<LobbySettingsDialogProps> = ({
     lobbyName,
     moviesPerUser,
     rating,
-    withKoefficient,
+    withCoefficient,
     setLobbyName,
     setMoviesPerUser,
     setRating,
-    setWithKoefficient,
+    setWithCoefficient,
   ] = useLobbySettings({
-    moviesPerUser: lobby.settings.moviesPerUser,
-    minimalRating: lobby.settings.minimalRating,
-    lobbyName: lobby.name,
-    withKoefficient: lobby.settings.withKoefficient,
+    moviesPerUser: lobby.moviesPerUser,
+    minimalRating: lobby.minimalRating,
+    name: lobby.name,
+    withCoefficient: lobby.withCoefficient,
   });
 
   const onSettignsSave = async () => {
@@ -45,7 +45,9 @@ const LobbySettingsDialog: FC<LobbySettingsDialogProps> = ({
       const lobbyResponse = await lobbyService.updateLobby({
         ...lobby,
         name: lobbyName,
-        settings: { moviesPerUser, minimalRating: rating, withKoefficient },
+        moviesPerUser,
+        minimalRating: rating,
+        withCoefficient,
       });
       setLobby(lobbyResponse);
       setSettingsOpen(false);
@@ -62,11 +64,11 @@ const LobbySettingsDialog: FC<LobbySettingsDialogProps> = ({
           lobbyName={lobbyName}
           moviesPerUser={moviesPerUser}
           rating={rating}
-          withKoefficient={withKoefficient}
+          withKoefficient={withCoefficient}
           setLobbyName={setLobbyName}
           setRating={setRating}
           setMoviesPerUser={setMoviesPerUser}
-          setWithKoefficient={setWithKoefficient}
+          setWithKoefficient={setWithCoefficient}
           withName={true}
         />
       </DialogContent>

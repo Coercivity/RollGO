@@ -1,10 +1,8 @@
 import { useState } from 'react';
 
-import { LobbySettings } from '@models/Lobby';
+import { Lobby } from '@models/Lobby';
 
-export type SettingsProps = LobbySettings & {
-  lobbyName: string;
-};
+export type SettingsProps = Omit<Lobby, 'id' | 'adminId'>;
 
 export const useLobbySettings = (
   settings: SettingsProps
@@ -18,19 +16,19 @@ export const useLobbySettings = (
   (t: number) => void,
   (t: boolean) => void,
 ] => {
-  const [lobbyName, setLobbyName] = useState<string>(settings.lobbyName);
+  const [name, setName] = useState<string>(settings.name);
   const [moviesPerUser, setMoviesPerUser] = useState<number>(settings.moviesPerUser);
   const [rating, setRating] = useState<number>(settings.minimalRating);
-  const [withKoefficient, setWithKoefficient] = useState<boolean>(settings.withKoefficient);
+  const [withCoefficient, setWithCoefficient] = useState<boolean>(settings.withCoefficient);
 
   return [
-    lobbyName,
+    name,
     moviesPerUser,
     rating,
-    withKoefficient,
-    setLobbyName,
+    withCoefficient,
+    setName,
     setMoviesPerUser,
     setRating,
-    setWithKoefficient,
+    setWithCoefficient,
   ];
 };

@@ -3,10 +3,20 @@ import { HubConnectionBuilder, HubConnectionState } from '@microsoft/signalr';
 import { LobbyAction, LobbyEvent } from '@models/Lobby';
 
 class LobbyHubService {
+  private token: string = '';
+
   private connection = new HubConnectionBuilder()
-    .withUrl('/lobbyHub')
+    .withUrl('/lobbyHub', {
+      accessTokenFactory: () => {
+        return `Bearer ${this.token}`;
+      },
+    })
     .withKeepAliveInterval(1000)
     .build();
+
+  setToken(token: string) {
+    this.token = token;
+  }
 
   async startConnection(): Promise<void> {
     if (this.connection.state === HubConnectionState.Disconnected) {
@@ -50,8 +60,8 @@ class LobbyHubService {
     return this.connection.invoke(LobbyAction.StartRound);
   }
 
-  async addMovie(movieId: string): Promise<void> {
-    return this.connection.invoke(LobbyAction.AddMovie, movieId);
+  async addMovie(lobbyId: string, movieId: number): Promise<void> {
+    return this.connection.invoke(LobbyAction.AddMovie, lobbyId, movieId);
   }
 
   async removeMovie(movieId: string): Promise<void> {

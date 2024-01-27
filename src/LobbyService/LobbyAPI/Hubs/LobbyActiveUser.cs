@@ -1,42 +1,41 @@
 ﻿using Domain.Entities;
 
-namespace LobbyAPI.Hubs
+namespace LobbyAPI.Hubs;
+
+public class LobbyActiveUser(User user)
 {
-    public class LobbyActiveUser(User user)
+    private readonly HashSet<LobbyConnection> _connections = [];
+
+    public User User { get; } = user ?? throw new ArgumentNullException(nameof(user));
+
+    public IEnumerable<LobbyConnection> Connections => _connections;
+
+    public void AddConnection(string connectionId)
     {
-        private readonly HashSet<LobbyConnection> _connections = [];
+        ArgumentNullException.ThrowIfNull(connectionId);
 
-        public User User { get; } = user ?? throw new ArgumentNullException(nameof(user));
+        var connection = new LobbyConnection { ConnectionId = connectionId };
 
-        public IEnumerable<LobbyConnection> Connections => _connections;
+        _connections.Add(connection);
+    }
 
-        public void AddConnection(string connectionId)
+    public void RemoveConnection(string connectionId)
+    {
+        ArgumentNullException.ThrowIfNull(connectionId);
+
+        var connection = _connections.SingleOrDefault(x => x.ConnectionId.Equals(connectionId));
+
+        if (connection == null)
         {
-            ArgumentNullException.ThrowIfNull(connectionId);
-
-            var connection = new LobbyConnection { ConnectionId = connectionId };
-
-            _connections.Add(connection);
+            return;
         }
 
-        public void RemoveConnection(string connectionId)
-        {
-            ArgumentNullException.ThrowIfNull(connectionId);
+        _connections.Remove(connection);
+    }
 
-            var connection = _connections.SingleOrDefault(x => x.ConnectionId.Equals(connectionId));
-
-            if (connection == null)
-            {
-                return;
-            }
-
-            _connections.Remove(connection);
-        }
-
-        public record LobbyConnection
-        {
-            public required string ConnectionId { get; set; }
-            public DateTime ConnectedAt { get; set; } = DateTime.UtcNow;
-        }
+    public record LobbyConnection
+    {
+        public required string ConnectionId { get; set; }
+        public DateTime ConnectedAt { get; set; } = DateTime.UtcNow;
     }
 }

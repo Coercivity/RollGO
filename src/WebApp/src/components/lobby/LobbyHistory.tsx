@@ -24,7 +24,7 @@ const LobbyHistory: FC = () => {
   return (
     <React.Fragment>
       <Button fullWidth variant="outlined" onClick={() => toggleDrawer()}>
-        {<HistoryIcon />} {t('lobbyHistory')}
+        {<HistoryIcon />} {('lobbyHistory')}
       </Button>
       <Drawer anchor="right" open={drawerOpen} onClose={() => toggleDrawer()}>
         {list()}

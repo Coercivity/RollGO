@@ -30,6 +30,7 @@ import { Route } from '@enums/Route';
 import { Lobby } from '@models/Lobby';
 import { Movie } from '@models/Movie';
 import { useUserStore } from '@store/userStore';
+import lobbyHubService from '@api/lobbyHubService';
 
 const LobbyPage = () => {
   const { t } = useTranslation(LocalizationNamespace.LOBBY);
@@ -63,8 +64,11 @@ const LobbyPage = () => {
   }, [movies]);
 
   useEffect(() => {
+    lobbyHubService.joinLobbyAnonymous(lobbyData.id, 'test');
     if (isAnonymous) setOpenModal(true); // выставил ! что б не вылазило при каждом сохранении
   }, []);
+
+
 
   const exitLobby = () => {
     navigate(Route.ROOT);
@@ -119,7 +123,11 @@ const LobbyPage = () => {
               <ToggleButton value={true}>{t('wheel')}</ToggleButton>
             </ToggleButtonGroup>
             <UsersList />
-            <Button fullWidth variant="contained" onClick={() => setSettingsOpen(true)}>
+            <Button fullWidth variant="contained" onClick={() => {
+        lobbyHubService.addMovie(lobbyData.id, 588);
+
+
+            }}>
               {<SettingsIcon />} {t('lobbySettings')}
             </Button>
             <LobbySettingsDialog

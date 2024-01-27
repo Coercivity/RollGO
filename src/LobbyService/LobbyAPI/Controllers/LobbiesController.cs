@@ -2,23 +2,25 @@
 using Infrastructure.Repository;
 using Infrastructure.Repository.Implementation;
 using LobbyAPI.Controllers.Dtos;
+using LobbyAPI.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace LobbyAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class LobbiesController(ILobbyRepository lobbyRepository, ILobbySettingsRepository lobbySettingsRepository) : ControllerBase
+    public class LobbiesController(ILobbyRepository lobbyRepository, MeetingService meetingService) : ControllerBase
     {
         private readonly ILobbyRepository _lobbyRepository = lobbyRepository;
-        private readonly ILobbySettingsRepository _lobbySettingsRepository = lobbySettingsRepository;
+        private readonly MeetingService _meetingService = meetingService;
 
         [HttpGet]
         public async Task<List<LobbyDto>> GetAllLobbies()
         {
             var lobbies = _lobbyRepository.GetAll();
-            List<LobbyDto> lobbyDtos = [.. lobbies.Include(x => x.Settings).Select(x => new LobbyDto(x))];
+            List<LobbyDto> lobbyDtos = [.. lobbies.Select(x => new LobbyDto(x))];
             return lobbyDtos;
         }
 
@@ -32,22 +34,27 @@ namespace LobbyAPI.Controllers
         [HttpPost]
         public async Task<LobbyDto> Create([FromBody] SaveLobbyDto saveLobbyDto)
         {
+            Guid adminId = Guid.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)!.Value); 
             var lobby = await _lobbyRepository.CreateAsync(
-                new Lobby() { Name = saveLobbyDto.Name, AdminId = saveLobbyDto.AdminId }
+                new Lobby() 
+                { 
+                    Name = saveLobbyDto.Name, 
+                    AdminId = adminId,
+                    MinimalRating = saveLobbyDto.MinimalRating,
+                    MoviesPerUser = saveLobbyDto.MoviesPerUser,
+                    WithCoefficient = saveLobbyDto.WithCoefficient
+                }
             );
-            var lobbySettings = await _lobbySettingsRepository.CreateAsync(
-              new LobbySettings()
-              {
-                  Lobby = lobby,
-                  MinimalRating = saveLobbyDto.Settings.MinimalRating,
-                  MoviesPerUser = saveLobbyDto.Settings.MoviesPerUser,
-                  WithKoefficient = saveLobbyDto.Settings.WithKoefficient
-              }
-            );
-            LobbyDto lobbyDto = new(lobby)
+
+            LobbyDto lobbyDto = new(lobby);
+            var meeting = new Meeting
             {
-                Settings = new LobbySettingsDto(lobbySettings)
+                Lobby = lobby,
+                IsActive = true,
             };
+            var activeMeeting = new ActiveMeeting(meeting);
+            _meetingService.ActiveMeetings.Add(activeMeeting);
+
             return lobbyDto;
         }
 
@@ -55,19 +62,16 @@ namespace LobbyAPI.Controllers
         public async Task<LobbyDto> Update([FromBody] SaveLobbyDto saveLobbyDto, Guid id)
         {
             var lobby = await _lobbyRepository.GetByIdAsync(id);
+
             lobby!.Name = saveLobbyDto.Name;
+            lobby!.MinimalRating = saveLobbyDto.MinimalRating;
+            lobby!.MoviesPerUser = saveLobbyDto.MoviesPerUser;
+            lobby!.WithCoefficient = saveLobbyDto.WithCoefficient;
+
             await _lobbyRepository.UpdateAsync(lobby);
 
-            var lobbySettings = await _lobbySettingsRepository.GetByIdAsync(lobby.Settings.Id);
-            lobbySettings!.MinimalRating = saveLobbyDto.Settings.MinimalRating;
-            lobbySettings!.MoviesPerUser = saveLobbyDto.Settings.MoviesPerUser;
-            lobbySettings!.WithKoefficient = saveLobbyDto.Settings.WithKoefficient;
-            await _lobbySettingsRepository.UpdateAsync(lobbySettings);
-            
-            LobbyDto lobbyDto = new(lobby)
-            {
-                Settings = new LobbySettingsDto(lobbySettings)
-            };
+            LobbyDto lobbyDto = new(lobby);
+
             return lobbyDto;
         }
 

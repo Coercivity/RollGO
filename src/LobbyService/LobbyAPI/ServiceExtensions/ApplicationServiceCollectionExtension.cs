@@ -14,6 +14,7 @@ namespace LobbyAPI.ServiceExtensions
 
             services.AddTransient<LobbyManager>();
             services.AddTransient<MeetingService>();
+            services.AddSingleton<InMemoryHubCache>();
 
             return services;
         }

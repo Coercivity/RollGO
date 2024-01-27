@@ -1,11 +1,14 @@
 ﻿using Domain.Entities;
 using LobbyAPI.Hubs;
+using Newtonsoft.Json;
 
 namespace LobbyAPI.Services
 {
-    public class ActiveMeeting
+    [JsonObject]
+    public class ActiveMeeting(Meeting meeting)
     {
-        public required Meeting Meeting { get; set; }
+        public Meeting Meeting { get; set; } = meeting;
         public HashSet<LobbyActiveUser> ActiveUsers { get; set; } = [];
+        public Dictionary<User, EntertainmentEntity> AddedEntertainmentEntities { get; set; } = [];
     }
 }

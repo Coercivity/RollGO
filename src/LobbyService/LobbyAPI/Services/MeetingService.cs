@@ -8,40 +8,28 @@ namespace LobbyAPI.Services
     public class MeetingService(
         IMeetingRepository meetingRepository,
         IUserService userService,
-        IDistributedCache cache
+        IDistributedCache cache,
+        InMemoryHubCache inMemoryHubCache
     )
     {
         private readonly IMeetingRepository _meetingRepository = meetingRepository;
         private readonly IUserService _userService = userService;
         private readonly IDistributedCache _cache = cache;
+        private readonly InMemoryHubCache _inMemoryHubCache = inMemoryHubCache;
 
-        public HashSet<ActiveMeeting> ActiveMeetings
-        {
-            get
-            {
-                var cachedMeetings = _cache.GetString("ActiveMeetings");
-                return cachedMeetings != null
-                    ? JsonConvert.DeserializeObject<HashSet<ActiveMeeting>>(cachedMeetings)
-                    : [];
-            }
-            set
-            {
-                var serializedMeetings = JsonConvert.SerializeObject(value);
-                _cache.SetString("ActiveMeetings", serializedMeetings);
-            }
-        }
+        public HashSet<ActiveMeeting> ActiveMeetings { get; set; } = inMemoryHubCache.ActiveMeeting;
 
         public ActiveMeeting GetActiveMeetingByLobbyId(Guid lobbyId) =>
             ActiveMeetings.FirstOrDefault(
                 x => x.Meeting.Lobby.Id.Equals(lobbyId) && x.Meeting.IsActive == true
             ) ?? throw new Exception();
 
-        public LobbyActiveUser GetActiveUserByMeeting(ActiveMeeting meeting, string connectionId) =>
+        public LobbyActiveUser? GetActiveUserByMeeting(ActiveMeeting meeting, string connectionId) =>
             ActiveMeetings
                 .FirstOrDefault(x => x.Meeting.Equals(meeting))
                 ?.ActiveUsers
                 .Where(x => x.Connections.Equals(connectionId))
-                .FirstOrDefault() ?? throw new Exception();
+                .FirstOrDefault();
 
         public LobbyActiveUser GetActiveUserFromMeeting(ActiveMeeting activeMeeting, Guid userId) =>
             activeMeeting.ActiveUsers.FirstOrDefault(x => x.User.Id.Equals(userId))
