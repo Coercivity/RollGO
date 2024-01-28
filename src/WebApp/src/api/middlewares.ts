@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 import { useAuthStore } from '@store/authStore';
+import { useUserStore } from '@store/userStore';
 
 import { authService } from './authService';
 
@@ -36,6 +37,7 @@ axios.interceptors.response.use(
       } catch (err) {
         if (err && axios.isAxiosError(err) && err.response?.status === 403) {
           useAuthStore.getState().setTokenPair({ accessToken: '', refreshToken: '' });
+          useUserStore.getState().setAnonymous();
         }
       }
     }

@@ -7,9 +7,7 @@ class LobbyHubService {
 
   private connection = new HubConnectionBuilder()
     .withUrl('/lobbyHub', {
-      accessTokenFactory: () => {
-        return `Bearer ${this.token}`;
-      },
+      accessTokenFactory: () => this.token,
     })
     .withKeepAliveInterval(1000)
     .build();

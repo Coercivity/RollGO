@@ -2,6 +2,7 @@ import { Suspense } from 'react';
 import { createBrowserRouter, Outlet } from 'react-router-dom';
 import { Container } from '@mui/material';
 
+import lobbyHubService from '@api/lobbyHubService';
 import lobbyService from '@api/lobbyService';
 import { userService } from '@api/userService';
 import Navbar from '@components/common/Navbar';
@@ -9,14 +10,13 @@ import PageNotFoundComponent from '@components/lobby/PageNotFoundComponent';
 import { NotFoundType } from '@enums/NotFoundType';
 import { Route } from '@enums/Route';
 import UserSettingsPage from '@pages/UserSettingsPage';
+import { useAuthStore } from '@store/authStore';
 import { useUserStore } from '@store/userStore';
 
 import LobbyPage from './pages/LobbyPage';
 import LoginPage from './pages/LoginPage';
 import MainPage from './pages/MainPage';
 import RegistrationPage from './pages/RegistrationPage';
-import lobbyHubService from '@api/lobbyHubService';
-import { useAuthStore } from '@store/authStore';
 
 const SuspenseWrapper = () => {
   return (
@@ -55,8 +55,10 @@ export const router = createBrowserRouter([
             userState.setUser(user);
             const authState = useAuthStore.getState();
             lobbyHubService.setToken(authState.accessToken);
+            console.warn('Lobby hub token updated', authState.accessToken);
           } catch (e) {
             console.error(e);
+            userState.setAnonymous();
           } finally {
             return null;
           }
