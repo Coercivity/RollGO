@@ -1,5 +1,6 @@
 ﻿using LobbyAPI.Hubs;
 using LobbyAPI.Services;
+using LobbyAPI.Services.Implementation;
 
 namespace LobbyAPI.ServiceExtensions
 {
@@ -13,7 +14,8 @@ namespace LobbyAPI.ServiceExtensions
             services.AddTransient<IFilmsDataService, FilmsDataService>();
 
             services.AddTransient<LobbyManager>();
-            services.AddTransient<MeetingService>();
+            services.AddTransient<IMeetingService, MeetingService>();
+            services.AddTransient<ILobbyService, LobbyService>();
             services.AddSingleton<InMemoryHubCache>();
 
             return services;

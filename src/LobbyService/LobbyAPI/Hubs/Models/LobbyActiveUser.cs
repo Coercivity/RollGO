@@ -1,6 +1,6 @@
 ﻿using Domain.Entities;
 
-namespace LobbyAPI.Hubs;
+namespace LobbyAPI.Hubs.Models;
 
 public class LobbyActiveUser(User user)
 {

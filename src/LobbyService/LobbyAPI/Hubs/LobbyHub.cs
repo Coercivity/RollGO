@@ -1,13 +1,13 @@
 ﻿using System.Security.Authentication;
 using System.Security.Claims;
 using Domain.Entities;
-using LobbyAPI.Services;
+using LobbyAPI.Hubs.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using Newtonsoft.Json;
 
 namespace LobbyAPI.Hubs;
-[Authorize]
+
 public class LobbyHub(LobbyManager lobbyManager) : Hub
 {
     private readonly LobbyManager _lobbyManager = lobbyManager;

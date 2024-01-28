@@ -1,12 +1,11 @@
-﻿using Domain.Entities;
+﻿using LobbyAPI.Hubs.Models;
 using LobbyAPI.Services;
-
 
 namespace LobbyAPI.Hubs;
 
-public class LobbyManager(MeetingService meetingService, IFilmsDataService kinopoiskDataClient, IUserService userService)
+public class LobbyManager(IMeetingService meetingService, IFilmsDataService kinopoiskDataClient, IUserService userService)
 {
-    private readonly MeetingService _meetingService = meetingService;
+    private readonly IMeetingService _meetingService = meetingService;
     private readonly IFilmsDataService _kinopoiskDataClient = kinopoiskDataClient;
     private readonly IUserService _userService = userService;
 

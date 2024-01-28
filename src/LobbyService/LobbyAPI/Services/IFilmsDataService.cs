@@ -1,9 +1,8 @@
 ﻿using Domain.Entities;
 
-namespace LobbyAPI.Services
+namespace LobbyAPI.Services;
+
+public interface IFilmsDataService
 {
-    public interface IFilmsDataService
-    {
-        public Task<EntertainmentEntity?> GetFilm(int filmId);
-    }
+    public Task<EntertainmentEntity?> GetFilm(int filmId);
 }

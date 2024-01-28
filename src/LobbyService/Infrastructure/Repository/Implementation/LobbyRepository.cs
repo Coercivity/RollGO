@@ -7,8 +7,6 @@ namespace Infrastructure.Repository.Implementation
         : RepositoryBase<Lobby>(context),
             ILobbyRepository
     {
-        public IQueryable<Lobby> SearchByName(string searchName) =>
-            GetAll(x => x.Name.ToLower().Contains(searchName.ToLower()));
 
         public override async Task<Lobby?> GetByIdAsync(Guid id)
         {
