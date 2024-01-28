@@ -20,20 +20,24 @@ import {
 
 import { LocalizationNamespace } from '@enums/LocalizationNamespace';
 import { SettingsProps, useLobbySettings } from '@hooks/useLobbySettings';
-import { LobbySettings as LobbySettingsType } from '@models/Lobby';
 
 import LobbySettings from '../common/LobbySettings';
 
 interface LobbyCreationDialogProps {
   setOpen: (value: boolean) => void;
-  addNewLobby: (lobby: string, settings: LobbySettingsType) => void;
+  addNewLobby: (
+    name: string,
+    minimalRating: number,
+    moviesPerUser: number,
+    withCoefficient: boolean
+  ) => void;
   open: boolean;
 }
 const INITIAL_SETTINGS = {
   moviesPerUser: 1,
   minimalRating: 5,
-  lobbyName: '',
-  withKoefficient: true,
+  name: '',
+  withCoefficient: true,
 } as SettingsProps;
 
 const LobbyCreationDialog: FC<LobbyCreationDialogProps> = ({ setOpen, addNewLobby, open }) => {
@@ -43,19 +47,15 @@ const LobbyCreationDialog: FC<LobbyCreationDialogProps> = ({ setOpen, addNewLobb
     lobbyName,
     moviesPerUser,
     rating,
-    withKoefficient,
+    withCoefficient,
     setLobbyName,
     setMoviesPerUser,
     setRating,
-    setWithKoefficient,
+    setWithCoefficient,
   ] = useLobbySettings(INITIAL_SETTINGS);
 
   const onCreate = () => {
-    addNewLobby(lobbyName, {
-      moviesPerUser,
-      minimalRating: rating,
-      withKoefficient,
-    });
+    addNewLobby(lobbyName, rating, moviesPerUser, withCoefficient);
     setLobbyName('');
     setOpen(false);
   };
@@ -105,11 +105,11 @@ const LobbyCreationDialog: FC<LobbyCreationDialogProps> = ({ setOpen, addNewLobb
                     lobbyName={lobbyName}
                     moviesPerUser={moviesPerUser}
                     rating={rating}
-                    withKoefficient={withKoefficient}
+                    withKoefficient={withCoefficient}
                     setLobbyName={setLobbyName}
                     setRating={setRating}
                     setMoviesPerUser={setMoviesPerUser}
-                    setWithKoefficient={setWithKoefficient}
+                    setWithKoefficient={setWithCoefficient}
                     withName={false}
                   />
                 </Box>

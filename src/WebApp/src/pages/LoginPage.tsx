@@ -5,6 +5,7 @@ import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import { Box, Button, Card, Link, TextField, Typography } from '@mui/material';
 
 import { authService } from '@api/authService';
+import lobbyHubService from '@api/lobbyHubService';
 import { ErrorCode } from '@enums/ErrorCode';
 import { LocalizationNamespace } from '@enums/LocalizationNamespace';
 import { Route } from '@enums/Route';
@@ -32,6 +33,7 @@ const LoginPage = () => {
       });
       setTokenPair({ accessToken: data.accessToken, refreshToken: data.refreshToken });
       setUser(data.user);
+      lobbyHubService.setToken(data.accessToken);
       navigate(Route.ROOT);
     } catch (e) {
       handleError(e, setError);

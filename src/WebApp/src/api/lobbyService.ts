@@ -1,10 +1,12 @@
 import axios from 'axios';
 
-import { Lobby, LobbySettings } from '@models/Lobby';
+import { Lobby } from '@models/Lobby';
+
+type CreateLobbyRequest = Omit<Lobby, 'id' | 'adminId'>;
 
 class LobbyService {
-  async createLobby(name: string, lobbySettings: LobbySettings): Promise<Lobby> {
-    return axios.post<Lobby, Lobby>('/api/lobbies', { name, settings: lobbySettings });
+  async createLobby(data: CreateLobbyRequest): Promise<Lobby> {
+    return axios.post<Lobby, Lobby>('/api/lobbies', data);
   }
 
   async getLobby(id: string): Promise<Lobby> {
@@ -22,8 +24,10 @@ class LobbyService {
   async updateLobby(lobby: Lobby): Promise<Lobby> {
     return axios.put<Lobby, Lobby>(`/api/lobbies/${lobby.id}`, {
       name: lobby.name,
-      settings: lobby.settings,
-    });
+      minimalRating: lobby.minimalRating,
+      moviesPerUser: lobby.moviesPerUser,
+      withCoefficient: lobby.withCoefficient,
+    } as CreateLobbyRequest);
   }
 }
 

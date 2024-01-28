@@ -1,4 +1,4 @@
-﻿using LobbyAPI.Services;
+﻿using LobbyAPI.HttpClients;
 
 namespace LobbyAPI.ServiceExtensions
 {
@@ -9,7 +9,7 @@ namespace LobbyAPI.ServiceExtensions
             IConfiguration configuration
         )
         {
-            services.AddHttpClient<KinopoiskDataClient>(client =>
+            services.AddHttpClient<KinopoiskHttpClient>(client =>
             {
                 client.BaseAddress = new Uri(configuration["KinopoiskAPISettings:Url"]!);
                 client.DefaultRequestHeaders.Add(

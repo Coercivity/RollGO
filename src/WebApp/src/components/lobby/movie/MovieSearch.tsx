@@ -1,41 +1,25 @@
-import { FC, KeyboardEvent } from 'react';
+import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Autocomplete, TextField } from '@mui/material';
+import { Input } from '@mui/material';
 
 import { LocalizationNamespace } from '@enums/LocalizationNamespace';
-import { Movie } from '@models/Movie';
-
-import { MovieData } from '../../../mockAPI/MovieData';
 
 interface SearchProps {
-  movies: Movie[];
-  setMovies: (movies: Movie[]) => void;
+  movie: string;
+  setMovie: (id: string) => void;
 }
 
-const SearchAppBar: FC<SearchProps> = ({ movies, setMovies }) => {
+const MovieSearch: FC<SearchProps> = ({ movie, setMovie }) => {
   const { t } = useTranslation(LocalizationNamespace.MOVIE);
 
-  const onKeyDown = (
-    event: KeyboardEvent<HTMLDivElement> & { defaultMuiPrevented?: boolean | undefined }
-  ) => {
-    if (event.key === 'Enter') {
-      console.error(event);
-    }
-  };
-
   return (
-    <Autocomplete
-      multiple
-      limitTags={3}
-      sx={{ minWidth: 10 }}
-      getOptionLabel={(option) => option.nameRu}
-      renderInput={(params) => <TextField {...params} label={t('movieSearch')} />}
-      options={MovieData}
-      onKeyDown={onKeyDown}
-      value={movies}
-      onChange={(_, value) => setMovies(value)}
+    <Input
+      sx={{ minWidth: 10, width: '100%' }}
+      value={movie}
+      onChange={(e) => setMovie(e.target.value)}
+      placeholder={t('movieSearch')}
     />
   );
 };
 
-export default SearchAppBar;
+export default MovieSearch;
