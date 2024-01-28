@@ -55,7 +55,6 @@ export const router = createBrowserRouter([
             userState.setUser(user);
             const authState = useAuthStore.getState();
             lobbyHubService.setToken(authState.accessToken);
-            console.warn('Lobby hub token updated', authState.accessToken);
           } catch (e) {
             console.error(e);
             userState.setAnonymous();

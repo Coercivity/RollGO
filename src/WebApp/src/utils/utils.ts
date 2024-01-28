@@ -7,3 +7,11 @@ export const generalSort = (a?: boolean | string, b?: boolean | string): number 
   if (typeof a === 'string' && typeof b === 'string') return stringSort(a, b);
   return 0;
 };
+
+const PRE_ID_TOKENS = ['film', 'series'];
+
+export const getIdFromUrl = (url: string): number => {
+  const arr = url.split('/');
+  const index = arr.findIndex((x) => PRE_ID_TOKENS.includes(x));
+  return Number(arr[index + 1] ?? '');
+};

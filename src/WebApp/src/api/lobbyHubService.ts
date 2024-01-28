@@ -1,9 +1,12 @@
 import { HubConnectionBuilder, HubConnectionState } from '@microsoft/signalr';
 
 import { LobbyAction, LobbyEvent } from '@models/Lobby';
+import { Movie } from '@models/Movie';
 
 class LobbyHubService {
   private token: string = '';
+
+  private lobbyId: string = '';
 
   private connection = new HubConnectionBuilder()
     .withUrl('/lobbyHub', {
@@ -14,6 +17,10 @@ class LobbyHubService {
 
   setToken(token: string) {
     this.token = token;
+  }
+
+  setLobbyId(lobbyId: string) {
+    this.lobbyId = lobbyId;
   }
 
   async startConnection(): Promise<void> {
@@ -37,11 +44,13 @@ class LobbyHubService {
   }
 
   async joinLobby(lobbyId: string): Promise<void> {
+    this.lobbyId = lobbyId;
     await this.startConnection();
     return this.connection.invoke(LobbyAction.JoinLobby, lobbyId);
   }
 
   async joinLobbyAnonymous(lobbyId: string, username: string): Promise<void> {
+    this.lobbyId = lobbyId;
     await this.startConnection();
     return this.connection.invoke(LobbyAction.JoinLobbyAnonymous, lobbyId, username);
   }
@@ -58,8 +67,8 @@ class LobbyHubService {
     return this.connection.invoke(LobbyAction.StartRound);
   }
 
-  async addMovie(lobbyId: string, movieId: number): Promise<void> {
-    return this.connection.invoke(LobbyAction.AddMovie, lobbyId, movieId);
+  async addMovie(movieId: number): Promise<void> {
+    return this.connection.invoke(LobbyAction.AddMovie, this.lobbyId, movieId);
   }
 
   async removeMovie(movieId: string): Promise<void> {
@@ -79,7 +88,7 @@ class LobbyHubService {
     this.connection.on(LobbyEvent.UserLeft, cb);
   }
 
-  async moviesChanged(cb: (movies: string[]) => void): Promise<void> {
+  async moviesChanged(cb: (movies: Movie[]) => void): Promise<void> {
     this.connection.on(LobbyEvent.MoviesChanged, cb);
   }
 

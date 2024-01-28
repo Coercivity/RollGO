@@ -62,11 +62,9 @@ public class LobbyHub(LobbyManager lobbyManager) : Hub
             Context.User?.FindFirst(x => x.Type == ClaimTypes.NameIdentifier)!.Value!
         );
 
-        ActiveMeeting activeMeeting = await _lobbyManager.AddEntertainmentEntity(userId, lobbyId, entertainmentEntityId);
+        var entertainmentEntities = await _lobbyManager.AddEntertainmentEntity(userId, lobbyId, entertainmentEntityId);
 
-        string messageAsJson = JsonConvert.SerializeObject(activeMeeting);
-
-        await Clients.Group(lobbyId.ToString()).SendAsync(messageAsJson);
+        await Clients.Group(lobbyId.ToString()).SendAsync("MoviesChanged", entertainmentEntities);
     }
 
     //public async Task RemoveMovie(Guid lobbyId, int entertainmentEntityId)

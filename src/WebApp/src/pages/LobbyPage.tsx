@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLoaderData, useNavigate } from 'react-router-dom';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import HistoryIcon from '@mui/icons-material/History';
 import SettingsIcon from '@mui/icons-material/Settings';
 import {
   Box,
@@ -16,6 +17,7 @@ import {
   useTheme,
 } from '@mui/material';
 
+import lobbyHubService from '@api/lobbyHubService';
 import {
   LobbyHistory,
   LobbyNicknameDialog,
@@ -30,7 +32,8 @@ import { Route } from '@enums/Route';
 import { Lobby } from '@models/Lobby';
 import { Movie } from '@models/Movie';
 import { useUserStore } from '@store/userStore';
-import lobbyHubService from '@api/lobbyHubService';
+
+import { getIdFromUrl } from '../utils/utils';
 
 const LobbyPage = () => {
   const { t } = useTranslation(LocalizationNamespace.LOBBY);
@@ -38,12 +41,14 @@ const LobbyPage = () => {
   const lobbyData = useLoaderData() as Lobby;
 
   const [lobby, setLobby] = useState<Lobby>(lobbyData);
+  const [drawerOpen, setDrawerOpen] = useState(false);
   const [movies, setMovies] = useState<Movie[]>([]);
   const [isWheelVisible, setIsWheelVisible] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [isAnonymous] = useUserStore((state) => [state.isAnonymous]);
   const [maxHeight, setMaxHeight] = useState(window.innerHeight);
+  const [movie, setMovie] = useState('');
   const navigate = useNavigate();
 
   const movieListContainer = useRef<HTMLElement>();
@@ -64,11 +69,13 @@ const LobbyPage = () => {
   }, [movies]);
 
   useEffect(() => {
+    lobbyHubService.moviesChanged((value) => {
+      setMovies(value);
+      setMovie('');
+    });
     lobbyHubService.joinLobbyAnonymous(lobbyData.id, 'test');
     if (isAnonymous) setOpenModal(true); // выставил ! что б не вылазило при каждом сохранении
   }, []);
-
-
 
   const exitLobby = () => {
     navigate(Route.ROOT);
@@ -76,6 +83,21 @@ const LobbyPage = () => {
 
   const handleChange = (newState: boolean) => {
     if (newState !== null) setIsWheelVisible(newState);
+  };
+
+  const onMovieSet = (newMovie: string) => {
+    if (!Number.isNaN(Number(newMovie))) {
+      lobbyHubService.addMovie(Number(newMovie));
+      setMovie(newMovie);
+      return;
+    }
+    const id = getIdFromUrl(newMovie);
+    if (!id || Number.isNaN(id)) {
+      console.error('wrong url');
+      return;
+    }
+    lobbyHubService.addMovie(id);
+    setMovie(id.toString());
   };
 
   return (
@@ -98,7 +120,7 @@ const LobbyPage = () => {
           <Box sx={{ p: 2, height: '100%', bgcolor: 'grey.900' }}>
             {!isWheelVisible ? (
               <>
-                <MovieSearch movies={movies} setMovies={setMovies} />
+                <MovieSearch movie={movie} setMovie={onMovieSet} />
                 <Box ref={movieListContainer} sx={{ mt: 2, maxHeight, overflow: 'auto' }}>
                   <MovieList movies={movies} setMovies={setMovies} />
                 </Box>
@@ -123,12 +145,12 @@ const LobbyPage = () => {
               <ToggleButton value={true}>{t('wheel')}</ToggleButton>
             </ToggleButtonGroup>
             <UsersList />
-            <Button fullWidth variant="contained" onClick={() => {
-        lobbyHubService.addMovie(lobbyData.id, 588);
-
-
-            }}>
+            <Button fullWidth variant="contained" onClick={() => setSettingsOpen(true)}>
               {<SettingsIcon />} {t('lobbySettings')}
+            </Button>
+
+            <Button fullWidth variant="outlined" onClick={() => setDrawerOpen(true)}>
+              {<HistoryIcon />} {t('lobbyHistory')}
             </Button>
             <LobbySettingsDialog
               lobby={lobby}
@@ -136,7 +158,7 @@ const LobbyPage = () => {
               setSettingsOpen={setSettingsOpen}
               setLobby={setLobby}
             />
-            <LobbyHistory />
+            <LobbyHistory drawerOpen={drawerOpen} setDrawerOpen={setDrawerOpen} />
           </Box>
         </Grid>
       </Grid>

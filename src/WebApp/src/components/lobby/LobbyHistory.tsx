@@ -1,12 +1,15 @@
-import React, { FC, useState } from 'react';
+import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
-import HistoryIcon from '@mui/icons-material/History';
-import { Box, Button, Drawer, List, Typography } from '@mui/material';
+import { Box, Drawer, List, Typography } from '@mui/material';
 
 import { LocalizationNamespace } from '@enums/LocalizationNamespace';
 
-const LobbyHistory: FC = () => {
-  const [drawerOpen, setDrawerOpen] = useState(false);
+interface LobbyHistoryProps {
+  drawerOpen: boolean;
+  setDrawerOpen: (open: boolean) => void;
+}
+
+const LobbyHistory: FC<LobbyHistoryProps> = ({ drawerOpen, setDrawerOpen }) => {
   const { t } = useTranslation(LocalizationNamespace.LOBBY);
 
   const toggleDrawer = () => {
@@ -22,14 +25,9 @@ const LobbyHistory: FC = () => {
   );
 
   return (
-    <React.Fragment>
-      <Button fullWidth variant="outlined" onClick={() => toggleDrawer()}>
-        {<HistoryIcon />} {('lobbyHistory')}
-      </Button>
-      <Drawer anchor="right" open={drawerOpen} onClose={() => toggleDrawer()}>
-        {list()}
-      </Drawer>
-    </React.Fragment>
+    <Drawer anchor="right" open={drawerOpen} onClose={() => toggleDrawer()}>
+      {list()}
+    </Drawer>
   );
 };
 

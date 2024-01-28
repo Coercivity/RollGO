@@ -1,4 +1,5 @@
-﻿using LobbyAPI.Hubs.Models;
+﻿using Domain.Entities;
+using LobbyAPI.Hubs.Models;
 using LobbyAPI.Services;
 
 namespace LobbyAPI.Hubs;
@@ -62,21 +63,30 @@ public class LobbyManager(IMeetingService meetingService, IFilmsDataService kino
         //await _meetingService.AddActiveUserToMeeting(userId, activeMeeting);
     }
 
-    internal async Task<ActiveMeeting?> AddEntertainmentEntity(Guid userId, Guid lobbyId, int entertainmentEntityId)
+    internal async Task<List<EntertainmentEntity>?> AddEntertainmentEntity(Guid userId, Guid lobbyId, int entertainmentEntityId)
     {
         var activeMeeting = _meetingService.GetActiveMeetingByLobbyId(lobbyId);
         if (activeMeeting is null) return null;
 
-        var entertainmentEntity =  await _kinopoiskDataClient.GetFilm(entertainmentEntityId);
+        var entertainmentEntity = await _kinopoiskDataClient.GetFilm(entertainmentEntityId);
         if (entertainmentEntity is null) return null;
 
         var user = await _userService.GetUserById(userId);
         if (user is null) return null;
 
+        var hasValue = activeMeeting.AddedEntertainmentEntities.TryGetValue(user, out List<EntertainmentEntity> list);
 
-        activeMeeting.AddedEntertainmentEntities.TryAdd(user, entertainmentEntity);
+        if (hasValue && list is not null)
+        {
+            list.Add(entertainmentEntity);
+        }
+        else
+        {
+            activeMeeting.AddedEntertainmentEntities.TryAdd(user, new List<EntertainmentEntity>([entertainmentEntity]));
+        }
 
-        return activeMeeting;
+        return activeMeeting.AddedEntertainmentEntities.Values.SelectMany(x => x).ToList();
+
     }
 
     //internal async Task<ActiveMeeting?> RemoveEntertainmentEntity(Guid lobbyId, int entertainmentEntityId)
