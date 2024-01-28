@@ -5,6 +5,7 @@ import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import { Box, Button, Card, Link, TextField, Typography } from '@mui/material';
 
 import { authService } from '@api/authService';
+import lobbyHubService from '@api/lobbyHubService';
 import { ErrorCode } from '@enums/ErrorCode';
 import { LocalizationNamespace } from '@enums/LocalizationNamespace';
 import { Route } from '@enums/Route';
@@ -12,7 +13,6 @@ import { useAuthStore } from '@store/authStore';
 import { useUserStore } from '@store/userStore';
 
 import { handleError } from '../utils/validationUtils';
-import lobbyHubService from '@api/lobbyHubService';
 
 const LoginPage = () => {
   const { t } = useTranslation([LocalizationNamespace.AUTH, LocalizationNamespace.VALIDATIONS]);
