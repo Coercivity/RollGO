@@ -1,19 +1,16 @@
 import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
-import HistoryIcon from '@mui/icons-material/History';
-import { Box, Button, Card, CardMedia, Drawer, List, Typography } from '@mui/material';
+import { Box, Card, CardMedia, Drawer, List, Typography } from '@mui/material';
 
 import { LocalizationNamespace } from '@enums/LocalizationNamespace';
+import { Movie } from '@models/Movie';
+
+import { MovieData } from '../../mockAPI/MovieData';
 
 interface LobbyHistoryProps {
   drawerOpen: boolean;
   setDrawerOpen: (open: boolean) => void;
 }
-
-const LobbyHistory: FC<LobbyHistoryProps> = ({ drawerOpen, setDrawerOpen }) => {
-import { Movie } from '@models/Movie';
-
-import { MovieData } from '../../mockAPI/MovieData';
 
 interface MockDataInterface {
   winner: string;
@@ -21,7 +18,7 @@ interface MockDataInterface {
   movie: Movie;
 }
 
-const LobbyHistory = () => {
+const LobbyHistory: FC<LobbyHistoryProps> = ({ drawerOpen, setDrawerOpen }) => {
   const mockWinnerData: MockDataInterface[] = [
     { winner: 'serpens', date: '12.01.2024', movie: MovieData[0] },
     { winner: 'slavoyar', date: '10.01.2024', movie: MovieData[1] },
@@ -29,7 +26,6 @@ const LobbyHistory = () => {
     { winner: 'slavoyar', date: '14.01.2024', movie: MovieData[3] },
   ];
 
-  const [drawerOpen, setDrawerOpen] = useState(false);
   const { t } = useTranslation(LocalizationNamespace.LOBBY);
 
   const toggleDrawer = () => {
@@ -85,10 +81,9 @@ const LobbyHistory = () => {
   );
 
   return (
-    
-      <Drawer anchor="right" open={drawerOpen} onClose={() => toggleDrawer()}>
-        {rollList()}
-      </Drawer>
+    <Drawer anchor="right" open={drawerOpen} onClose={() => toggleDrawer()}>
+      {rollList()}
+    </Drawer>
   );
 };
 
