@@ -2,6 +2,7 @@ import { Suspense } from 'react';
 import { createBrowserRouter, Outlet } from 'react-router-dom';
 import { Container } from '@mui/material';
 
+import lobbyHubService from '@api/lobbyHubService';
 import lobbyService from '@api/lobbyService';
 import { userService } from '@api/userService';
 import Navbar from '@components/common/Navbar';
@@ -9,6 +10,7 @@ import PageNotFoundComponent from '@components/lobby/PageNotFoundComponent';
 import { NotFoundType } from '@enums/NotFoundType';
 import { Route } from '@enums/Route';
 import UserSettingsPage from '@pages/UserSettingsPage';
+import { useAuthStore } from '@store/authStore';
 import { useUserStore } from '@store/userStore';
 
 import LobbyPage from './pages/LobbyPage';
@@ -51,8 +53,11 @@ export const router = createBrowserRouter([
           try {
             const user = await userService.get(userState.id);
             userState.setUser(user);
+            const authState = useAuthStore.getState();
+            lobbyHubService.setToken(authState.accessToken);
           } catch (e) {
             console.error(e);
+            userState.setAnonymous();
           } finally {
             return null;
           }

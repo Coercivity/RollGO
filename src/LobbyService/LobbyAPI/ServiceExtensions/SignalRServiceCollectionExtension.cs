@@ -14,8 +14,8 @@
             });
 
             services
-                .AddSignalR()
-                .AddStackExchangeRedis(configuration.GetConnectionString("RedisConnectionString")!);
+                .AddSignalR();
+                //.AddStackExchangeRedis(configuration.GetConnectionString("RedisConnectionString")!);
 
             return services;
         }

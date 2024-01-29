@@ -1,89 +1,78 @@
 ﻿using Domain.Entities;
-using Infrastructure.Repository;
-using Infrastructure.Repository.Implementation;
 using LobbyAPI.Controllers.Dtos;
+using LobbyAPI.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
-namespace LobbyAPI.Controllers
+namespace LobbyAPI.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+public class LobbiesController(ILobbyService lobbyService) : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class LobbiesController(ILobbyRepository lobbyRepository, ILobbySettingsRepository lobbySettingsRepository) : ControllerBase
+    private readonly ILobbyService _lobbyService = lobbyService;
+
+    [HttpGet]
+    public List<LobbyDto> GetAllLobbies()
     {
-        private readonly ILobbyRepository _lobbyRepository = lobbyRepository;
-        private readonly ILobbySettingsRepository _lobbySettingsRepository = lobbySettingsRepository;
+        var lobbies = _lobbyService.GetLobbies();
+        List<LobbyDto> lobbyDtos = [.. lobbies.Select(x => new LobbyDto(x))];
+        return lobbyDtos;
+    }
 
-        [HttpGet]
-        public async Task<List<LobbyDto>> GetAllLobbies()
+    [HttpGet("{id}")]
+    public async Task<LobbyDto> Get(Guid id)
+    {
+        var lobby = await _lobbyService.GetLobby(id);
+        return new LobbyDto(lobby!);
+    }
+
+    [HttpPost]
+    public async Task<LobbyDto> Create([FromBody] SaveLobbyDto saveLobbyDto)
+    {
+        Guid adminId = Guid.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)!.Value);
+
+        var lobby = new Lobby()
         {
-            var lobbies = _lobbyRepository.GetAll();
-            List<LobbyDto> lobbyDtos = [.. lobbies.Include(x => x.Settings).Select(x => new LobbyDto(x))];
-            return lobbyDtos;
-        }
+            Name = saveLobbyDto.Name,
+            AdminId = adminId,
+            MinimalRating = saveLobbyDto.MinimalRating,
+            MoviesPerUser = saveLobbyDto.MoviesPerUser,
+            WithCoefficient = saveLobbyDto.WithCoefficient
+        };
 
-        [HttpGet("{id}")]
-        public async Task<LobbyDto> Get(Guid id)
-        {
-            var lobby = await _lobbyRepository.GetByIdAsync(id);
-            return new LobbyDto(lobby!);
-        }
+        lobby = await _lobbyService.CreateLobby(lobby);
 
-        [HttpPost]
-        public async Task<LobbyDto> Create([FromBody] SaveLobbyDto saveLobbyDto)
-        {
-            var lobby = await _lobbyRepository.CreateAsync(
-                new Lobby() { Name = saveLobbyDto.Name, AdminId = saveLobbyDto.AdminId }
-            );
-            var lobbySettings = await _lobbySettingsRepository.CreateAsync(
-              new LobbySettings()
-              {
-                  Lobby = lobby,
-                  MinimalRating = saveLobbyDto.Settings.MinimalRating,
-                  MoviesPerUser = saveLobbyDto.Settings.MoviesPerUser,
-                  WithKoefficient = saveLobbyDto.Settings.WithKoefficient
-              }
-            );
-            LobbyDto lobbyDto = new(lobby)
-            {
-                Settings = new LobbySettingsDto(lobbySettings)
-            };
-            return lobbyDto;
-        }
+        return new(lobby);
+    }
 
-        [HttpPut("{id}")]
-        public async Task<LobbyDto> Update([FromBody] SaveLobbyDto saveLobbyDto, Guid id)
-        {
-            var lobby = await _lobbyRepository.GetByIdAsync(id);
-            lobby!.Name = saveLobbyDto.Name;
-            await _lobbyRepository.UpdateAsync(lobby);
+    [HttpPut("{id}")]
+    public async Task<LobbyDto> Update([FromBody] SaveLobbyDto saveLobbyDto, Guid id)
+    {
+        var lobby = await _lobbyService.GetLobby(id);
 
-            var lobbySettings = await _lobbySettingsRepository.GetByIdAsync(lobby.Settings.Id);
-            lobbySettings!.MinimalRating = saveLobbyDto.Settings.MinimalRating;
-            lobbySettings!.MoviesPerUser = saveLobbyDto.Settings.MoviesPerUser;
-            lobbySettings!.WithKoefficient = saveLobbyDto.Settings.WithKoefficient;
-            await _lobbySettingsRepository.UpdateAsync(lobbySettings);
-            
-            LobbyDto lobbyDto = new(lobby)
-            {
-                Settings = new LobbySettingsDto(lobbySettings)
-            };
-            return lobbyDto;
-        }
+        lobby.Name = saveLobbyDto.Name;
+        lobby.MinimalRating = saveLobbyDto.MinimalRating;
+        lobby.MoviesPerUser = saveLobbyDto.MoviesPerUser;
+        lobby.WithCoefficient = saveLobbyDto.WithCoefficient;
 
-        [HttpDelete("{id}")]
-        public async Task<Guid> Delete(Guid id)
-        {
-            await _lobbyRepository.DeleteAsync(id);
-            return id;
-        }
+        await _lobbyService.UpdateLobby(lobby);
 
-        [HttpGet("search")]
-        public async Task<List<LobbyDto>> SearchLobby([FromQuery] string lobbyName)
-        {
-            IQueryable<Lobby> lobbies = _lobbyRepository.SearchByName(lobbyName);
-            List<LobbyDto> lobbyDtos = lobbies.Select(x => new LobbyDto(x)).ToList();
-            return lobbyDtos;
-        }
+        return new(lobby);
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<Guid> Delete(Guid id)
+    {
+        await _lobbyService.DeleteLobby(id);
+        return id;
+    }
+
+    [HttpGet("search")]
+    public List<LobbyDto> SearchLobby([FromQuery] string lobbyName)
+    {
+        IQueryable<Lobby> lobbies = _lobbyService.SearchLobbies(lobbyName);
+        List<LobbyDto> lobbyDtos = lobbies.Select(x => new LobbyDto(x)).ToList();
+        return lobbyDtos;
     }
 }

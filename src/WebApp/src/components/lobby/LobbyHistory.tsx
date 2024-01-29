@@ -1,9 +1,16 @@
-import React, { useState } from 'react';
+import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import HistoryIcon from '@mui/icons-material/History';
 import { Box, Button, Card, CardMedia, Drawer, List, Typography } from '@mui/material';
 
 import { LocalizationNamespace } from '@enums/LocalizationNamespace';
+
+interface LobbyHistoryProps {
+  drawerOpen: boolean;
+  setDrawerOpen: (open: boolean) => void;
+}
+
+const LobbyHistory: FC<LobbyHistoryProps> = ({ drawerOpen, setDrawerOpen }) => {
 import { Movie } from '@models/Movie';
 
 import { MovieData } from '../../mockAPI/MovieData';
@@ -78,14 +85,10 @@ const LobbyHistory = () => {
   );
 
   return (
-    <React.Fragment>
-      <Button fullWidth variant="outlined" onClick={() => toggleDrawer()}>
-        {<HistoryIcon />} {t('lobbyHistory')}
-      </Button>
+    
       <Drawer anchor="right" open={drawerOpen} onClose={() => toggleDrawer()}>
         {rollList()}
       </Drawer>
-    </React.Fragment>
   );
 };
 

@@ -1,14 +1,10 @@
-export interface LobbySettings {
-  minimalRating: number;
-  moviesPerUser: number;
-  withKoefficient: boolean;
-}
-
 export interface Lobby {
   id: string;
   name: string;
   adminId: string;
-  settings: LobbySettings;
+  minimalRating: number;
+  moviesPerUser: number;
+  withCoefficient: boolean;
 }
 
 export enum LobbyAction {

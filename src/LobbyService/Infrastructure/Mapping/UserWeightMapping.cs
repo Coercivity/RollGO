@@ -2,24 +2,23 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Infrastructure.Mapping
+namespace Infrastructure.Mapping;
+
+internal class UserWeightMapping() : BaseEntityMapping<UserWeight>(nameof(UserWeight))
 {
-    internal class UserWeightMapping() : BaseEntityMapping<UserWeight>(nameof(UserWeight))
+    public override void Configure(EntityTypeBuilder<UserWeight> builder)
     {
-        public override void Configure(EntityTypeBuilder<UserWeight> builder)
-        {
-            base.Configure(builder);
+        base.Configure(builder);
 
-            builder
-                .Property(x => x.UserId)
-                .HasColumnName("UserId")
-                .HasColumnType("uuid")
-                .IsRequired();
+        builder
+            .Property(x => x.UserId)
+            .HasColumnName("UserId")
+            .HasColumnType("uuid")
+            .IsRequired();
 
-            //Ef core relationships have a reference navigation property on both sides
-            //builder.HasOne(m => m.Lobby)
-            //    .WithMany()
-            //    .IsRequired();
-        }
+        //Ef core relationships have a reference navigation property on both sides
+        //builder.HasOne(m => m.Lobby)
+        //    .WithMany()
+        //    .IsRequired();
     }
 }
