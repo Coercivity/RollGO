@@ -47,6 +47,7 @@ services:
       - certificate:/app/cert
     environment:
       ConnectionStrings__DefaultConnectionString: "Host=${POSTGRES_HOSTNAME};Port=5432;Database=${POSTGRES_DATABASE};Username=${POSTGRES_USERNAME};Password=${POSTGRES_PASSWORD}"
+      KINOPOISK_API_KEY: ${KINOPOISK_API_KEY}
 
   user-api:
     container_name: user-api
