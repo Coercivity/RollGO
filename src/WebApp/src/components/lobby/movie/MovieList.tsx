@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Stack, Typography } from '@mui/material';
+import { Box, Divider, Stack, Typography } from '@mui/material';
 
 import { LocalizationNamespace } from '@enums/LocalizationNamespace';
 import { Movie } from '@models/Movie';
@@ -33,7 +33,10 @@ const MovieList: FC<MoviesListProps> = ({ setMovies, movies }) => {
   return (
     <Stack spacing={2} sx={{ height: '100%' }}>
       {movies.map((movie: Movie, index: number) => (
-        <MovieView remove={remove} number={index + 1} movie={movie} key={movie.kinopoiskId} />
+        <Box key={movie.kinopoiskId}>
+          <MovieView remove={remove} number={index + 1} movie={movie} />
+          <Divider sx={{ mt: 1 }} light={false} />
+        </Box>
       ))}
     </Stack>
   );
