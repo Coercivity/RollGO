@@ -9,13 +9,20 @@ namespace LobbyAPI.ServiceExtensions
             IConfiguration configuration
         )
         {
+
             services.AddHttpClient<KinopoiskHttpClient>(client =>
             {
                 client.BaseAddress = new Uri(configuration["KinopoiskAPISettings:Url"]!);
-                client.DefaultRequestHeaders.Add(
-                    "X-API-KEY",
-                    configuration["KinopoiskAPISettings:Apikey"]!
-                );
+                string apiKey;
+                if (configuration["Environment"] != "Development")
+                {
+                    apiKey = configuration["KINOPOISK_API_KEY"]!;
+                }
+                else
+                {
+                    apiKey = configuration["KinopoiskAPISettings:Apikey"]!;
+                }
+                client.DefaultRequestHeaders.Add("X-API-KEY", apiKey);
             });
 
             return services;
