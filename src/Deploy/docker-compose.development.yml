@@ -1,6 +1,13 @@
 version: '3.8'
 
 services:
+  certificate:
+    container_name: certificate
+    build: 
+      dockerfile: Dockerfile.cert
+    volumes:
+      - certificate:/certificates
+
   postgres:
     image: postgres
     hostname: ${POSTGRES_HOSTNAME}
@@ -27,16 +34,18 @@ services:
 
   lobby-api:
     container_name: lobby-api
+    hostname: lobby-api
     build:
       context: ../LobbyService
       dockerfile: Dockerfile
     depends_on:
       - postgres
       - redis
+      - certificate
     ports:
       - "5228:5228"
     volumes:
-      - /root/cert:/app/cert
+      - certificate:/app/cert
     environment:
       ConnectionStrings__DefaultConnectionString: "Host=${POSTGRES_HOSTNAME};Port=5432;Database=${POSTGRES_DATABASE};Username=${POSTGRES_USERNAME};Password=${POSTGRES_PASSWORD}"
       ConnectionStrings__GrpcUserService: "https://user-api:5282"
@@ -44,15 +53,17 @@ services:
 
   user-api:
     container_name: user-api
+    hostname: user-api
     build:
       context: ../UserService
       dockerfile: Dockerfile
     depends_on:
       - postgres
+      - certificate
     ports:
       - "5282:5282"
     volumes:
-      - /root/cert:/app/cert
+      - certificate:/app/cert
     environment:
       ConnectionStrings__DefaultConnectionString: "Host=${POSTGRES_HOSTNAME};Port=5432;Database=${POSTGRES_DATABASE};Username=${POSTGRES_USERNAME};Password=${POSTGRES_PASSWORD}"
 
@@ -99,6 +110,7 @@ services:
     volumes:
       - ../Webapp/nginx.conf:/etc/nginx/conf.d/default.conf:ro
       - front_build:/var/www/rollgo
+      - certificate:/etc/ssl/certs
     depends_on:
       - front
 
@@ -108,7 +120,9 @@ volumes:
   redis:
   redis-config:
   front_build:
+  certificate:
 
 networks:
+
   redis-network:
     driver: bridge

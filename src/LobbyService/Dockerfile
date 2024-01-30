@@ -1,7 +1,6 @@
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
-EXPOSE 80
-EXPOSE 443
+EXPOSE 5228
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
@@ -15,6 +14,10 @@ RUN dotnet build "LobbyAPI.csproj" -c Release -o /app/build
 
 FROM build AS publish
 RUN dotnet publish "LobbyAPI.csproj" -c Release -o /app/publish
+
+WORKDIR /app/certs
+COPY *.pem /etc/ssl/certs
+CMD ["update-ca-certificates"]
 
 FROM base AS final
 WORKDIR /app
