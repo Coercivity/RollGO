@@ -15,11 +15,8 @@ RUN dotnet build "LobbyAPI.csproj" -c Release -o /app/build
 FROM build AS publish
 RUN dotnet publish "LobbyAPI.csproj" -c Release -o /app/publish
 
-WORKDIR /app/certs
-COPY *.pem /etc/ssl/certs
-CMD ["update-ca-certificates"]
-
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+CMD [ "update-ca-certificates" ]
 ENTRYPOINT ["dotnet", "LobbyAPI.dll"]
