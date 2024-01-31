@@ -101,17 +101,17 @@ services:
   front:
     container_name: front
     build:
-      context: ../Webapp
+      context: ../WebApp
       dockerfile: Dockerfile
     volumes:
-      - front_build:/usr/src/rollgo/Webapp/dist
+      - front_build:/usr/src/rollgo/WebApp/dist
 
   nginx:
     image: nginx:latest
     ports:
       - 443:443
     volumes:
-      - ../Webapp/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - ../WebApp/nginx.conf:/etc/nginx/conf.d/default.conf:ro
       - front_build:/var/www/rollgo
       - certificate:/etc/ssl/certs
     environment:
