@@ -1,7 +1,18 @@
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS cert-generator
+FROM alpine:latest
 
-WORKDIR /app
+RUN apk --update add openssl
 
-RUN dotnet dev-certs https -ep /app/certificate.pfx -p password
+WORKDIR /certificates
 
-VOLUME /app
+# Generate private key and CSR
+RUN openssl genpkey -algorithm RSA -out rollgo.rsa && \
+    openssl req -new -key rollgo.rsa -out rollgo.pem -subj "/CN=localhost"
+
+# Generate a self-signed certificate
+RUN openssl x509 -req -in rollgo.pem -signkey rollgo.rsa -out rollgo.crt
+
+# Export PFX certificate
+RUN openssl pkcs12 -export -out rollgo.pfx -inkey rollgo.rsa -in rollgo.crt -password pass:password
+
+# Expose the certificates folder
+VOLUME /certificates
