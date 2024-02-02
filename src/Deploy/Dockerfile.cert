@@ -2,7 +2,7 @@ FROM alpine:latest
 
 RUN apk --update add openssl
 
-WORKDIR /certificate
+WORKDIR /certificates
 
 COPY certificate.sh .
 
@@ -12,4 +12,4 @@ RUN chmod +x certificate.sh
 
 CMD ["./certificate.sh"]
 
-VOLUME /certificate
+VOLUME /certificates
