@@ -5,6 +5,8 @@ services:
     container_name: certificate
     build: 
       dockerfile: Dockerfile.cert
+    environment:
+      - SERVER_IP=${SERVER_IP}
     volumes:
       - certificate:/certificates
 
@@ -98,37 +100,36 @@ services:
     networks:
       - redis-network
 
-  front:
-    container_name: front
-    build:
-      context: ../WebApp
-      dockerfile: Dockerfile
-    volumes:
-      - front_build:/usr/src/rollgo/WebApp/dist
+  # front:
+  #   container_name: front
+  #   build:
+  #     context: ../WebApp
+  #     dockerfile: Dockerfile
+  #   volumes:
+  #     - front_build:/usr/src/rollgo/WebApp/dist
 
-  nginx:
-    image: nginx:latest
-    ports:
-      - 443:443
-    volumes:
-      - ../WebApp/nginx.conf:/etc/nginx/conf.d/default.conf:ro
-      - front_build:/var/www/rollgo
-      - certificate:/etc/ssl/certs
-    environment:
-      - LOBBY_API=${LOBBY_API}
-      - USER_API=${USER_API}
-      - SERVER_IP=${SERVER_IP}
-    depends_on:
-      - front
-      - lobby-api
-      - user-api
+  # nginx:
+  #   image: nginx:latest
+  #   ports:
+  #     - 443:443
+  #   volumes:
+  #     - ../WebApp/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+  #     - front_build:/var/www/rollgo
+  #     - certificate:/etc/ssl/certs
+  #   environment:
+  #     - LOBBY_API=${LOBBY_API}
+  #     - USER_API=${USER_API}
+  #     - SERVER_IP=${SERVER_IP}
+  #   depends_on:
+  #     - front
+  #     - lobby-api
+  #     - user-api
 
 
 volumes:
   postgres-data:
   redis:
   redis-config:
-  front_build:
   certificate:
 
 networks:
