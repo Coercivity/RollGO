@@ -1,7 +1,15 @@
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS cert-generator
+FROM alpine:latest
 
-WORKDIR /app
+RUN apk --update add openssl
 
-RUN dotnet dev-certs https -ep /app/certificate.pfx -p password
+WORKDIR /certificate
 
-VOLUME /app
+COPY certificate.sh .
+
+RUN ls
+
+RUN chmod +x certificate.sh
+
+CMD ["./certificate.sh"]
+
+VOLUME /certificate

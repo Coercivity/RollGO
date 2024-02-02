@@ -10,14 +10,34 @@ namespace LobbyAPI.ServiceExtensions
             IConfiguration configuration
         )
         {
-            services.AddSingleton(
-                _ =>
-                    new UserClient(
-                        GrpcChannel.ForAddress(
-                            configuration.GetConnectionString("GrpcUserService")!
+            if (configuration.GetConnectionString("GrpcUserService")!.Contains("user-api"))
+            {
+                var handler = new HttpClientHandler
+                {
+                    ServerCertificateCustomValidationCallback =
+                    HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
+                };
+                services.AddSingleton(
+                    _ =>
+                        new UserClient(
+                            GrpcChannel.ForAddress(
+                                configuration.GetConnectionString("GrpcUserService")!,
+                                new GrpcChannelOptions { HttpHandler = handler }
+                            )
                         )
-                    )
-            );
+                );
+            }
+            else
+            {
+                services.AddSingleton(
+                    _ =>
+                        new UserClient(
+                            GrpcChannel.ForAddress(
+                                configuration.GetConnectionString("GrpcUserService")!
+                            )
+                        )
+                );
+            }
 
             return services;
         }
