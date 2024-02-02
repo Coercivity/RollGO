@@ -2,17 +2,14 @@ FROM alpine:latest
 
 RUN apk --update add openssl
 
-WORKDIR /certificates
+WORKDIR /certificate
 
-# Generate private key and CSR
-RUN openssl genpkey -algorithm RSA -out rollgo.rsa && \
-    openssl req -new -key rollgo.rsa -out rollgo.pem -subj "/CN=localhost"
+COPY certificate.sh .
 
-# Generate a self-signed certificate
-RUN openssl x509 -req -in rollgo.pem -signkey rollgo.rsa -out rollgo.crt
+RUN ls
 
-# Export PFX certificate
-RUN openssl pkcs12 -export -out rollgo.pfx -inkey rollgo.rsa -in rollgo.crt -password pass:password
+RUN chmod +x certificate.sh
 
-# Expose the certificates folder
-VOLUME /certificates
+CMD ["./certificate.sh"]
+
+VOLUME /certificate
