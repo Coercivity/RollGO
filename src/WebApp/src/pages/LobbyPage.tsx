@@ -29,11 +29,13 @@ import {
 } from '@components/lobby';
 import { LocalizationNamespace } from '@enums/LocalizationNamespace';
 import { Route } from '@enums/Route';
+import { SearchType } from '@enums/SearchType';
+import { useDebounce } from '@hooks/useDebounce';
 import { Lobby } from '@models/Lobby';
 import { Movie } from '@models/Movie';
 import { useUserStore } from '@store/userStore';
 
-import { getIdFromUrl } from '../utils/utils';
+import { getIdFromUrl, getTypeByValue } from '../utils/utils';
 
 const LobbyPage = () => {
   const { t } = useTranslation(LocalizationNamespace.LOBBY);
@@ -84,20 +86,31 @@ const LobbyPage = () => {
   const handleChange = (newState: boolean) => {
     if (newState !== null) setIsWheelVisible(newState);
   };
+  const handleMovieValue = (newMovie: string) => {
+    switch (getTypeByValue(newMovie)) {
+      case SearchType.ID: {
+        lobbyHubService.addMovie(Number(newMovie));
+        break;
+      }
+      case SearchType.NAME: {
+        break;
+      }
+      case SearchType.LINK: {
+        const id = getIdFromUrl(newMovie);
+        if (!id || Number.isNaN(id)) {
+          console.error('wrong url');
+          break;
+        }
+        lobbyHubService.addMovie(id);
+        break;
+      }
+    }
+  };
+  const debounce = useDebounce(handleMovieValue, 1000, true);
 
   const onMovieSet = (newMovie: string) => {
-    if (!Number.isNaN(Number(newMovie))) {
-      lobbyHubService.addMovie(Number(newMovie));
-      setMovie(newMovie);
-      return;
-    }
-    const id = getIdFromUrl(newMovie);
-    if (!id || Number.isNaN(id)) {
-      console.error('wrong url');
-      return;
-    }
-    lobbyHubService.addMovie(id);
-    setMovie(id.toString());
+    setMovie(newMovie);
+    debounce(newMovie);
   };
 
   return (
