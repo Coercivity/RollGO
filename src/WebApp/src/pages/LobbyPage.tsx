@@ -44,7 +44,21 @@ const LobbyPage = () => {
 
   const [lobby, setLobby] = useState<Lobby>(lobbyData);
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const [movies, setMovies] = useState<Movie[]>([]);
+  const [movies, setMovies] = useState<Movie[]>([
+    {
+      kinopoiskId: 588,
+      imdbId: 'tt0144084',
+      nameRu: 'Американский психопат',
+      nameEn: null,
+      nameOriginal: 'American Psycho',
+      posterUrl: 'https://kinopoiskapiunofficial.tech/images/posters/kp/588.jpg',
+      webUrl: 'https://www.kinopoisk.ru/film/588/',
+      year: 2000,
+      filmLength: 102,
+      ratingImdb: 7.2,
+      ratingKinopoisk: 7.6,
+    },
+  ]);
   const [isWheelVisible, setIsWheelVisible] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
@@ -117,7 +131,7 @@ const LobbyPage = () => {
     <Container maxWidth="lg" sx={{ height: '100%', mt: 2 }}>
       <Paper sx={{ py: 2, bgcolor: 'grey.900', mb: 2 }}>
         <Box sx={{ display: 'flex', justifyContent: 'left' }}>
-          <IconButton color="secondary" onClick={exitLobby}>
+          <IconButton sx={{ ml: 1, mr: 1 }} color="error" onClick={exitLobby}>
             <ExitToAppIcon />
           </IconButton>
           <Typography variant="h4" color="text.secondary">
@@ -157,7 +171,7 @@ const LobbyPage = () => {
               <ToggleButton value={false}>{t('movieList')}</ToggleButton>
               <ToggleButton value={true}>{t('wheel')}</ToggleButton>
             </ToggleButtonGroup>
-            <UsersList />
+            <UsersList adminId={lobby.adminId} />
             <Button fullWidth variant="contained" onClick={() => setSettingsOpen(true)}>
               {<SettingsIcon />} {t('lobbySettings')}
             </Button>

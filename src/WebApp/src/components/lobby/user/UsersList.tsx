@@ -1,14 +1,19 @@
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Card, Grid, Typography } from '@mui/material';
 
 import UserView from '@components/common/UserView';
 import { LocalizationNamespace } from '@enums/LocalizationNamespace';
 import { User } from '@models/User';
+import { useUserStore } from '@store/userStore';
 
 import UsersFilter from './UsersFilter';
 
-const UsersList: FC = () => {
+interface UserListProps {
+  adminId: string;
+}
+
+const UsersList: FC<UserListProps> = ({ adminId }) => {
   const { t } = useTranslation(LocalizationNamespace.LOBBY);
 
   const [users, setUsers] = useState<User[]>([
@@ -17,6 +22,10 @@ const UsersList: FC = () => {
     { id: '3', username: 'Alexander', isOnline: true },
   ]);
   const [filter, setFilter] = useState('');
+  const [storeUsername, storeId] = useUserStore((state) => [state.username, state.id]);
+  useEffect(() => {
+    setUsers([...users, { id: storeId, username: storeUsername, isOnline: true }]);
+  }, []);
 
   return (
     <Card sx={{ p: 1 }}>
@@ -27,7 +36,13 @@ const UsersList: FC = () => {
       <Grid container rowSpacing={1} columns={{ md: 12 }} sx={{ mt: 1 }}>
         {users.map(({ id, username, isOnline }) => (
           <Grid key={id} md={6} item>
-            <UserView nickname={username} isOnline={isOnline} isInNavbar={false} />
+            <UserView
+              nickname={username}
+              isOnline={isOnline}
+              isInNavbar={false}
+              id={id}
+              adminId={adminId}
+            />
           </Grid>
         ))}
       </Grid>

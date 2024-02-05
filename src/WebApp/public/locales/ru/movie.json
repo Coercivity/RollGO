@@ -18,5 +18,7 @@
 
   "movieSearch": "Поиск фильма",
 
-  "moviesAreNotAddedYet": " Пока не добавлено ни одного фильма!"
+  "moviesAreNotAddedYet": " Пока не добавлено ни одного фильма!",
+
+  "playername": "Фильм игрока"
 }

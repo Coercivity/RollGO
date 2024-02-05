@@ -69,6 +69,9 @@ const MovieView: FC<MovieViewProps> = ({ remove, movie }) => {
                 </Grid>
                 <Grid item xs={6}>
                   <List>
+                    <Typography sx={{ color: 'text.secondary', mt: 3 }}>
+                      {t('playername')}
+                    </Typography>
                     <Typography sx={{ display: 'flex', alignItems: 'center' }}>
                       {t('ratingKinopoisk')}: {data ? data.ratingKinopoisk : ''}
                       <StarBorderIcon sx={{ color: 'orange' }} />
