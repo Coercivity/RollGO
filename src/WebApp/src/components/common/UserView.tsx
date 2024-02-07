@@ -9,7 +9,7 @@ interface UserViewProps {
   isOnline?: boolean;
   isInNavbar: boolean;
   id?: string;
-  adminId?: string;
+  isLeader?: boolean;
 }
 
 const StyledBadgeOnline = styled(Badge)(({ theme }) => ({
@@ -60,7 +60,7 @@ const ButtonStyle = {
 };
 
 const UserView = forwardRef<HTMLButtonElement, UserViewProps>(
-  ({ nickname, isOnline = true, onClick, isInNavbar, id, adminId }, ref) => {
+  ({ nickname, isOnline = true, onClick, isInNavbar, isLeader }, ref) => {
     return (
       <Box>
         {isInNavbar ? (
@@ -108,7 +108,7 @@ const UserView = forwardRef<HTMLButtonElement, UserViewProps>(
             <Typography noWrap sx={{ m: 0.5, ml: 1 }}>
               {nickname}
             </Typography>
-            {id === adminId && (
+            {isLeader && (
               <SvgIcon>
                 <svg fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
                   <path

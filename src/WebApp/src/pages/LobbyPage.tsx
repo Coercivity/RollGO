@@ -44,21 +44,7 @@ const LobbyPage = () => {
 
   const [lobby, setLobby] = useState<Lobby>(lobbyData);
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const [movies, setMovies] = useState<Movie[]>([
-    {
-      kinopoiskId: 588,
-      imdbId: 'tt0144084',
-      nameRu: 'Американский психопат',
-      nameEn: null,
-      nameOriginal: 'American Psycho',
-      posterUrl: 'https://kinopoiskapiunofficial.tech/images/posters/kp/588.jpg',
-      webUrl: 'https://www.kinopoisk.ru/film/588/',
-      year: 2000,
-      filmLength: 102,
-      ratingImdb: 7.2,
-      ratingKinopoisk: 7.6,
-    },
-  ]);
+  const [movies, setMovies] = useState<Movie[]>([]);
   const [isWheelVisible, setIsWheelVisible] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
@@ -120,11 +106,11 @@ const LobbyPage = () => {
       }
     }
   };
-  const debounce = useDebounce(handleMovieValue, 1000, true);
+  const handleMovieDebounce = useDebounce(handleMovieValue, 1000, true);
 
   const onMovieSet = (newMovie: string) => {
     setMovie(newMovie);
-    debounce(newMovie);
+    handleMovieDebounce(newMovie);
   };
 
   return (

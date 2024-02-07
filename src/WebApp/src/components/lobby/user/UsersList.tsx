@@ -40,8 +40,7 @@ const UsersList: FC<UserListProps> = ({ adminId }) => {
               nickname={username}
               isOnline={isOnline}
               isInNavbar={false}
-              id={id}
-              adminId={adminId}
+              isLeader={id === adminId}
             />
           </Grid>
         ))}
