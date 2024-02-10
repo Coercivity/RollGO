@@ -4,8 +4,9 @@ namespace LobbyAPI.Hubs.Models;
 
 public class LobbyActiveUser(User user)
 {
-    private readonly HashSet<LobbyConnection> _connections = [];
 
+    private readonly HashSet<LobbyConnection> _connections = [];
+    public bool IsReady { get; set; } = false;
     public User User { get; } = user ?? throw new ArgumentNullException(nameof(user));
 
     public IEnumerable<LobbyConnection> Connections => _connections;

@@ -1,10 +1,6 @@
 ﻿using System.Security.Authentication;
 using System.Security.Claims;
-using Domain.Entities;
-using LobbyAPI.Hubs.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
-using Newtonsoft.Json;
 
 namespace LobbyAPI.Hubs;
 
@@ -29,14 +25,9 @@ public class LobbyHub(LobbyManager lobbyManager) : Hub
 
     public async Task JoinLobby(Guid lobbyId)
     {
-        if (!Context.User?.Identity?.IsAuthenticated ?? true)
-            throw new AuthenticationException("User not authorized");
+        Guid userId = GetUserId();
 
-        Guid userGuid = Guid.Parse(
-            Context.User?.FindFirst(x => x.ValueType == ClaimTypes.NameIdentifier)!.Value!
-        );
-
-        await _lobbyManager.JoinLobby(lobbyId, userGuid, Context.ConnectionId);
+        await _lobbyManager.JoinLobby(lobbyId, userId, Context.ConnectionId);
 
         await Groups.AddToGroupAsync(Context.ConnectionId, lobbyId.ToString());
 
@@ -50,30 +41,46 @@ public class LobbyHub(LobbyManager lobbyManager) : Hub
         await _lobbyManager.JoinLobbyAnonymous(lobbyId, userName, Context.ConnectionId);
 
         await Groups.AddToGroupAsync(Context.ConnectionId, lobbyId.ToString());
+
         await Clients
             .Group(lobbyId.ToString())
             .SendAsync(LobbyActions.AnonymousUserJoined, Context.ConnectionId);
     }
 
-    
     public async Task AddMovie(Guid lobbyId, int entertainmentEntityId)
     {
-        Guid userId = Guid.Parse(
-            Context.User?.FindFirst(x => x.Type == ClaimTypes.NameIdentifier)!.Value!
-        );
-
-        var entertainmentEntities = await _lobbyManager.AddEntertainmentEntity(userId, lobbyId, entertainmentEntityId);
-
-        await Clients.Group(lobbyId.ToString()).SendAsync("MoviesChanged", entertainmentEntities);
+        Guid userId = GetUserId(); 
+        var usersWithEntities = await _lobbyManager.AddEntertainmentEntity(userId, lobbyId, entertainmentEntityId);
+        await Clients.Group(lobbyId.ToString()).SendAsync(LobbyActions.MoviesChanged, usersWithEntities);
     }
 
-    //public async Task RemoveMovie(Guid lobbyId, int entertainmentEntityId)
-    //{
+    public async Task RemoveMovie(Guid lobbyId, int entertainmentEntityId)
+    {
+        Guid userId = GetUserId(); 
+        var usersWithEntities = await _lobbyManager.RemoveEntertainmentEntity(userId, lobbyId, entertainmentEntityId);
+        await Clients.Group(lobbyId.ToString()).SendAsync(LobbyActions.MoviesChanged, usersWithEntities);
+    }
+    
+    public async Task SetUserReady(Guid lobbyId, bool isReady)
+    {
+        Guid userId = GetUserId();
+        var users = await _lobbyManager.SetUserReady(userId, lobbyId, isReady);
+        await Clients.Group(lobbyId.ToString()).SendAsync(LobbyActions.UsersReadyStateChanged, users);
+    }
 
-    //    ActiveMeeting activeMeeting = await _lobbyManager.RemoveEntertainmentEntity(lobbyId, entertainmentEntityId);
+    public async Task StartRoll(Guid lobbyId)
+    {
+        Guid userId = GetUserId();
+        var winner = await _lobbyManager.StartRoll(userId, lobbyId);
+        await Clients.Group(lobbyId.ToString()).SendAsync(LobbyActions.RollEnded, winner);
+    }
 
-    //    var messageAsJson = JsonConvert.SerializeObject(activeMeeting);
-    //    await Clients.Group(lobbyId.ToString()).SendAsync(messageAsJson);
-    //}
-
+    private Guid GetUserId()
+    {
+        if (!Context.User?.Identity?.IsAuthenticated ?? true)
+            throw new AuthenticationException("User is not authorized");
+        return Guid.Parse(
+            Context.User?.FindFirst(x => x.Type == ClaimTypes.NameIdentifier)!.Value!
+        );
+    }
 }

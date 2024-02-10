@@ -1,4 +1,4 @@
-﻿using Domain.Entities;
+﻿using LobbyAPI.Hubs.Helpers;
 using LobbyAPI.Hubs.Models;
 using LobbyAPI.Services;
 
@@ -63,9 +63,9 @@ public class LobbyManager(IMeetingService meetingService, IFilmsDataService kino
         //await _meetingService.AddActiveUserToMeeting(userId, activeMeeting);
     }
 
-    internal async Task<List<EntertainmentEntity>?> AddEntertainmentEntity(Guid userId, Guid lobbyId, int entertainmentEntityId)
+    internal async Task<List<UserWithEntity>?> AddEntertainmentEntity(Guid userId, Guid lobbyId, int entertainmentEntityId)
     {
-        var activeMeeting = _meetingService.GetActiveMeetingByLobbyId(lobbyId);
+        ActiveMeeting activeMeeting = _meetingService.GetActiveMeetingByLobbyId(lobbyId);
         if (activeMeeting is null) return null;
 
         var entertainmentEntity = await _kinopoiskDataClient.GetFilm(entertainmentEntityId);
@@ -74,33 +74,53 @@ public class LobbyManager(IMeetingService meetingService, IFilmsDataService kino
         var user = await _userService.GetUserById(userId);
         if (user is null) return null;
 
-        var hasValue = activeMeeting.AddedEntertainmentEntities.TryGetValue(user, out List<EntertainmentEntity> list);
+        activeMeeting.AddOrUpdateEntertainmentEntities(user, entertainmentEntity);
 
-        if (hasValue && list is not null)
-        {
-            list.Add(entertainmentEntity);
-        }
-        else
-        {
-            activeMeeting.AddedEntertainmentEntities.TryAdd(user, new List<EntertainmentEntity>([entertainmentEntity]));
-        }
-
-        return activeMeeting.AddedEntertainmentEntities.Values.SelectMany(x => x).ToList();
-
+        return activeMeeting.GetEntertainmentEntitiesList();
     }
 
-    //internal async Task<ActiveMeeting?> RemoveEntertainmentEntity(Guid lobbyId, int entertainmentEntityId)
-    //{
-    //    var activeMeeting = _meetingService.GetActiveMeetingByLobbyId(lobbyId);
-    //    if (activeMeeting is null) return null;
+    internal async Task<List<UserWithEntity>?> RemoveEntertainmentEntity(Guid userId, Guid lobbyId, int entertainmentEntityId)
+    {
+        ActiveMeeting activeMeeting = _meetingService.GetActiveMeetingByLobbyId(lobbyId);
+        if (activeMeeting is null) return null;
 
-    //    var entertainmentEntity = await _kinopoiskDataClient.GetFilm(entertainmentEntityId);
-    //    if (entertainmentEntity is null) return null;
+        var user = await _userService.GetUserById(userId);
+        if (user is null) return null;
+
+        activeMeeting.RemoveEntertainmentEntity(user, entertainmentEntityId);
+
+        return activeMeeting.GetEntertainmentEntitiesList();
+    }
 
 
-    //    activeMeeting.Meeting.MeetingEntertainmentEntityLinks
-    //        .FirstOrDefault(x => x.EntertainmentEntity.KinopoiskId == entertainmentEntityId);
+    internal Task<HashSet<LobbyActiveUser>>? SetUserReady(Guid userId, Guid lobbyId, bool isReady)
+    {
+        ActiveMeeting activeMeeting = _meetingService.GetActiveMeetingByLobbyId(lobbyId);
+        if (activeMeeting is null) return null;
 
-    //    return activeMeeting;
-    //}
+        activeMeeting.ActiveUsers.FirstOrDefault(x => x.User.Id == userId).IsReady = isReady;
+        return Task.FromResult(activeMeeting.ActiveUsers);
+    }
+
+    internal Task<UserWithEntity> StartRoll(Guid userId, Guid lobbyId)
+    {
+        ActiveMeeting activeMeeting = _meetingService.GetActiveMeetingByLobbyId(lobbyId);
+        if(activeMeeting.Meeting.Lobby.AdminId != userId)
+        {
+            throw new Exception("Not lobby admin");
+        }
+        //TODO add rollingservice
+        var winner = activeMeeting.AddedEntertainmentEntities.FirstOrDefault(x => x.Value.Any());
+        //TODO add winner to meeting service 
+
+        return Task.FromResult(new UserWithEntity
+        {
+            EntertainmentEntity = winner.Value.FirstOrDefault(),
+            User = winner.Key
+        });
+    }
 }
+
+
+
+
