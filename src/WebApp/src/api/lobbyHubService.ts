@@ -2,6 +2,7 @@ import { HubConnectionBuilder, HubConnectionState } from '@microsoft/signalr';
 
 import { LobbyAction, LobbyEvent } from '@models/Lobby';
 import { Movie } from '@models/Movie';
+import { User } from '@models/User';
 
 class LobbyHubService {
   private token: string = '';
@@ -88,7 +89,7 @@ class LobbyHubService {
     this.connection.on(LobbyEvent.UserLeft, cb);
   }
 
-  async moviesChanged(cb: (movies: Movie[]) => void): Promise<void> {
+  async moviesChanged(cb: (user: User, movies: Movie[]) => void): Promise<void> {
     this.connection.on(LobbyEvent.MoviesChanged, cb);
   }
 

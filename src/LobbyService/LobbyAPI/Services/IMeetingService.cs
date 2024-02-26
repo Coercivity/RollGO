@@ -23,4 +23,6 @@ public interface IMeetingService
     public Task AddActiveUserToMeeting(Guid userId, ActiveMeeting activeMeeting);
 
     public void RemoveUserFromMeeting(LobbyActiveUser user, string connectionId);
+
+    public UserWithEntity GetWinner(ActiveMeeting activeMeeting);
 }

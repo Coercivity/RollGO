@@ -51,6 +51,20 @@ public class MeetingService(
         throw new Exception();
     }
 
+    public UserWithEntity GetWinner(ActiveMeeting meeting)
+    {
+        // TODO: Add roll service
+        var winningEntry = meeting.AddedEntertainmentEntities.FirstOrDefault(entry => entry.Value.Any());
+
+        UserWithEntity winner = new()
+        {
+            User = winningEntry.Key,
+            EntertainmentEntity = winningEntry.Value?.FirstOrDefault()
+        };
+
+        return winner;
+    }
+
     public ActiveMeeting GetActiveMeetingByConnectionId(string connectionId)
     {
         throw new Exception();

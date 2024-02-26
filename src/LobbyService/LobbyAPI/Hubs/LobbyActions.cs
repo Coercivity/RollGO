@@ -8,5 +8,5 @@ public static class LobbyActions
     public const string OnConnect = "OnConnect";
     public const string MoviesChanged = "MoviesChanged";
     public const string UsersReadyStateChanged = "UsersReadyStateChanged";
-    public const string RollEnded = "RollEnded";
+    public const string RollFinished = "RollFinished";
 }

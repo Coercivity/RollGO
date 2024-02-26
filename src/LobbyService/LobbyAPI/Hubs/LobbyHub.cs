@@ -72,7 +72,7 @@ public class LobbyHub(LobbyManager lobbyManager) : Hub
     {
         Guid userId = GetUserId();
         var winner = await _lobbyManager.StartRoll(userId, lobbyId);
-        await Clients.Group(lobbyId.ToString()).SendAsync(LobbyActions.RollEnded, winner);
+        await Clients.Group(lobbyId.ToString()).SendAsync(LobbyActions.RollFinished, winner);
     }
 
     private Guid GetUserId()

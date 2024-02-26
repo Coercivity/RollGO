@@ -76,7 +76,7 @@ public class LobbyManager(IMeetingService meetingService, IFilmsDataService kino
 
         activeMeeting.AddOrUpdateEntertainmentEntities(user, entertainmentEntity);
 
-        return activeMeeting.GetEntertainmentEntitiesList();
+        return activeMeeting.GetEntertainmentEntitiesWithUserList();
     }
 
     internal async Task<List<UserWithEntity>?> RemoveEntertainmentEntity(Guid userId, Guid lobbyId, int entertainmentEntityId)
@@ -89,7 +89,7 @@ public class LobbyManager(IMeetingService meetingService, IFilmsDataService kino
 
         activeMeeting.RemoveEntertainmentEntity(user, entertainmentEntityId);
 
-        return activeMeeting.GetEntertainmentEntitiesList();
+        return activeMeeting.GetEntertainmentEntitiesWithUserList();
     }
 
 
@@ -105,19 +105,15 @@ public class LobbyManager(IMeetingService meetingService, IFilmsDataService kino
     internal Task<UserWithEntity> StartRoll(Guid userId, Guid lobbyId)
     {
         ActiveMeeting activeMeeting = _meetingService.GetActiveMeetingByLobbyId(lobbyId);
-        if(activeMeeting.Meeting.Lobby.AdminId != userId)
+        if (activeMeeting is null) return null;
+
+        if (activeMeeting.Meeting.Lobby.AdminId != userId)
         {
             throw new Exception("Not lobby admin");
         }
-        //TODO add rollingservice
-        var winner = activeMeeting.AddedEntertainmentEntities.FirstOrDefault(x => x.Value.Any());
-        //TODO add winner to meeting service 
+        var winner = _meetingService.GetWinner(activeMeeting);
 
-        return Task.FromResult(new UserWithEntity
-        {
-            EntertainmentEntity = winner.Value.FirstOrDefault(),
-            User = winner.Key
-        });
+        return Task.FromResult(winner);
     }
 }
 

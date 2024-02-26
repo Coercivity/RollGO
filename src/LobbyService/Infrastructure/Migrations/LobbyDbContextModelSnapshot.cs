@@ -36,7 +36,7 @@ namespace Infrastructure.Migrations
                         .HasColumnType("varchar")
                         .HasColumnName("Description");
 
-                    b.Property<int>("FilmLength")
+                    b.Property<int?>("FilmLength")
                         .HasColumnType("integer")
                         .HasColumnName("FilmLength");
 
@@ -65,11 +65,11 @@ namespace Infrastructure.Migrations
                         .HasColumnType("varchar")
                         .HasColumnName("PosterUrl");
 
-                    b.Property<double>("RatingImdb")
+                    b.Property<double?>("RatingImdb")
                         .HasColumnType("double precision")
                         .HasColumnName("RatingImdb");
 
-                    b.Property<double>("RatingKinopoisk")
+                    b.Property<double?>("RatingKinopoisk")
                         .HasColumnType("double precision")
                         .HasColumnName("RatingKinopoisk");
 
@@ -81,7 +81,7 @@ namespace Infrastructure.Migrations
                         .HasColumnType("varchar")
                         .HasColumnName("WebUrl");
 
-                    b.Property<int>("Year")
+                    b.Property<int?>("Year")
                         .HasColumnType("int")
                         .HasColumnName("Year");
 
@@ -139,19 +139,19 @@ namespace Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("e05d9aba-23fa-471d-9ffc-8bdcd7cf9149"),
-                            AdminId = new Guid("00d42a9a-197e-489e-a5de-34def86dde06"),
-                            CreatedDateTime = new DateTime(2024, 1, 27, 18, 12, 24, 477, DateTimeKind.Utc).AddTicks(298),
+                            Id = new Guid("c7ac4319-bc01-4b52-99ec-8f573a905c77"),
+                            AdminId = new Guid("b5c17515-c708-4392-a5c7-6137e9cb2964"),
+                            CreatedDateTime = new DateTime(2024, 2, 25, 11, 42, 48, 908, DateTimeKind.Utc).AddTicks(4231),
                             MinimalRating = 7.5,
                             MoviesPerUser = 2,
-                            Name = "el_juan",
+                            Name = "t@t@puchi",
                             WithCoefficient = true
                         },
                         new
                         {
-                            Id = new Guid("9acc127c-619c-4dfb-bd8b-1c1b30d2138f"),
-                            AdminId = new Guid("ff7195ef-2765-433e-aa6d-68aa8a32e0d7"),
-                            CreatedDateTime = new DateTime(2024, 1, 27, 18, 12, 24, 477, DateTimeKind.Utc).AddTicks(335),
+                            Id = new Guid("73dc409e-9385-4f3d-a6f2-7a9a7628d707"),
+                            AdminId = new Guid("6574235b-7cfb-45ca-a8ef-ced7baf6f2d6"),
+                            CreatedDateTime = new DateTime(2024, 2, 25, 11, 42, 48, 908, DateTimeKind.Utc).AddTicks(4257),
                             MinimalRating = 7.5,
                             MoviesPerUser = 2,
                             Name = "guagg",
@@ -159,12 +159,12 @@ namespace Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("279b7964-45e5-43e0-980e-d701a15a5b6d"),
-                            AdminId = new Guid("2f3f7675-b6c4-4807-ba85-4300139422d6"),
-                            CreatedDateTime = new DateTime(2024, 1, 27, 18, 12, 24, 477, DateTimeKind.Utc).AddTicks(362),
+                            Id = new Guid("47fdeb74-078e-49d4-a35a-020aad3d0514"),
+                            AdminId = new Guid("ced8a9d5-5312-4f03-8823-17e7cc91af52"),
+                            CreatedDateTime = new DateTime(2024, 2, 25, 11, 42, 48, 908, DateTimeKind.Utc).AddTicks(4268),
                             MinimalRating = 7.5,
                             MoviesPerUser = 2,
-                            Name = "am0gus",
+                            Name = "krab",
                             WithCoefficient = true
                         });
                 });

@@ -36,6 +36,7 @@ import { Movie } from '@models/Movie';
 import { useUserStore } from '@store/userStore';
 
 import { getIdFromUrl, getTypeByValue } from '../utils/utils';
+import { User } from '@models/User';
 
 const LobbyPage = () => {
   const { t } = useTranslation(LocalizationNamespace.LOBBY);
@@ -71,9 +72,9 @@ const LobbyPage = () => {
   }, [movies]);
 
   useEffect(() => {
-    lobbyHubService.moviesChanged((value) => {
-      setMovies(value);
-      setMovie('');
+    lobbyHubService.moviesChanged((user: User, updatedMovies: Movie[]) => {
+      setMovies(updatedMovies);
+      setMovie(''); //wtf
     });
     lobbyHubService.joinLobbyAnonymous(lobbyData.id, 'test');
     if (isAnonymous) setOpenModal(true); // выставил ! что б не вылазило при каждом сохранении

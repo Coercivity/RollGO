@@ -17,7 +17,7 @@ public class KinopoiskHttpClient(HttpClient httpClient)
 
             if (response.IsSuccessStatusCode)
             {
-                var json = await response.Content.ReadAsStringAsync();
+                string json = await response.Content.ReadAsStringAsync();
                 var film = JsonConvert.DeserializeObject<Film>(json);
                 return film;
             }

@@ -29,7 +29,7 @@ internal static class ActiveMeetingExtensions
         }
     }
 
-    public static List<UserWithEntity> GetEntertainmentEntitiesList(this ActiveMeeting activeMeeting)
+    public static List<UserWithEntity> GetEntertainmentEntitiesWithUserList(this ActiveMeeting activeMeeting)
     {
         return activeMeeting.AddedEntertainmentEntities
             .SelectMany(kv => kv.Value.Select(entity => new UserWithEntity
