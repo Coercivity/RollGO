@@ -1,10 +1,10 @@
-import MovieList from './movie/MovieList';
-import MovieSearch from './movie/MovieSearch';
-import UsersList from './user/UsersList';
-import LobbyHistory from './LobbyHistory';
-import LobbyNicknameDialog from './LobbyNicknameDialog';
-import LobbySettingsDialog from './LobbySettingsDialog';
-import SpinningWheel from './SpiningWheel';
+import LobbySettingsDialog from '../../features/createLobby/ui/LobbySettingsDialog';
+import MovieSearch from '../../features/movie/ui/MovieSearch';
+import LobbyNicknameDialog from '../../features/setUsername/ui/LobbyNicknameDialog';
+import SpinningWheel from '../../features/spinMovies/ui/SpiningWheel';
+import LobbyHistory from '../../widgets/lobbyHistory/ui/LobbyHistory';
+import MovieList from '../../widgets/movieList/ui/MovieList';
+import UsersList from '../../widgets/usersList/ui/UsersList';
 
 export {
   LobbyNicknameDialog,

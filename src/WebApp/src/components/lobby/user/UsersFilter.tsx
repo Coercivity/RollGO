@@ -2,10 +2,10 @@ import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Box, FormControl, InputLabel } from '@mui/material';
 
-import { LocalizationNamespace } from '@enums/LocalizationNamespace';
+import { LocalizationNamespace } from '../../../shared/enums/LocalizationNamespace';
 import { User } from '@models/User';
 
-import { generalSort } from '../../../utils/utils';
+import { generalSort } from '../../../shared/utils/utils';
 
 import FilterSelector from './FilterSelector';
 
