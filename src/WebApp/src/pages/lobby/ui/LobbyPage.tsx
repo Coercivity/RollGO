@@ -1,9 +1,5 @@
-import { useEffect, useRef, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useLoaderData, useNavigate } from 'react-router-dom';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import HistoryIcon from '@mui/icons-material/History';
-import SettingsIcon from '@mui/icons-material/Settings';
 import {
   Box,
   Button,
@@ -16,35 +12,39 @@ import {
   Typography,
   useTheme,
 } from '@mui/material';
+import { useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 
-import { Lobby } from '@entities/lobby';
-import { Movie } from '@entities/movie';
-import { useUserStore } from '@entities/user';
-import { LobbySettingsDialog } from '@features/createLobby';
-import { MovieSearch } from '@features/searchMovie';
-import { LobbyNicknameDialog } from '@features/setUsername';
-import { SpinningWheel } from '@features/spinMovies';
-import { LocalizationNamespace, Route, SearchType } from '@shared/enums';
-import { useDebounce } from '@shared/hooks';
-import { getIdFromUrl, getTypeByValue } from '@shared/utils/utils';
 import { LobbyHistory } from '@widgets/lobbyHistory';
 import { MovieList } from '@widgets/movieList';
 import { UsersList } from '@widgets/usersList';
 
-import { lobbyHubService } from '..';
+import { EditLobby } from '@features/editLobby';
+import { MovieSearch } from '@features/searchMovie';
+import { LobbyNicknameDialog } from '@features/setUsername';
+import { SpinningWheel } from '@features/spinMovies';
+
+import { Movie } from '@entities/movie';
+import { useUserStore } from '@entities/user';
+
+import { LocalizationNamespace, Route, SearchType } from '@shared/enums';
+import { useDebounce } from '@shared/hooks';
+import { getIdFromUrl, getTypeByValue } from '@shared/utils';
+
+import { lobbyHubService, useLobbyStore } from '..';
 
 const LobbyPage = () => {
   const { t } = useTranslation(LocalizationNamespace.LOBBY);
   const theme = useTheme();
-  const lobbyData = useLoaderData() as Lobby;
 
-  const [lobby, setLobby] = useState<Lobby>(lobbyData);
+  const [isAnonymous] = useUserStore((state) => [state.isAnonymous]);
+  const [lobby] = useLobbyStore((state) => [state.lobby]);
+
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [movies, setMovies] = useState<Movie[]>([]);
   const [isWheelVisible, setIsWheelVisible] = useState(false);
   const [openModal, setOpenModal] = useState(false);
-  const [settingsOpen, setSettingsOpen] = useState(false);
-  const [isAnonymous] = useUserStore((state) => [state.isAnonymous]);
   const [maxHeight, setMaxHeight] = useState(window.innerHeight);
   const [movie, setMovie] = useState('');
   const navigate = useNavigate();
@@ -67,11 +67,13 @@ const LobbyPage = () => {
   }, [movies]);
 
   useEffect(() => {
+    // TODO: refactor using store
     lobbyHubService.moviesChanged((value) => {
       setMovies(value);
       setMovie('');
     });
-    lobbyHubService.joinLobbyAnonymous(lobbyData.id, 'test');
+    if (!lobby) return;
+    lobbyHubService.joinLobbyAnonymous(lobby.id, 'test');
     if (isAnonymous) setOpenModal(true); // выставил ! что б не вылазило при каждом сохранении
   }, []);
 
@@ -154,19 +156,11 @@ const LobbyPage = () => {
               <ToggleButton value={true}>{t('wheel')}</ToggleButton>
             </ToggleButtonGroup>
             <UsersList />
-            <Button fullWidth variant="contained" onClick={() => setSettingsOpen(true)}>
-              {<SettingsIcon />} {t('lobbySettings')}
-            </Button>
 
+            <EditLobby />
             <Button fullWidth variant="outlined" onClick={() => setDrawerOpen(true)}>
               {<HistoryIcon />} {t('lobbyHistory')}
             </Button>
-            <LobbySettingsDialog
-              lobby={lobby}
-              settingsOpen={settingsOpen}
-              setSettingsOpen={setSettingsOpen}
-              setLobby={setLobby}
-            />
             <LobbyHistory drawerOpen={drawerOpen} setDrawerOpen={setDrawerOpen} />
           </Box>
         </Grid>

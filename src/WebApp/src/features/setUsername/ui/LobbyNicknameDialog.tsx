@@ -1,5 +1,3 @@
-import { FC, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import {
   Button,
   Dialog,
@@ -9,8 +7,11 @@ import {
   DialogTitle,
   TextField,
 } from '@mui/material';
+import { FC, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { useUserStore } from '@entities/user';
+
 import { LocalizationNamespace } from '@shared/enums';
 
 interface LobbyNicknameDialogProps {

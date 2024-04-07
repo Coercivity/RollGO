@@ -1,3 +1,3 @@
-import LobbySettingsDialog from './ui/LobbySettingsDialog';
+import CreateLobby from './ui';
 
-export { LobbySettingsDialog };
+export { CreateLobby };

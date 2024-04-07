@@ -8,7 +8,8 @@ module.exports = {
     'airbnb-typescript',
     'plugin:prettier/recommended',
     'plugin:promise/recommended',
-    'plugin:i18next/recommended',
+    'plugin:i18next/recommended', 
+    '@feature-sliced',
   ],
   settings: {
     'import/resolver': {
@@ -32,7 +33,6 @@ module.exports = {
   parser: '@typescript-eslint/parser',
   plugins: [
     'react-refresh',
-    'simple-import-sort',
     'promise',
     'import',
     '@typescript-eslint',
@@ -49,19 +49,6 @@ module.exports = {
     'react/react-in-jsx-scope': 'off',
     'react/display-name': 'off',
     '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
-    'simple-import-sort/imports': [
-      'error',
-      {
-        groups: [
-          ['^react', '^@?\\w'],
-          ['^(@app|@pages|@widgets|@features|@entities|@shared)(/.*|$)'],
-          ['^\\u0000'],
-          ['^\\.\\.(?!/?$)', '^\\.\\./?$'],
-          ['^\\./(?=.*/)(?!/?$)', '^\\.(?!/?$)', '^\\./?$'],
-          ['^.+\\.?(css)$'],
-        ],
-      },
-    ],
     'import/first': 'error',
     'import/newline-after-import': 'error',
     'import/no-duplicates': 'off',

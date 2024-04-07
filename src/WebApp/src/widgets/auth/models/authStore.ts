@@ -1,7 +1,6 @@
+import { TokenPair } from '@models/TokenPair';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-
-import { TokenPair } from '@models/TokenPair';
 
 type AuthStoreState = TokenPair & {
   isAuthorized: boolean;

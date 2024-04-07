@@ -1,16 +1,19 @@
+import { Container } from '@mui/system';
 import { Suspense } from 'react';
 import { createBrowserRouter, Outlet } from 'react-router-dom';
-import { Container } from '@mui/system';
+
+import { MainPage } from '@pages/lobbies';
+import { lobbyHubService, LobbyPage, useLobbyStore } from '@pages/lobby';
+import { NotFound } from '@pages/notFound';
+import { UserSettingsPage } from '@pages/userSettings';
+
+import { LoginPage, RegistrationPage, useAuthStore } from '@widgets/auth';
+import { Navbar } from '@widgets/navbar';
 
 import { lobbyService } from '@entities/lobby';
 import { userService, useUserStore } from '@entities/user';
-import { MainPage } from '@pages/lobbies';
-import { lobbyHubService, LobbyPage } from '@pages/lobby';
-import { PageNotFoundComponent } from '@pages/notFound';
-import { UserSettingsPage } from '@pages/userSettings';
+
 import { NotFoundType, Route } from '@shared/enums';
-import { LoginPage, RegistrationPage, useAuthStore } from '@widgets/auth';
-import { Navbar } from '@widgets/navbar';
 
 const SuspenseWrapper = () => {
   return (
@@ -34,7 +37,7 @@ export const router = createBrowserRouter([
   {
     path: Route.ROOT,
     element: <SuspenseWrapper />,
-    errorElement: <PageNotFoundComponent errorType={NotFoundType.GENERAL} />,
+    errorElement: <NotFound errorType={NotFoundType.GENERAL} />,
     children: [
       {
         path: Route.ROOT,
@@ -65,8 +68,13 @@ export const router = createBrowserRouter([
           {
             path: `${Route.LOBBY}/:lobbyId`,
             element: <LobbyPage />,
-            loader: async ({ params }) => lobbyService.getLobby(params.lobbyId ?? ''),
-            errorElement: <PageNotFoundComponent errorType={NotFoundType.LOBBY} />,
+            loader: async ({ params }) => {
+              if (!params.lobbyId) {
+                throw new Error('Lobby is not provided');
+              }
+              await useLobbyStore.getState().fetchLobby(params.lobbyId);
+            },
+            errorElement: <NotFound errorType={NotFoundType.LOBBY} />,
           },
           {
             path: Route.USER_SETTINGS,

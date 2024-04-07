@@ -1,6 +1,6 @@
-import { FC } from 'react';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { IconButton, Link, Paper, Typography } from '@mui/material';
+import { FC } from 'react';
 
 import { Route } from '@shared/enums';
 

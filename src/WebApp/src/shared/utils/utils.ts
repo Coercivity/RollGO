@@ -1,4 +1,4 @@
-import { SearchType } from '../enums/SearchType';
+import { SearchType } from '@shared/enums';
 
 export const booleanSort = (a: boolean, b: boolean) => Number(b) - Number(a);
 

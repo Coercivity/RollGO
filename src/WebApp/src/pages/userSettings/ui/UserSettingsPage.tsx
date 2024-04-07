@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import { Avatar, Box, Button, Card, Stack, TextField, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { userService, useUserStore } from '@entities/user';
+
 import { ErrorCode, LocalizationNamespace } from '@shared/enums';
 import { EMAIL_ERRORS, PASSWORD_ERRORS, USERNAME_ERRORS } from '@shared/enums/ErrorCode';
 import { handleError } from '@shared/utils/validationUtils';

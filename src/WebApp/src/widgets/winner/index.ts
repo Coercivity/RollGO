@@ -1,3 +1,3 @@
-import WinnerModal from './ui/WinnerModal';
+import { WinnerModal } from './ui';
 
 export { WinnerModal };

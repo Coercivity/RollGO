@@ -1,8 +1,7 @@
 import axios from 'axios';
 
 import { Lobby } from '..';
-
-type CreateLobbyRequest = Omit<Lobby, 'id' | 'adminId'>;
+import { CreateLobbyRequest } from '../models';
 
 class LobbyService {
   async createLobby(data: CreateLobbyRequest): Promise<Lobby> {

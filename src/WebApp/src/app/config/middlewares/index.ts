@@ -1,8 +1,9 @@
 import axios from 'axios';
 
-import { useUserStore } from '../../../entities/user/models/userStore';
-import { authService } from '../../../widgets/auth/api/authService';
-import { useAuthStore } from '../../../widgets/auth/models/authStore';
+import { authService } from '@widgets/auth';
+import { useAuthStore } from '@widgets/auth';
+
+import { useUserStore } from '@entities/user';
 
 axios.interceptors.request.use(
   (config) => {

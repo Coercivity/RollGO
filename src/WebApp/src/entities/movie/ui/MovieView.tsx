@@ -1,9 +1,9 @@
-import { FC, useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import ClearIcon from '@mui/icons-material/Clear';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import { Box, CardMedia, Grid, IconButton, Link, List, Skeleton, Typography } from '@mui/material';
 import ImageListItem from '@mui/material/ImageListItem';
+import { FC, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { LocalizationNamespace } from '@shared/enums';
 

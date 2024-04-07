@@ -1,8 +1,9 @@
+import { Box, Divider, Stack, Typography } from '@mui/material';
 import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Box, Divider, Stack, Typography } from '@mui/material';
 
 import { Movie, MovieView } from '@entities/movie';
+
 import { LocalizationNamespace } from '@shared/enums';
 
 interface MoviesListProps {

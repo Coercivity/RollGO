@@ -1,11 +1,13 @@
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
+import { Box, Button, Card, Link, TextField, Typography } from '@mui/material';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
-import { Box, Button, Card, Link, TextField, Typography } from '@mui/material';
+
+import { lobbyHubService } from '@pages/lobby';
 
 import { useUserStore } from '@entities/user';
-import { lobbyHubService } from '@pages/lobby';
+
 import { ErrorCode, LocalizationNamespace, Route } from '@shared/enums';
 import { handleError } from '@shared/utils/validationUtils';
 

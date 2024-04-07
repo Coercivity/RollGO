@@ -1,6 +1,3 @@
-import { FC, useRef, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
 import LogoutIcon from '@mui/icons-material/Logout';
 import SettingsIcon from '@mui/icons-material/Settings';
 import {
@@ -18,10 +15,15 @@ import {
 } from '@mui/material';
 import Popover from '@mui/material/Popover';
 import { Box } from '@mui/system';
+import { FC, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
+
+import { useAuthStore } from '@widgets/auth';
 
 import { UserView, useUserStore } from '@entities/user';
+
 import { LocalizationNamespace, Route } from '@shared/enums';
-import { useAuthStore } from '@widgets/auth';
 
 const Navbar: FC = () => {
   const { t } = useTranslation(LocalizationNamespace.NAVBAR);

@@ -1,24 +1,51 @@
 import { create } from 'zustand';
 
+import { Lobby } from '@entities/lobby';
 import { Movie } from '@entities/movie';
 import { User } from '@entities/user';
+import { lobbyService } from '../api';
+import { CreateLobbyRequest } from '../models';
 
 interface LobbyStoreState {
+  lobby?: Lobby;
   users: User[];
   movies: Movie[];
+
+  fetchLobby: (id: string) => Promise<void>;
+  createLobby: (lobby: CreateLobbyRequest) => Promise<void>;
+  updateLobby: (lobby: Lobby) => Promise<void>;
+  setLobby: (lobby: Lobby) => void;
+
   addUser: (user: User) => void;
   removeUser: (userId: string) => void;
+
   addMovie: (movie: Movie) => void;
+  setMovies: (movies: Movie[]) => void;
   removeMovie: (movieId: number) => void;
   getRemovedMovies: () => Movie[];
+
   leaveLobby: () => void;
   joinLobby: (users: User[], movies: Movie[]) => void;
-  setMovies: (movies: Movie[]) => void;
 }
 
 export const useLobbyStore = create<LobbyStoreState>((set, get) => ({
   users: [],
   movies: [],
+  fetchLobby: async (id) => {
+    const lobby = await lobbyService.getLobby(id);
+    get().setLobby(lobby);
+  },
+  createLobby: async (data) => {
+    const lobby = await lobbyService.createLobby(data);
+    get().setLobby(lobby);
+  },
+  updateLobby: async (lobby) => {
+    const updatedLobby = await lobbyService.updateLobby(lobby);
+    get().setLobby(updatedLobby);
+  },
+  setLobby: (lobby) => {
+    set(() => ({ lobby }));
+  },
   addUser: (user) => {
     set((state) => ({ users: [...state.users, user] }));
   },

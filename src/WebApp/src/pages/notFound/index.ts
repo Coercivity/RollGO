@@ -1,3 +1,3 @@
-import PageNotFoundComponent from './ui/PageNotFoundComponent';
+import NotFound from './ui/NotFound';
 
-export { PageNotFoundComponent };
+export { NotFound };

@@ -1,8 +1,9 @@
+import { Box, Paper, Typography } from '@mui/material';
 import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Box, Paper, Typography } from '@mui/material';
 
 import { Lobby, LobbyView } from '@entities/lobby';
+
 import { LocalizationNamespace } from '@shared/enums';
 
 interface LobbyListProps {

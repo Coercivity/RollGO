@@ -1,6 +1,6 @@
+import { ThemeProvider } from '@mui/material';
 import ReactDOM from 'react-dom/client';
 import { RouterProvider } from 'react-router-dom';
-import { ThemeProvider } from '@mui/material';
 
 import './config/i18n';
 import './config/middlewares';

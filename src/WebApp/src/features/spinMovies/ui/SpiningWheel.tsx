@@ -1,9 +1,10 @@
+import { Box, TextField, ToggleButton, ToggleButtonGroup } from '@mui/material';
 import React, { FC, useEffect, useState } from 'react';
 import { Wheel } from 'react-custom-roulette';
 import { useTranslation } from 'react-i18next';
-import { Box, TextField, ToggleButton, ToggleButtonGroup } from '@mui/material';
 
 import { Movie } from '@entities/movie';
+
 import { LocalizationNamespace } from '@shared/enums';
 
 const colorMap = new Map();
@@ -131,14 +132,6 @@ const SpinningWheel: FC<WheelProps> = ({ movies }) => {
           onStopSpinning={onStopSpinning}
         />
       </Box>
-
-      {/* <WinnerModal
-        username={'Yaroslav'}
-        wheelData={wheelData}
-        modal={modal}
-        prizeNumber={prizeNumber}
-        setOpen={setModal}
-      /> */}
     </Box>
   );
 };

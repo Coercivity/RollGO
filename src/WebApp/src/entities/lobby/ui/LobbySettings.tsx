@@ -1,5 +1,3 @@
-import React, { FC, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import {
   Box,
   FormControlLabel,
@@ -11,30 +9,32 @@ import {
   Typography,
 } from '@mui/material';
 import { Stack } from '@mui/system';
+import React, { FC, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
-import { LocalizationNamespace } from '../../../shared/enums/LocalizationNamespace';
+import { LocalizationNamespace } from '@shared/enums';
 
 interface LobbySettingsProps {
   lobbyName: string | undefined;
   rating: number;
   moviesPerUser: number;
   withName?: boolean;
-  withKoefficient?: boolean;
+  withCoefficient?: boolean;
   setLobbyName: (lobbyName: string) => void;
   setRating: (rating: number) => void;
   setMoviesPerUser: (moviesPerUser: number) => void;
-  setWithKoefficient: (withKoefficient: boolean) => void;
+  setWithCoefficient: (withCoefficient: boolean) => void;
 }
 
 const LobbySettings: FC<LobbySettingsProps> = ({
   lobbyName,
   moviesPerUser,
   rating,
-  withKoefficient,
+  withCoefficient,
   setLobbyName,
   setMoviesPerUser,
   setRating,
-  setWithKoefficient,
+  setWithCoefficient,
   withName = false,
 }) => {
   const { t } = useTranslation(LocalizationNamespace.LOBBY);
@@ -118,8 +118,8 @@ const LobbySettings: FC<LobbySettingsProps> = ({
             control={
               <Switch
                 defaultChecked
-                value={withKoefficient}
-                onChange={() => setWithKoefficient(!withKoefficient)}
+                value={withCoefficient}
+                onChange={() => setWithCoefficient(!withCoefficient)}
               />
             }
             label={t('complexCoefficient')}

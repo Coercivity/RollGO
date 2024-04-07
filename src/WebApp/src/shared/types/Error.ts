@@ -1,4 +1,4 @@
-import { ErrorCode } from '../enums/ErrorCode';
+import { ErrorCode } from '@shared/enums';
 
 export interface ValidationError {
   errors: Record<string, unknown>;
