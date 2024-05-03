@@ -7,9 +7,14 @@ import { useTranslation } from 'react-i18next';
 
 import { userService, useUserStore } from '@entities/user';
 
-import { ErrorCode, LocalizationNamespace } from '@shared/enums';
-import { EMAIL_ERRORS, PASSWORD_ERRORS, USERNAME_ERRORS } from '@shared/enums/ErrorCode';
-import { handleError } from '@shared/utils/validationUtils';
+import {
+  EMAIL_ERRORS,
+  ErrorCode,
+  LocalizationNamespace,
+  PASSWORD_ERRORS,
+  USERNAME_ERRORS,
+} from '@shared/enums';
+import { handleError } from '@shared/utils';
 
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',

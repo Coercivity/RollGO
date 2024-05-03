@@ -3,14 +3,14 @@ import { Suspense } from 'react';
 import { createBrowserRouter, Outlet } from 'react-router-dom';
 
 import { MainPage } from '@pages/lobbies';
-import { lobbyHubService, LobbyPage, useLobbyStore } from '@pages/lobby';
+import { LobbyPage } from '@pages/lobby';
 import { NotFound } from '@pages/notFound';
 import { UserSettingsPage } from '@pages/userSettings';
 
 import { LoginPage, RegistrationPage, useAuthStore } from '@widgets/auth';
 import { Navbar } from '@widgets/navbar';
 
-import { lobbyService } from '@entities/lobby';
+import { useLobbyStore } from '@entities/lobby';
 import { userService, useUserStore } from '@entities/user';
 
 import { NotFoundType, Route } from '@shared/enums';
@@ -63,7 +63,7 @@ export const router = createBrowserRouter([
           {
             path: Route.ROOT,
             element: <MainPage />,
-            loader: async () => lobbyService.getLobbies(),
+            loader: async () => useLobbyStore.getState().fetchLobbies(),
           },
           {
             path: `${Route.LOBBY}/:lobbyId`,

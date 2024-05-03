@@ -25,14 +25,13 @@ import { MovieSearch } from '@features/searchMovie';
 import { LobbyNicknameDialog } from '@features/setUsername';
 import { SpinningWheel } from '@features/spinMovies';
 
+import { useLobbyStore } from '@entities/lobby';
 import { Movie } from '@entities/movie';
 import { useUserStore } from '@entities/user';
 
 import { LocalizationNamespace, Route, SearchType } from '@shared/enums';
 import { useDebounce } from '@shared/hooks';
 import { getIdFromUrl, getTypeByValue } from '@shared/utils';
-
-import { lobbyHubService, useLobbyStore } from '..';
 
 const LobbyPage = () => {
   const { t } = useTranslation(LocalizationNamespace.LOBBY);
@@ -67,13 +66,6 @@ const LobbyPage = () => {
   }, [movies]);
 
   useEffect(() => {
-    // TODO: refactor using store
-    lobbyHubService.moviesChanged((value) => {
-      setMovies(value);
-      setMovie('');
-    });
-    if (!lobby) return;
-    lobbyHubService.joinLobbyAnonymous(lobby.id, 'test');
     if (isAnonymous) setOpenModal(true); // выставил ! что б не вылазило при каждом сохранении
   }, []);
 
@@ -87,7 +79,7 @@ const LobbyPage = () => {
   const handleMovieValue = (newMovie: string) => {
     switch (getTypeByValue(newMovie)) {
       case SearchType.ID: {
-        lobbyHubService.addMovie(Number(newMovie));
+        // lobbyHubService.addMovie(Number(newMovie));
         break;
       }
       case SearchType.NAME: {
@@ -99,7 +91,7 @@ const LobbyPage = () => {
           console.error('wrong url');
           break;
         }
-        lobbyHubService.addMovie(id);
+        // lobbyHubService.addMovie(id);
         break;
       }
     }
@@ -122,7 +114,7 @@ const LobbyPage = () => {
             {t('room')}
           </Typography>
           <Typography sx={{ ml: 2 }} variant="h4">
-            {lobby.name}
+            {lobby?.name}
           </Typography>
         </Box>
       </Paper>

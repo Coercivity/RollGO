@@ -2,27 +2,24 @@ import { Box, Button, Container } from '@mui/material';
 import Popover from '@mui/material/Popover';
 import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useLoaderData, useNavigate } from 'react-router-dom';
 
 import { LobbyList } from '@widgets/lobbyList';
 
 import { CreateLobby } from '@features/createLobby';
 
-import { Lobby, lobbyService } from '@entities/lobby';
-
-import { LocalizationNamespace, Route } from '@shared/enums';
+import { useLobbyStore } from '@entities/lobby';
+import { LocalizationNamespace } from '@shared/enums';
 
 const MainPage = () => {
   const { t } = useTranslation(LocalizationNamespace.MAIN_PAGE);
-  const [open, setOpen] = useState(false);
   const [popoverOpen, setPopoverOpen] = useState(false);
-  const [lobbies, setLobbies] = useState<Lobby[]>(useLoaderData() as Lobby[]);
+
+  const [lobbies, removeLobby] = useLobbyStore((state) => [state.lobbies, state.removeLobby]);
 
   const anchorEl = useRef<HTMLButtonElement | null>(null);
 
   const remove = async (lobbyId: string) => {
-    await lobbyService.removeLobby(lobbyId);
-    setLobbies(lobbies.filter((lobby) => lobby.id !== lobbyId));
+    await removeLobby(lobbyId);
   };
 
   return (
@@ -55,7 +52,6 @@ const MainPage = () => {
           </Popover>
         )}
       </Box>
-      <LobbyCreationDialog open={open} setOpen={setOpen} addNewLobby={addNewLobby} />
     </Container>
   );
 };

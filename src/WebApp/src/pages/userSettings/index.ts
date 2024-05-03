@@ -1,3 +1,3 @@
-import UserSettingsPage from './ui/UserSettingsPage';
+import UserSettingsPage from './ui';
 
 export { UserSettingsPage };

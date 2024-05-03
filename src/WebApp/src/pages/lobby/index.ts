@@ -1,3 +1,3 @@
-import LobbyPage from './ui/LobbyPage';
+import LobbyPage from './ui';
 
 export { LobbyPage };
