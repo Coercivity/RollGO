@@ -1,5 +1,6 @@
 import axios from 'axios';
 
+import { lobbyHubService } from '@entities/lobby';
 import { authService, useAuthStore, useUserStore } from '@entities/user';
 
 axios.interceptors.request.use(
@@ -15,6 +16,19 @@ axios.interceptors.request.use(
   }
 );
 
+const refreshTokens = async (): Promise<string> => {
+  const state = useAuthStore.getState();
+  const tokenPair = await authService.refreshToken({
+    accessToken: state.accessToken,
+    refreshToken: state.refreshToken,
+  });
+  state.setTokenPair(tokenPair);
+  lobbyHubService.setToken(tokenPair.accessToken);
+  return tokenPair.accessToken;
+};
+
+lobbyHubService.setUnauthorizedCallback(refreshTokens);
+
 axios.interceptors.response.use(
   (response) => {
     return response.data;
@@ -25,13 +39,8 @@ axios.interceptors.response.use(
     }
     if (error.response?.status == 401) {
       try {
-        const state = useAuthStore.getState();
-        const tokenPair = await authService.refreshToken({
-          accessToken: state.accessToken,
-          refreshToken: state.refreshToken,
-        });
-        state.setTokenPair(tokenPair);
-        axios.defaults.headers.common.Authorization = 'Bearer ' + tokenPair.accessToken;
+        const token = await refreshTokens();
+        axios.defaults.headers.common.Authorization = 'Bearer ' + token;
         return await axios.request(error?.config ?? {});
       } catch (err) {
         if (err && axios.isAxiosError(err) && err.response?.status === 403) {

@@ -4,9 +4,9 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
+import { lobbyHubService } from '@entities/lobby';
 import { authService, useAuthStore, useUserStore } from '@entities/user';
 
-import lobbyHubService from '@shared/api/lobbyHubService';
 import { ErrorCode, LocalizationNamespace, Route } from '@shared/enums';
 import { handleError } from '@shared/utils';
 

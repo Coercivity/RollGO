@@ -18,6 +18,8 @@ export enum LobbyEvent {
   RollFinished = 'RollFinished',
 }
 
+export type LobbyActionType = keyof typeof LobbyAction;
+export type LobbyEventType = keyof typeof LobbyEvent;
 export interface Lobby {
   id: string;
   name: string;

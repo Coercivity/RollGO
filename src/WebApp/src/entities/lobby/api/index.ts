@@ -1,3 +1,4 @@
-﻿import lobbyService from './lobbyService';
+﻿import lobbyHubService from './lobbyHubService';
+import lobbyService from './lobbyService';
 
-export { lobbyService };
+export { lobbyService, lobbyHubService };

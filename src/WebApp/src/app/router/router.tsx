@@ -10,12 +10,12 @@ import { UserSettingsPage } from '@pages/userSettings';
 import { Login, Registration } from '@widgets/auth';
 import { Navbar } from '@widgets/navbar';
 
-import { useLobbyStore } from '@entities/lobby';
+import { lobbyHubService, useLobbyStore } from '@entities/lobby';
 import { useAuthStore, userService, useUserStore } from '@entities/user';
 
-import lobbyHubService from '@shared/api/lobbyHubService';
 import { NotFoundType, Route } from '@shared/enums';
 
+// eslint-disable-next-line react-refresh/only-export-components
 const SuspenseWrapper = () => {
   return (
     <Suspense>
@@ -64,7 +64,10 @@ export const router = createBrowserRouter([
           {
             path: Route.ROOT,
             element: <MainPage />,
-            loader: async () => useLobbyStore.getState().fetchLobbies(),
+            loader: async () => {
+              await useLobbyStore.getState().fetchLobbies();
+              return null;
+            },
           },
           {
             path: `${Route.LOBBY}/:lobbyId`,
@@ -74,6 +77,9 @@ export const router = createBrowserRouter([
                 throw new Error('Lobby is not provided');
               }
               await useLobbyStore.getState().fetchLobby(params.lobbyId);
+              await lobbyHubService.startConnection();
+              await lobbyHubService.sendMessage('JoinLobby', params.lobbyId);
+              return null;
             },
             errorElement: <NotFound errorType={NotFoundType.LOBBY} />,
           },

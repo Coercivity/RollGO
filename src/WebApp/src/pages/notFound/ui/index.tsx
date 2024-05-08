@@ -12,6 +12,7 @@ interface NotFoundProps {
 const NotFound: FC<NotFoundProps> = ({ errorType }) => {
   const { t } = useTranslation(LocalizationNamespace.VALIDATIONS);
   const navigate = useNavigate();
+
   return (
     <Box
       sx={{

@@ -25,7 +25,7 @@ import { MovieSearch } from '@features/searchMovie';
 import { LobbyNicknameDialog } from '@features/setUsername';
 import { SpinningWheel } from '@features/spinMovies';
 
-import { useLobbyStore } from '@entities/lobby';
+import { lobbyHubService, useLobbyStore } from '@entities/lobby';
 import { Movie } from '@entities/movie';
 import { useUserStore } from '@entities/user';
 
@@ -76,7 +76,7 @@ const LobbyPage = () => {
   const handleChange = (newState: boolean) => {
     if (newState !== null) setIsWheelVisible(newState);
   };
-  const handleMovieValue = (newMovie: string) => {
+  const handleMovieValue = async (newMovie: string) => {
     switch (getTypeByValue(newMovie)) {
       case SearchType.ID: {
         // lobbyHubService.addMovie(Number(newMovie));
@@ -91,7 +91,7 @@ const LobbyPage = () => {
           console.error('wrong url');
           break;
         }
-        // lobbyHubService.addMovie(id);
+        await lobbyHubService.sendMessage('AddMovie', id);
         break;
       }
     }
