@@ -8,7 +8,7 @@
 
     /* Bundler mode */
     "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
+    "allowImportingTsExtensions": false,
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
@@ -22,13 +22,12 @@
     "allowSyntheticDefaultImports": true,
 
     "paths": {
-      "@api/*": ["./src/api/*"],
-      "@enums/*": ["./src/enums/*"],
-      "@store/*": ["./src/store/*"],
-      "@components/*": ["./src/components/*"],
-      "@models/*": ["./src/models/*"],
+      "@app/*": ["./src/app/*"],
       "@pages/*": ["./src/pages/*"],
-      "@hooks/*": ["./src/hooks/*"]
+      "@widgets/*": ["./src/widgets/*"],
+      "@features/*": ["./src/features/*"],
+      "@entities/*": ["./src/entities/*"],
+      "@shared/*": ["./src/shared/*"],
     }
   },
   "include": ["src"],
