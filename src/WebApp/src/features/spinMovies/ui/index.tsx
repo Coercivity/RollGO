@@ -3,6 +3,7 @@ import React, { FC, useEffect, useState } from 'react';
 import { Wheel } from 'react-custom-roulette';
 import { useTranslation } from 'react-i18next';
 
+import { IWheelData } from '@features/spinMovies';
 import { Movie } from '@entities/movie';
 
 import { LocalizationNamespace } from '@shared/enums';
@@ -26,11 +27,6 @@ const backgroundColors = [
 ];
 interface WheelProps {
   movies: Movie[];
-}
-
-export interface IWheelData {
-  option: string;
-  backgroundColor: string;
 }
 
 const SpinningWheel: FC<WheelProps> = ({ movies }) => {

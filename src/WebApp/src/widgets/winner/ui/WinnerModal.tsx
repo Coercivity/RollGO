@@ -2,8 +2,7 @@ import { Dialog, DialogContent, DialogTitle, Typography } from '@mui/material';
 import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { IWheelData } from '@features/spinMovies/ui/SpiningWheel';
-
+import { IWheelData } from '@features/spinMovies';
 import { LocalizationNamespace } from '@shared/enums';
 
 interface WinnerModalProps {

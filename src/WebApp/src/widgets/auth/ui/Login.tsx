@@ -8,7 +8,7 @@ import { authService, useAuthStore, useUserStore } from '@entities/user';
 
 import lobbyHubService from '@shared/api/lobbyHubService';
 import { ErrorCode, LocalizationNamespace, Route } from '@shared/enums';
-import { handleError } from '@shared/utils/validationUtils';
+import { handleError } from '@shared/utils';
 
 const LoginPage = () => {
   const { t } = useTranslation([LocalizationNamespace.AUTH, LocalizationNamespace.VALIDATIONS]);

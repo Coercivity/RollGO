@@ -1,3 +1,1 @@
-import LobbyList from './ui/LobbyList';
-
-export { LobbyList };
+export { default as LobbyList } from './ui';

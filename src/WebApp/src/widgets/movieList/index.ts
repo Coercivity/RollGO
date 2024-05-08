@@ -1,3 +1,1 @@
-import MovieList from './ui/MovieList';
-
-export { MovieList };
+export { default as MovieList } from './ui';

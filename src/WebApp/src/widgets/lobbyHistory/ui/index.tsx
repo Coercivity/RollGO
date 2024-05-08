@@ -3,8 +3,9 @@ import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { Movie } from '@entities/movie';
-import { MovieData } from '@entities/movie/__mock__/movieData';
 
+// eslint-disable-next-line import/no-internal-modules
+import { MovieData } from '@entities/movie/__mock__/movieData';
 import { LocalizationNamespace } from '@shared/enums';
 
 interface LobbyHistoryProps {

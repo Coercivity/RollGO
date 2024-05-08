@@ -1,3 +1,1 @@
-import MovieSearch from './ui/MovieSearch';
-
-export { MovieSearch };
+export { default as MovieSearch } from './ui';

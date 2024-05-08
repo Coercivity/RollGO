@@ -1,3 +1,1 @@
-import LobbyHistory from './ui/LobbyHistory';
-
-export { LobbyHistory };
+export { default as LobbyHistory } from './ui';

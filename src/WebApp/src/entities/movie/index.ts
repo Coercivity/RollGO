@@ -1,5 +1,2 @@
-import { Movie } from './models/types';
-import MovieView from './ui/MovieView';
-
-export { MovieView };
-export { type Movie };
+export { default as MovieView } from './ui';
+export * from './models';

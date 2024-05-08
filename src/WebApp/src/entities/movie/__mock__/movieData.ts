@@ -1,4 +1,4 @@
-import { Movie } from '../models/types';
+import { Movie } from '../models';
 
 export const MovieData: Movie[] = [
   {

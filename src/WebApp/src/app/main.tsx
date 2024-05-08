@@ -2,7 +2,9 @@ import { ThemeProvider } from '@mui/material';
 import ReactDOM from 'react-dom/client';
 import { RouterProvider } from 'react-router-dom';
 
+// eslint-disable-next-line import/no-internal-modules
 import './config/i18n';
+// eslint-disable-next-line import/no-internal-modules
 import './config/middlewares';
 
 import { router } from './router';

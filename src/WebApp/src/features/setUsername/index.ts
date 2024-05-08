@@ -1,3 +1,1 @@
-import LobbyNicknameDialog from './ui/LobbyNicknameDialog';
-
-export { LobbyNicknameDialog };
+export { default as LobbyNicknameDialog } from './ui';
