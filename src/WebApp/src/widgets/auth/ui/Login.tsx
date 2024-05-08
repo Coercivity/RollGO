@@ -4,14 +4,11 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
-import { lobbyHubService } from '@pages/lobby';
+import { authService, useAuthStore, useUserStore } from '@entities/user';
 
-import { useUserStore } from '@entities/user';
-
+import lobbyHubService from '@shared/api/lobbyHubService';
 import { ErrorCode, LocalizationNamespace, Route } from '@shared/enums';
 import { handleError } from '@shared/utils/validationUtils';
-
-import { authService, useAuthStore } from '..';
 
 const LoginPage = () => {
   const { t } = useTranslation([LocalizationNamespace.AUTH, LocalizationNamespace.VALIDATIONS]);

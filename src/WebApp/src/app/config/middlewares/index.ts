@@ -1,9 +1,6 @@
 import axios from 'axios';
 
-import { authService } from '@widgets/auth';
-import { useAuthStore } from '@widgets/auth';
-
-import { useUserStore } from '@entities/user';
+import { authService, useAuthStore, useUserStore } from '@entities/user';
 
 axios.interceptors.request.use(
   (config) => {

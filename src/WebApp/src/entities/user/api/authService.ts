@@ -2,7 +2,7 @@ import axios from 'axios';
 
 import { User } from '@entities/user';
 
-import { Login, Register, TokenPair } from '../models/types';
+import { Login, Register, TokenPair } from '../models';
 
 interface LoginResponse {
   user: User;

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { User, UserRequest } from '../models/types';
+import { User, UserRequest } from '../models';
 
 class UserService {
   update(data: UserRequest): Promise<User> {

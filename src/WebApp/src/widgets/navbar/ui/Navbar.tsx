@@ -19,9 +19,7 @@ import { FC, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
-import { useAuthStore } from '@widgets/auth';
-
-import { UserView, useUserStore } from '@entities/user';
+import { useAuthStore, useUserStore, UserView } from '@entities/user';
 
 import { LocalizationNamespace, Route } from '@shared/enums';
 

@@ -1,9 +1,5 @@
-import { userService } from './api/userService';
-import { User } from './models/types';
-import { useUserStore } from './models/userStore';
-import UserView from './ui/UserView';
+export * from './models';
+export { default as UserView } from './ui';
 
-export { UserView };
-export { type User };
-export { useUserStore };
-export { userService };
+// TODO: refactor to use stores for fetching
+export * from './api';

@@ -4,13 +4,16 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
-import { useUserStore } from '@entities/user';
+import { authService, useAuthStore, useUserStore } from '@entities/user';
 
-import { ErrorCode, LocalizationNamespace, Route } from '@shared/enums';
-import { EMAIL_ERRORS, PASSWORD_ERRORS } from '@shared/enums/ErrorCode';
-import { handleError } from '@shared/utils/validationUtils';
-
-import { authService, useAuthStore } from '..';
+import {
+  EMAIL_ERRORS,
+  ErrorCode,
+  LocalizationNamespace,
+  PASSWORD_ERRORS,
+  Route,
+} from '@shared/enums';
+import { handleError } from '@shared/utils';
 
 const RegistrationPage = () => {
   const { t } = useTranslation([LocalizationNamespace.AUTH, LocalizationNamespace.VALIDATIONS]);
